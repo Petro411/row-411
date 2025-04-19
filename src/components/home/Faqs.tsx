@@ -9,7 +9,7 @@ const Faqs = () => {
     <Container className="flex flex-col items-center gap-14 pb-20">
       <Flex direction={"column"} gap={"4"} align={"center"}>
         <Heading size={"8"} className="text-center">
-          Faq
+          FAQ
         </Heading>
       </Flex>
       <Flex direction={"column"} className="w-full">

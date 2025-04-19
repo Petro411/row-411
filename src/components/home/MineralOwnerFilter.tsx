@@ -21,12 +21,12 @@ const MineralOwnerFilter = () => {
           </Text>
         </Flex>
         <Flex className="gap-4 lg:gap-8 flex-col lg:flex-row">
-          <TextField.Root size={"3"} className="w-full" placeholder="First name" variant="soft" />
-          <TextField.Root size={"3"} className="w-full" placeholder="Last name" variant="soft" />
-          <TextField.Root size={"3"} className="w-full" placeholder="ML" variant="soft" />
+          <TextField.Root size={"3"} className="w-full" placeholder="First name" color="gray" variant="soft" />
+          <TextField.Root size={"3"} className="w-full" placeholder="Last name" color="gray" variant="soft" />
+          <TextField.Root size={"3"} className="w-full" placeholder="ML"  color="gray" variant="soft" />
 
           <Select.Root defaultValue="apple" size={"3"} >
-            <Select.Trigger variant="soft" className=""   />
+            <Select.Trigger variant="soft"  color="gray" className=""   />
             <Select.Content>
               <Select.Group>
                 <Select.Label>Fruits</Select.Label>
@@ -44,7 +44,7 @@ const MineralOwnerFilter = () => {
               </Select.Group>
             </Select.Content>
           </Select.Root>
-          <Button size={"3"}>Search</Button>
+          <Button size={"3"} className="!bg-btnPrimary !cursor-pointer">Search</Button>
         </Flex>
       </div>
     </Container>

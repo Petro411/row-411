@@ -25,10 +25,10 @@ const Home = () => {
         <OurCompany />
         <MineralOwnersByState />
         <HowItWorks />
-        <Testimonials/>
-        <Faqs/>
+        <Testimonials />
+        <Faqs />
       </div>
-      <Footer/>
+      <Footer />
     </main>
   );
 };

@@ -12,11 +12,15 @@ export const homeRoutes=[
         path:"/services"
     },
     {
+        name:"Pricing",
+        path:"/pricing"
+    },
+    {
         name:"News Letters",
         path:"/news-letters"
     },
-    {
-        name:"Contact",
-        path:"/contact"
-    },
+    // {
+    //     name:"Contact",
+    //     path:"/contact"
+    // },
 ]
