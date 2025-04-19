@@ -1,10 +1,7 @@
 import React, { memo } from "react";
 import Container from "../Container";
-// import { Typography } from "antd";
 import Image from "next/image";
 import { Heading, Text } from "@radix-ui/themes";
-
-// const { Title, Text} = Typography;
 
 const OurCompany = () => {
   return (
