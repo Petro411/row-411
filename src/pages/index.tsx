@@ -1,11 +1,31 @@
-import React from 'react'
+import SiteHeader from "@/components/SiteHeader";
+import Head from "next/head";
+import React from "react";
+import Container from "@/components/Container";
+import MineralOwnerFilter from "@/components/MineralOwnerFilter";
 
 const Home = () => {
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center">
-      <h1 className='text-4xl animate-pulse'>Something is happing</h1>
-    </div>
-  )
-}
+    <main>
+      <Head>
+        <title>Petro411</title>
+      </Head>
+      <SiteHeader />
+      <div className={`h-[70vh] bg-[#2792A8] HomeBackground text-white`}>
+        <Container className="h-full">
+          <div className="w-[50%] h-full flex flex-col justify-center gap-5">
+            <h1 className="font-bold text-5xl">Lorem ipsum dolor.</h1>
+            <p className="!text-[16px]">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+              exercitationem autem voluptate officia eius corrupti perferendis
+              totam obcaecati similique dolorum.
+            </p>
+          </div>
+        </Container>
+      </div>
+      <MineralOwnerFilter />
+    </main>
+  );
+};
 
-export default Home
+export default Home;
