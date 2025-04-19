@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { memo, ReactNode } from "react";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
@@ -11,12 +11,12 @@ type Props = {
   className?: string;
 };
 
-const Container = ({ children, className }: Props) => {
+const Container = ({ children, className }:Props) => {
   return (
-    <div className={`container px-24 mx-auto ${inter.className} ${className}`}>
+    <div className={`container px-10 2xl:px-24 mx-auto ${inter.className} ${className}`}>
       {children}
     </div>
   );
 };
 
-export default Container;
+export default memo(Container);

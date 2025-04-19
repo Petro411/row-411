@@ -1,9 +1,11 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   /* --background: #ffffff; */
   /* --foreground: #171717; */
-  --antd-font-family: 'Inter', sans-serif;
+  --antd-font-family: "Inter", sans-serif;
 }
 
 @theme inline {
@@ -26,45 +28,29 @@ body {
   font-family: var(--antd-font-family);
 }
 
-/* Optional: Force override antd components */
-.ant-typography,
-.ant-btn,
-.ant-input,
-.ant-select,
-.ant-form-item,
-.ant-menu,
-.ant-modal,
-.ant-table {
-  font-family: var(--antd-font-family) !important;
-}
-
-.NavLink {
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  line-height: 23px;
-  font-size: 16;
-}
-button{
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  font-size: 15 !important;
-}
-
-.HomeBackground{
+.HomeBackground {
   background-image: url("/assets/images/bg-vector.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
 
-a,p,span{
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  font-size: 15;
+.slick-current {
 }
 
-@layer{
- .ant-btn-lg{
-  @apply !bg-[#196D7C] !rounded
- }
+@layer {
+  .slick-slide {
+    @apply px-1.5 transition-all duration-300;
+  }
+  .slick-slide .my-slide {
+    @apply !shadow border border-gray-500 p-6 !scale-[0.9] transition-all duration-300;
+  }
+  .slick-current .my-slide {
+    @apply !shadow-lg !scale-[1.01] transition-all duration-300;
+  }
+}
+
+
+.AccordionChevron[data-state='open'] {
+  transform: rotate(180deg) !important;
 }

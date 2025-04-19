@@ -1,8 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import Logo from "./Logo";
 import Container from "./Container";
 import { homeRoutes } from "@/config/HomeRoutes";
-import { Button } from "antd";
+import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 
 const SiteHeader = () => {
@@ -15,15 +15,18 @@ const SiteHeader = () => {
           </div>
           <div className="col-span-8 flex flex-row items-center justify-center gap-10">
             {homeRoutes.map((item, index) => (
-              <Link key={index} href={item.path} className="NavLink">
+              <Link
+                key={index}
+                href={item.path}
+                className="NavLink"
+                color="gray"
+              >
                 {item.name}
               </Link>
             ))}
           </div>
           <div className="col-span-2 flex flex-row justify-end items-center">
-            <Button size="large" type="primary">
-              Subscription
-            </Button>
+            <Button size={"3"}>Subscription</Button>
           </div>
         </div>
       </Container>
@@ -31,4 +34,4 @@ const SiteHeader = () => {
   );
 };
 
-export default SiteHeader;
+export default memo(SiteHeader);
