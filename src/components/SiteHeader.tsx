@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import Logo from "./Logo";
 import Container from "./Container";
 import { homeRoutes } from "@/config/HomeRoutes";
@@ -31,4 +31,4 @@ const SiteHeader = () => {
   );
 };
 
-export default memo(SiteHeader);
+export default SiteHeader;
