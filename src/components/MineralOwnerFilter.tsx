@@ -10,24 +10,23 @@ const MineralOwnerFilter = () => {
       <div className="min-h-[200px] -translate-y-24 rounded shadow-xl bg-white p-10 flex flex-col gap-2">
         <Title level={3}>Search Mineral Owners</Title>
         <Flex
-        gap={"middle"}
+        className="gap-8"
         >
-          <Input placeholder="First name" size="large" />
-          <Input placeholder="Last name" size="large" />
-          <InputNumber placeholder="ML" size="large" width={"100"}/>
-          <Select
-            size="large"
-            defaultValue="lucy"
-            style={{ width: 120 }}
-            //   onChange={handleChange}
-            options={[
-              { value: "jack", label: "Jack" },
-              { value: "lucy", label: "Lucy" },
-              { value: "Yiminghe", label: "yiminghe" },
-              { value: "disabled", label: "Disabled", disabled: true },
-            ]}
-          />
-          <Button type="primary" size="large">
+        <input className="py-3 px-4 bg-gray-100 outline-none rounded text-gray-500 w-full" placeholder="First name" />
+        <input className="py-3 px-4 bg-gray-100 outline-none rounded text-gray-500 w-full" placeholder="Last name" />
+        <input 
+        type="number"
+        className="py-3 px-4 bg-gray-100 outline-none rounded text-gray-500 w-full" placeholder="ML" />
+        <select className="py-3 px-4 bg-gray-100 outline-none rounded text-gray-500">
+          <option value="Country">Country</option>
+          <option value="Country">Country</option>
+          <option value="Country">Country</option>
+          <option value="Country">Country</option>
+          <option value="Country">Country</option>
+
+        </select>
+          <Button type="primary" size="large" className="!py-3">
+
             Search
           </Button>
         </Flex>

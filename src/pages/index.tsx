@@ -3,6 +3,10 @@ import Head from "next/head";
 import React from "react";
 import Container from "@/components/Container";
 import MineralOwnerFilter from "@/components/MineralOwnerFilter";
+import About from "@/components/home/About";
+import OurCompany from "@/components/home/OurCompany";
+import MineralOwnersByState from "@/components/home/MineralOwnersByState";
+import HowItWorks from "@/components/home/HowItWorks";
 
 const Home = () => {
   return (
@@ -24,6 +28,12 @@ const Home = () => {
         </Container>
       </div>
       <MineralOwnerFilter />
+      <div className="flex flex-col gap-28">
+        <About />
+        <OurCompany />
+        <MineralOwnersByState/>
+        <HowItWorks/>
+      </div>
     </main>
   );
 };

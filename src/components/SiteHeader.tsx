@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const SiteHeader = () => {
   return (
-    <div className="sticky top-0 py-2 bg-white">
+    <div className="sticky top-0 py-2 bg-white z-50 shadow">
       <Container>
         <div className="grid grid-cols-12 items-center">
           <div className="col-span-2">
@@ -21,7 +21,7 @@ const SiteHeader = () => {
             ))}
           </div>
           <div className="col-span-2 flex flex-row justify-end items-center">
-            <Button size="large" type="primary" className={`!bg-[#196D7C] !rounded `}>
+            <Button size="large" type="primary">
               Subscription
             </Button>
           </div>

@@ -64,13 +64,7 @@ a,p,span{
 }
 
 @layer{
-  .ant-input-lg{
-    @apply !py-3
-  }
-  .ant-select-selector{
-    @apply py-1
-  }
-  .ant-select-selection-wrap{
-    @apply !py-3
-  }
+ .ant-btn-lg{
+  @apply !bg-[#196D7C] !rounded
+ }
 }
