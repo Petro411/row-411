@@ -26,7 +26,7 @@ const MineralOwnersByState = () => {
           {statesList.map((item, index) => (
             <li key={index} className="text-center 2xl:text-start">
               <Link href={"/"}>
-                <Text size={"4"} color="cyan">
+                <Text size={"4"} className="text-primary">
                   {item}
                 </Text>
               </Link>

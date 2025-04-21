@@ -1,7 +1,8 @@
 import { memo, useEffect } from "react";
 import { homeRoutes } from "@/config/HomeRoutes";
 import { Cross1Icon } from "@radix-ui/react-icons";
-import { Link, Text } from "@radix-ui/themes";
+import { Flex, Text } from "@radix-ui/themes";
+import Link from "next/link";
 
 type Props = {
   visible: boolean;
@@ -57,6 +58,35 @@ const Sidebar = ({ visible, setVisible }: Props) => {
             </Link>
           </li>
         ))}
+        <li className="text-center">
+          <Link href={""} className="!text-white">
+            <Text size={"4"} align={"center"}>
+              Dashboard
+            </Text>
+          </Link>
+        </li>
+        <li>
+          <Flex
+            direction={"row"}
+            align={"center"}
+            justify={"center"}
+            gap={"5"}
+            mt={"5"}
+          >
+            <Link
+              href={"/login"}
+              className="py-3 px-5 bg-primary text-white rounded-lg"
+            >
+              <Text size={"3"}>Login</Text>
+            </Link>
+            <Link
+              href={"/sign-up"}
+              className="py-3 px-5 bg-primary text-white rounded-lg"
+            >
+              <Text size={"3"}>Sign up</Text>
+            </Link>
+          </Flex>
+        </li>
       </ul>
     </div>
   );

@@ -40,24 +40,129 @@ body {
 }
 
 @layer {
-  .slick-slide {
-    @apply px-1.5 transition-all duration-300;
+  .swiper-pagination-bullet-active {
+    @apply !w-[25px] !rounded-2xl !bg-primary;
   }
-  .slick-slide .my-slide {
-    @apply !shadow border border-gray-500 p-6 !scale-[0.9] transition-all duration-300;
+  .rt-TextFieldInput {
+    @apply !py-3 ;
   }
-  .slick-current .my-slide {
-    @apply !shadow-lg !scale-[1.01] transition-all duration-300;
+  .rt-TextFieldRoot {
+    @apply !h-auto !px-1.5;
+  }
+  .rt-SelectTrigger{
+    @apply !py-5
+  }
+  .newsLetterFrom .rt-TextFieldRoot{
+    @apply !px-0; 
+  }
+  .passwordInput .rt-TextFieldInput{
+    @apply !px-1.5
+  }
+  .rt-BaseButton{
+    @apply !cursor-pointer 
+    /* !bg-primary hover:!bg-btnHover */
   }
 }
 
-
-.AccordionChevron[data-state='open'] {
+.AccordionChevron[data-state="open"] {
   transform: rotate(180deg) !important;
 }
 
-.SlideBg{
+.SlideBg {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Default rich text styles */
+.editor h1,
+.editor h2,
+.editor h3,
+.editor h4,
+.editor h5,
+.editor h6 {
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+  color: #1f2937; /* text-gray-800 */
+}
+
+.editor h1 {
+  font-size: 2.25rem; /* text-4xl */
+}
+
+.editor h2 {
+  font-size: 1.875rem; /* text-3xl */
+}
+
+.editor h3 {
+  font-size: 1.5rem; /* text-2xl */
+}
+
+.editor h4 {
+  font-size: 1.25rem; /* text-xl */
+}
+
+.editor p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: #374151; /* text-gray-700 */
+}
+
+.editor a {
+  color: #2563eb; /* text-blue-600 */
+  text-decoration: underline;
+}
+
+.editor ul,
+.ol {
+  margin-left: 1.25rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  color: #374151; /* text-gray-700 */
+}
+
+.editor ul li::marker {
+  color: #6b7280; /* text-gray-500 */
+}
+
+.editor ol {
+  list-style-type: decimal;
+}
+
+.editor ul {
+  list-style-type: disc;
+}
+
+.editor li {
+  margin-bottom: 0.5rem;
+}
+
+.editor strong {
+  font-weight: 600;
+  color: #111827; /* text-gray-900 */
 }

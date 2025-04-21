@@ -24,10 +24,13 @@ const HowItWorks = () => {
               direction={"column"}
               gap={"4"}
               key={index}
-              className=" p-8 2xl:p-12 rounded bg-gray-700/50 text-white"
+              className="p-8 2xl:p-12 rounded-xl bg-gray-700/50 text-white !relative"
+              position={"relative"}
             >
-              <Heading size={"5"}>Lorem ipsum dolor sit.</Heading>
-              <Text>
+              <span className="text-primary text-9xl font-bold absolute top-3 left-3">{index + 1}</span>
+
+              <Heading size={"5"} className="!relative !z-10">Lorem ipsum dolor sit.</Heading>
+              <Text className="!z-10">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                 Corporis, ipsum culpa? Nisi omnis eum ullam magnam quo tempora
                 iste. Aliquam.

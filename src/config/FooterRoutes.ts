@@ -1,11 +1,11 @@
 export const footerRoutes = [
     {
         name: "Privacy Policy",
-        path: "/privacy policy"
+        path: "/privacy"
     },
     {
         name: "Terms of use",
-        path: "/terms-of-use"
+        path: "/terms"
     },
     {
         name: "Contact",

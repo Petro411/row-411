@@ -4,8 +4,8 @@ import { Heading, Text } from "@radix-ui/themes";
 
 const Hero = () => {
   return (
-    <div className={`h-[60vh] bg-primary HomeBackground text-white`}>
-      <Container className="h-full items-center justify-center flex flex-col text-center gap-4">
+    <div className={`bg-primary HomeBackground text-white`}>
+      <Container className="min-h-[60vh] items-center justify-center flex flex-col text-center gap-4">
         <Heading size={"9"}>Lorem ipsum dolor.</Heading>
         <Text size={"4"} className="w-full md:w-[80%] lg:w-[60%]">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum

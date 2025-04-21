@@ -13,8 +13,12 @@ module.exports = {
         sans: ["Inter", "sans-serif"],
       },
       colors: {
-        primary: "#2792A8",
-        btnPrimary: "#196D7C",
+        // primary: "#2792A8",
+        primary:"#096cb4", /* #096cb4 */
+        btnPrimary: "#096cb4", /*#196D7C  #c39e35 #31b364 #23def3*/ 
+        btnHover:"#0e8dcf"  /* #0b99d2  #11a6d8 #0e8dcf
+
+        */
       },
     },
   },

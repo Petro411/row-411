@@ -10,6 +10,8 @@ import Testimonials from "@/components/home/Testimonials";
 import Faqs from "@/components/home/Faqs";
 import Footer from "@/components/Footer";
 import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
+import { Flex } from "@radix-ui/themes";
+import NewsLetter from "@/components/NewsLetter";
 
 const Home = () => {
   return (
@@ -19,15 +21,21 @@ const Home = () => {
       </Head>
       <SiteHeader />
       <Hero />
-      <MineralOwnerFilter />
-      <div className="flex flex-col gap-20">
+      <MineralOwnerFilter
+        className="py-10 md:-translate-y-24"
+        title="Search mineral owners"
+        paragraph="Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, doloremque?"
+        dropDownClasses={"w-full lg:w-[180px]"}
+      />
+      <Flex direction={"column"} gap={"9"}>
         <About />
         <OurCompany />
         <MineralOwnersByState />
         <HowItWorks />
         <Testimonials />
+        <NewsLetter />
         <Faqs />
-      </div>
+      </Flex>
       <Footer />
     </main>
   );

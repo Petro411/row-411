@@ -1,44 +1,15 @@
 import React, { memo } from "react";
 import Container from "../Container";
 import { Flex, Heading, Text } from "@radix-ui/themes";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 
-const settings = {
-  className: "center",
-  centerMode: true,
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 3,
-  slidesToScroll: 1,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 1,
-        centerPadding: "40px",
-      },
-    },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 1,
-        centerPadding: "20px",
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        centerMode: false,
-        centerPadding: "0px",
-      },
-    },
-  ],
-};
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import { demoReviews } from "@/config/dummy";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 
 const Testimonials = () => {
   return (
@@ -48,39 +19,69 @@ const Testimonials = () => {
           Testimonials
         </Heading>
       </Flex>
-      <div className="slider-container w-full">
-        <Slider {...settings} className="">
-          {[...Array(5)].map((_, index) => (
-            <div
-              key={index}
-              className="my-5 flex items-center justify-center my-slide"
-            >
+      <Swiper
+        slidesPerView={1}
+        pagination={{
+          clickable: true,
+        }}
+        centeredSlides={true}
+        modules={[Pagination]}
+        breakpoints={{
+          400: {
+            slidesPerView: 1,
+          },
+          640: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 1,
+          },
+          1024: {
+            slidesPerView: 2,
+          },
+        }}
+        className=""
+      >
+        {demoReviews.map((item, index) => (
+          <SwiperSlide key={index} className="px-5 pb-14">
+            <div className="border p-10 border-gray-100 shadow-lg rounded-xl min-h-[38vh] gap-8 flex flex-col">
               <Flex direction={"column"} gap={"4"}>
-                <Flex direction={"row"} align={"center"} gap={"4"}>
-                  <Image
-                    src={"/assets/images/reviewimg.webp"}
-                    alt=""
-                    height={60}
-                    width={60}
-                    className="rounded overflow-hidden"
-                  />
-                  <Flex direction={"column"} gap={""}>
-                    <Heading size={"4"}>User name here</Heading>
-                    <Text size={"2"} color="gray">
-                      User name here
-                    </Text>
-                  </Flex>
-                </Flex>
-                <Text color="gray" size={"3"}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptates, vel facilis! Sit maiores corporis, totam tempora
-                  ratione error quae voluptatibus?
+                <Text color="gray" size={"4"}>
+                  {item.review}
                 </Text>
+                <Flex
+                  direction={"row"}
+                  align={"center"}
+                  justify={"center"}
+                  gap={"1"}
+                >
+                  {Array.from({ length: item.rating }).map((_, id) => (
+                    <StarFilledIcon
+                      key={id}
+                      className="text-yellow-400"
+                      height={18}
+                      width={18}
+                    />
+                  ))}
+                </Flex>
+              </Flex>
+
+              <Flex direction={"column"} gap={"3"}>
+                <div className="h-20 w-20 rounded-xl overflow-hidden mx-auto">
+                  <Image
+                    alt=""
+                    src={"/assets/images/reviewimg.webp"}
+                    className="w-full h-full object-cover"
+                    width={100}
+                    height={100}
+                  />
+                </div>
+                <Heading size={"4"}>{item.name}</Heading>
               </Flex>
             </div>
-          ))}
-        </Slider>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </Container>
   );
 };
