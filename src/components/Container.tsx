@@ -13,7 +13,7 @@ type Props = {
 
 const Container = ({ children, className }:Props) => {
   return (
-    <div className={`container px-10 2xl:px-24 mx-auto ${inter.className} ${className}`}>
+    <div className={`container px-5 sm:px-10 2xl:px-24 mx-auto ${inter.className} ${className}`}>
       {children}
     </div>
   );

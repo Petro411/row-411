@@ -68,7 +68,6 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                     size={"3"}
                     className="!block lg:!hidden !bg-transparent !cursor-pointer !border !border-btnPrimary !transition-all !duration-300 !text-btnPrimary hover:!bg-btnPrimary hover:!text-white"
                     variant="outline"
-                    color="cyan"
                   >
                     <TextAlignRightIcon height={25} width={25} />
                   </Button>

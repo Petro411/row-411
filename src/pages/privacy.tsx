@@ -15,6 +15,7 @@ const Privacy = () => {
     <SiteHeader />
     <PageHeader
       title="Privacy Policy"
+      className="!min-h-[40vh]" containerClassname="!min-h-[40vh]"
     />
     <Container className='py-20'>
         <div className='w-full mx-auto 2xl:w-8/12 editor' dangerouslySetInnerHTML={{__html:demoPrivacy}} />

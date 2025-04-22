@@ -14,7 +14,7 @@ const Pricing = () => {
         <title>Pricing</title>
       </Head>
       <SiteHeader />
-      <PageHeader title="Pricing" />
+      <PageHeader title="Pricing" className="!min-h-[30vh]" containerClassname="!min-h-[30vh]" />
       <Container>
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
           {siteConfig.subscription.map((item, index) => (

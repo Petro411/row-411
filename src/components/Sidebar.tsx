@@ -74,13 +74,13 @@ const Sidebar = ({ visible, setVisible }: Props) => {
             mt={"5"}
           >
             <Link
-              href={"/login"}
+              href={"/auth/login"}
               className="py-3 px-5 bg-primary text-white rounded-lg"
             >
               <Text size={"3"}>Login</Text>
             </Link>
             <Link
-              href={"/sign-up"}
+              href={"/auth/sign-up"}
               className="py-3 px-5 bg-primary text-white rounded-lg"
             >
               <Text size={"3"}>Sign up</Text>

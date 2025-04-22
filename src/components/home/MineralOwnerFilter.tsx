@@ -74,7 +74,7 @@ const MineralOwnerFilter = ({
                   <DropdownMenu.TriggerIcon />
                 </Button>
               </DropdownMenu.Trigger>
-              <DropdownMenu.Content className="w-[400px] p-3">
+              <DropdownMenu.Content className="max-w-[400px] min-w-[280px] p-3">
                 <TextField.Root
                   inputMode="search"
                   placeholder="Search"

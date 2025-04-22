@@ -17,7 +17,8 @@ const Contact = () => {
       <SiteHeader />
       <PageHeader
         title="Contact Us"
-        description={`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaqueLorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaque?`}
+        description={`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaqueLorem ipsum dolor?`}
+      className="!min-h-[40vh]" containerClassname="!min-h-[40vh]"
       />
       <Container>
         <div className="bg-white rounded-xl shadow-lg p-8 sm:p-10 border mt-16 md:mt-0 md:-translate-y-16 w-full lg:w-8/12 2xl:w-6/12 mx-auto">

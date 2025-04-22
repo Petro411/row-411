@@ -9,7 +9,7 @@ const Footer = () => {
     <>
     <div className="bg-primary">
       <Container>
-        <div className="py-6 flex flex-row items-center justify-center gap-10">
+        <div className="py-6 flex flex-col sm:flex-row items-center justify-center gap-10">
           {footerRoutes.map((item, index) => (
             <Link
               key={index}
@@ -22,7 +22,7 @@ const Footer = () => {
       </Container>
     </div>
     <div className="bg-primary py-2 flex flex-row items-center justify-center">
-      <Text className="!text-gray-200">Copyright © 2025 petro411.com. All rights reserved.</Text>
+      <Text className="!text-gray-200 px-6" align={"center"} >Copyright © 2025 petro411.com. All rights reserved.</Text>
     </div>
     </>
 
