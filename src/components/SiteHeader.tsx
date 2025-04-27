@@ -2,9 +2,9 @@ import React, { memo, useState } from "react";
 import Logo from "./Logo";
 import Container from "./Container";
 import { homeRoutes } from "@/config/HomeRoutes";
-import { Button, Text } from "@radix-ui/themes";
+import { Button, Separator, Text } from "@radix-ui/themes";
 import { useRouter } from "next/router";
-import { TextAlignRightIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, TextAlignRightIcon } from "@radix-ui/react-icons";
 import Sidebar from "./Sidebar";
 import Link from "next/link";
 
@@ -19,9 +19,9 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
   const toggleSidebar = () => setVisible(!visible);
   return (
     <>
-      <div className={`sticky top-0 py-2 bg-white z-50 shadow ${className}`}>
+      <div className={`sticky top-0 py-3 bg-white z-50 shadow ${className}`}>
         <Container>
-          <div className="grid grid-cols-2 lg:grid-cols-12 items-center">
+          <div className="grid  grid-cols-2 lg:grid-cols-12 items-center">
             <div className=" lg:col-span-2">
               <Logo />
             </div>
@@ -32,11 +32,13 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                     <Link
                       key={index}
                       href={item.path}
-                      className={`${
+                      className={`
+                        hover:text-yellow
+                        ${
                         pathname === item.path
-                          ? "!text-btnPrimary font-medium"
-                          : "!text-gray-500"
-                      }`}
+                          ? "text-yellow font-medium"
+                          : "text-gray-500"
+                      }` }
                     >
                       <Text size={"3"}>{item.name}</Text>
                     </Link>
@@ -44,28 +46,21 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                 </div>
                 <div className="lg:col-span-2 flex flex-row justify-end items-center gap-4">
                   <Link
-                    href={"/auth/login"}
-                    className="py-2 rounded-lg px-4 !bg-btnPrimary !cursor-pointer !border !border-btnPrimary"
+                    href={"/auth/sign-up"}
+                    className="rounded-lg !bg-yellow !cursor-pointer !border !border-btnPrimary rt-BaseButton rt-Button rt-r-size-3 py-1.5"
                   >
-                    <Text size={"3"} className="!text-white">
-                      Login
+                    <Text size={"2"} className="!text-white ">
+                      Get Started
                     </Text>
                   </Link>
-                  <Link
-                    href={"/auth/sign-up"}
-                    className="group py-2 rounded-lg px-4 !hidden lg:!block !bg-transparent !cursor-pointer !border !border-btnPrimary !transition-all !duration-300 hover:!bg-btnPrimary"
-                  >
-                    <Text
-                      size={"3"}
-                      className="!text-black group-hover:!text-white"
-                    >
-                      Sign Up
-                    </Text>
+                  <Link href={"/auth/login"} className="flex flex-row items-center gap-2 border-2 border-btnPrimary hover:bg-btnPrimary group py-1.5 rt-r-size-3 rt-BaseButton rt-Button">
+                  <Text size={"2"} className="group-hover:!text-white">Login</Text>
+                  <ArrowRightIcon height={18} width={18} className="group-hover:!text-white" />
                   </Link>
 
                   <Button
                     onClick={toggleSidebar}
-                    size={"3"}
+                    size={"2"}
                     className="!block lg:!hidden !bg-transparent !cursor-pointer !border !border-btnPrimary !transition-all !duration-300 !text-btnPrimary hover:!bg-btnPrimary hover:!text-white"
                     variant="outline"
                   >
@@ -83,3 +78,4 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
 };
 
 export default memo(SiteHeader);
+ 

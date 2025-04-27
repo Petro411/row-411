@@ -30,7 +30,7 @@ const TextImageColumn = ({
             imageFirst ? "lg:order-2 order-1" : ""
           }`}
         >
-          <Heading size={"8"}>{title}</Heading>
+          <Heading size={"8"} className="!text-heading">{title}</Heading>
           <div className="flex flex-col gap-4 mt-5">
             {children ? (
               children

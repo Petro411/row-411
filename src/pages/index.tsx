@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
 import { Flex } from "@radix-ui/themes";
 import NewsLetter from "@/components/NewsLetter";
+import Label from "@/config/Label";
 
 const Home = () => {
   return (
@@ -23,8 +24,8 @@ const Home = () => {
       <Hero />
       <MineralOwnerFilter
         className="py-10 md:-translate-y-24"
-        title="Search mineral owners"
-        paragraph="Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, doloremque?"
+        title={Label.SearchMineralOwners}
+        paragraph={Label.FindMineralOwners}
         dropDownClasses={"w-full lg:w-[180px]"}
       />
       <Flex direction={"column"} gap={"9"}>

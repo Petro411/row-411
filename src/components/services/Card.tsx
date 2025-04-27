@@ -15,7 +15,7 @@ const Card = ({ image, title, description }: Props) => {
         <Image alt="" src={image ?? ""} height={50} width={50} />
       </div>
       <Flex direction={"column"} gap={"1"}>
-        <Heading size={"4"}>{title}</Heading>
+        <Heading size={"4"} className="text-heading">{title}</Heading>
         <Text size={"3"} color="gray">
           {description}
         </Text>

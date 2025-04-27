@@ -1,13 +1,11 @@
 import Container from "@/components/Container";
-import Footer from "@/components/Footer";
-import PageHeader from "@/components/PageHeader";
-import SiteHeader from "@/components/SiteHeader";
 import ThirdPartyAuthButton from "@/components/ThirdPartyAuthButton";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Checkbox,
   Flex,
+  Heading,
   Separator,
   Text,
   TextField,
@@ -36,18 +34,10 @@ const Login = () => {
       <Head>
         <title>Login</title>
       </Head>
-      <SiteHeader
-        className="!shadow-none !absolute !bg-transparent !w-full"
-        hideNavigation={true}
-      />
-      <PageHeader
-        title="Login"
-        className="!min-h-[40vh]" containerClassname="!min-h-[40vh]"
-        // description='Get access to all the public data updates and personal benefits.'
-      />
-      <Container>
-        <div className="-translate-y-[6rem] bg-white rounded-xl p-6 sm:p-10 w-full md:w-8/12 lg:w-5/12 mx-auto shadow-lg">
-          <form className="flex flex-col gap-5">
+      <Container className="z-50 flex flex-col min-h-screen justify-center">
+        <div className="bg-white rounded-xl p-6 sm:p-10 w-full sm:w-10/12 md:w-8/12 lg:w-5/12 mx-auto shadow-lg">
+        <Heading size={"7"}>Login</Heading>
+          <form className="flex flex-col gap-5 mt-5">
             <TextField.Root
               placeholder="Email address"
               name="email"
@@ -85,14 +75,12 @@ const Login = () => {
                 )}
               </TextField.Slot>
             </TextField.Root>
-            <Flex direction={"row"} align={"center"} justify={"between"}>
-              <Link href={"/forget-password"}>
-                <Text size={"3"} className="!text-primary" align={"right"}>
+              <Link href={"/forget-password"} className="text-end">
+                <Text size={"2"} className="!text-primary underline" align={"right"}>
                   Forget password?
                 </Text>
               </Link>
-            </Flex>
-            <Button className="!mt-5" size={"4"}>
+            <Button className="!mt-2 !bg-btnPrimary hover:!bg-btnHover" size={"4"}>
               <Text className="!text-white" size={"3"}>
                 Login
               </Text>
@@ -125,8 +113,7 @@ const Login = () => {
           </Flex>
         </div>
       </Container>
-
-      <Footer />
+      <div className="gradientBg fixed top-0 left-0 w-full h-1/2 -z-10"></div>
     </>
   );
 };

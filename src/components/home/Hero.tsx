@@ -1,16 +1,15 @@
 import React, { memo } from "react";
 import Container from "../Container";
-import { Heading, Text } from "@radix-ui/themes";
+import {Text } from "@radix-ui/themes";
+import Label from "@/config/Label";
 
 const Hero = () => {
   return (
-    <div className={`bg-primary HomeBackground text-white`}>
+    <div className={`gradientBg text-white`}>
       <Container className="min-h-[60vh] items-center justify-center flex flex-col text-center gap-4">
-        <h1 className="text-5xl md:text-7xl font-bold">Lorem ipsum dolor.</h1>
-        <Text size={"4"} className="w-full md:w-[80%] lg:w-[60%]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          exercitationem autem voluptate officia eius corrupti perferendis totam
-          obcaecati similique dolorum.
+        <h1 className="text-4xl md:text-5xl font-bold">{Label.YourMineralOwners}</h1>
+        <Text size={"3"} className="w-full md:w-[80%] lg:w-[60%]">
+          {Label.SimplifiesLandAcquisition}
         </Text>
       </Container>
     </div>

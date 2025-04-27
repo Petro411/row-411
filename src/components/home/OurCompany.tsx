@@ -16,7 +16,7 @@ const OurCompany = () => {
           />
         </div>
         <div className="flex flex-col gap-4 order-1 lg:order-2">
-          <Heading size={"8"}>Our Company</Heading>
+          <Heading size={"8"} className="text-heading">Our Company</Heading>
           <div className="flex flex-col gap-4 mt-5">
             <Text size={"4"} color="gray">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.

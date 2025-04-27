@@ -1,16 +1,7 @@
 import Container from "@/components/Container";
-import Footer from "@/components/Footer";
-import PageHeader from "@/components/PageHeader";
-import SiteHeader from "@/components/SiteHeader";
 import ThirdPartyAuthButton from "@/components/ThirdPartyAuthButton";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
-import {
-  Button,
-  Flex,
-  Separator,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
+import { Button, Flex, Heading, Separator, Text, TextField } from "@radix-ui/themes";
 import Head from "next/head";
 import Link from "next/link";
 import React, { ChangeEvent, useState } from "react";
@@ -31,33 +22,22 @@ const SignUp = () => {
     setForm((pre) => ({ ...pre, [name]: value }));
   };
 
-  const handleSubmit = (e:any)=>{
+  const handleSubmit = (e: any) => {
     try {
       e.preventDefault();
-      console.log(form)
-    } catch (error) {
-      
-    }
-  }
+      console.log(form);
+    } catch (error) {}
+  };
 
   return (
     <>
       <Head>
         <title>Sign up</title>
       </Head>
-      <SiteHeader
-        className="!shadow-none !absolute !bg-transparent !w-full"
-        hideNavigation={true}
-      />
-      <PageHeader
-        title="Sign Up"
-        className="!min-h-[40vh]" containerClassname="!min-h-[40vh]"
-        // description='Get access to all the public data updates and personal benefits.'
-      />
-
-      <Container>
-        <div className="-translate-y-[6rem] bg-white rounded-xl p-6 sm:p-10 w-full md:w-8/12 lg:w-5/12 mx-auto shadow-lg">
-          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <Container className="z-50 flex flex-col min-h-screen justify-center">
+        <div className="bg-white rounded-xl p-6 sm:p-10 w-full sm:w-10/12 md:w-8/12 lg:w-5/12 mx-auto shadow-lg">
+        <Heading size={"7"}>Sign Up</Heading>
+          <form className="flex flex-col gap-5 mt-5" onSubmit={handleSubmit}>
             <TextField.Root
               placeholder="Name"
               required
@@ -104,8 +84,8 @@ const SignUp = () => {
                 )}
               </TextField.Slot>
             </TextField.Root>
-            
-            <Button className="!mt-5" size={"4"}>
+
+            <Button className="!mt-5 !bg-btnPrimary" size={"4"}>
               <Text className="!text-white" size={"3"}>
                 Sign up
               </Text>
@@ -138,8 +118,7 @@ const SignUp = () => {
           </Flex>
         </div>
       </Container>
-
-      <Footer />
+      <div className="gradientBg fixed top-0 left-0 w-full h-1/2 -z-10"></div>
     </>
   );
 };

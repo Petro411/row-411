@@ -33,7 +33,7 @@ const AboutUs = () => {
           text2="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
         />
         <Container className="py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center HomeBackground bg-primary p-8 sm:p-16 2xl:p-20 rounded-xl gap-12 2xl:gap-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gradientBg p-8 sm:p-16 2xl:p-20 rounded-xl gap-12 2xl:gap-0">
             <div className="flex flex-col gap-8 text-white">
               <Heading size={"8"}>Our vision</Heading>
               <Flex

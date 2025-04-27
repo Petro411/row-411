@@ -4,7 +4,7 @@ import { Flex, Heading, Text } from "@radix-ui/themes";
 
 const HowItWorks = () => {
   return (
-    <div className="py-24 bg-primary flex flex-col justify-center">
+    <div className="py-24 gradientBg flex flex-col justify-center">
       <Container className="flex flex-col items-center gap-14">
         <Flex direction={"column"} gap={"4"} align={"center"}>
           <Heading size={"8"} className="text-white text-center">

@@ -14,7 +14,11 @@ const Pricing = () => {
         <title>Pricing</title>
       </Head>
       <SiteHeader />
-      <PageHeader title="Pricing" className="!min-h-[30vh]" containerClassname="!min-h-[30vh]" />
+      <PageHeader
+        title="Pricing"
+        className="!min-h-[30vh]"
+        containerClassname="!min-h-[30vh]"
+      />
       <Container>
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
           {siteConfig.subscription.map((item, index) => (
@@ -22,7 +26,7 @@ const Pricing = () => {
               key={index}
               direction={"column"}
               className={`min-h-[20vh] border rounded-xl p-6 ${
-                item?.recommended ? "bg-blue-500/5 border-primary" : ""
+                item?.recommended ? "bg-blue-500/5 border-yellow" : ""
               }`}
             >
               <Heading size={"4"} align={"left"} className="mb-5">
@@ -35,13 +39,15 @@ const Pricing = () => {
                 {item.billingCycle}
               </Heading>
 
-              <Button
-                size={"4"}
-                className={`!mt-5 ${item?.recommended ? '!bg-primary !text-white' : '!bg-transparent !text-black !border !border-primary hover:!bg-primary hover:!text-white'}  !transition-all !duration-300 !cursor-pointer`}
-                variant={item.recommended ? "solid" : "outline"}
+              <button
+                className={`!mt-5 !border rounded-xl py-3 !border-primary ${
+                  item?.recommended
+                    ? "!bg-primary !text-white"
+                    : "!bg-transparent !text-black hover:!bg-primary hover:!text-white"
+                }`}
               >
                 Buy
-              </Button>
+              </button>
 
               <Heading size={"3"} color="gray" className="mt-5 mb-1">
                 Features

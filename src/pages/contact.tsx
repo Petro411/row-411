@@ -27,7 +27,7 @@ const Contact = () => {
             <TextField.Root size={"3"} placeholder="Email address" />
             <TextField.Root size={"3"} placeholder="Phone number" />
             <TextArea size={"3"} placeholder="Message" rows={8} />
-            <Button size={"4"}>Submit</Button>
+            <Button size={"4"} className="!bg-btnPrimary">Submit</Button>
           </form>
         </div>
       </Container>

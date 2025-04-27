@@ -33,8 +33,8 @@ const MineralOwnerFilter = ({
       >
         {title || paragraph ? (
           <Flex direction={"column"} gap={"1"}>
-            {title && <Heading size={"6"}>{title}</Heading>}
-            {paragraph && <Text color="gray">{paragraph}</Text>}
+            {title && <Heading size={"6"} className="text-heading">{title}</Heading>}
+            {paragraph && <Text color="gray" size={"3"}>{paragraph}</Text>}
           </Flex>
         ) : (
           ""
@@ -116,7 +116,7 @@ const MineralOwnerFilter = ({
             </DropdownMenu.Root>
           </Flex>
 
-          <Button size={"4"} className="!bg-btnPrimary !cursor-pointer">
+          <Button size={"4"} className="!bg-yellow !cursor-pointer">
             <Text  size={"3"}>
             Search
             </Text>

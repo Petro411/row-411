@@ -9,7 +9,7 @@ const MineralOwnersByState = () => {
     <Container>
       <Flex direction={"column"} gap={"5"}>
         <Flex direction={"column"} align={"center"} gap={"4"}>
-          <Heading size={"8"} className="text-center">
+          <Heading size={"8"} className="text-center text-heading">
             Mineral Owners by State
           </Heading>
           <Text
@@ -26,7 +26,7 @@ const MineralOwnersByState = () => {
           {statesList.map((item, index) => (
             <li key={index} className="text-center 2xl:text-start">
               <Link href={"/"}>
-                <Text size={"4"} className="text-primary">
+                <Text size={"4"} className="text-gray-500 hover:!underline">
                   {item}
                 </Text>
               </Link>

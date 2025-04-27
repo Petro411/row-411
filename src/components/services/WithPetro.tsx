@@ -5,7 +5,7 @@ import MineralOwnerFilter from "../home/MineralOwnerFilter";
 
 const WithPetro = () => {
   return (
-    <div className="py-24 bg-primary flex flex-col gap-14">
+    <div className="py-24 gradientBg flex flex-col gap-14">
       <Container>
         <Flex direction={"column"} gap={"4"} align={"center"}>
           <Heading size={"8"} className="text-white text-center">

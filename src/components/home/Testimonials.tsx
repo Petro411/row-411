@@ -15,7 +15,7 @@ const Testimonials = () => {
   return (
     <Container className="flex flex-col items-center gap-10 py-14">
       <Flex direction={"column"} gap={"4"} align={"center"}>
-        <Heading size={"8"} className="text-center">
+        <Heading size={"8"} className="text-center text-heading">
           Testimonials
         </Heading>
       </Flex>
@@ -58,7 +58,7 @@ const Testimonials = () => {
                   {Array.from({ length: item.rating }).map((_, id) => (
                     <StarFilledIcon
                       key={id}
-                      className="text-yellow-400"
+                      className="text-yellow"
                       height={18}
                       width={18}
                     />

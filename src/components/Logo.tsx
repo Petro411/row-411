@@ -4,12 +4,27 @@ import React, { memo } from "react";
 
 const Logo = () => {
   return (
-    <Link href={"/"}>
-      <Image
-        src={"/assets/images/logo.png"}
+    <Link href={"/"} className="flex items-end flex-row">
+      {/* <Image
+      className=""
+        src={"/logo.png"}
         alt="site-logo"
-        height={130}
-        width={130}
+        height={100}
+        width={100}
+      /> */}
+      <Image
+      className=""
+        src={"/logo-icon.png"}
+        alt="site-logo"
+        height={60}
+        width={60}
+      />
+      <Image
+      className=""
+        src={"/logo-name.png"}
+        alt="site-logo"
+        height={190}
+        width={190}
       />
     </Link>
   );
