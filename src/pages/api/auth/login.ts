@@ -1,6 +1,8 @@
+import Label from "@/config/Label";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
+import { HttpException } from "@/utils/HttpException";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
 import { setCookie } from 'nookies';
@@ -11,9 +13,7 @@ const handler = async (req: any, res: any) => {
     try {
         const { email, password } = req?.body;
         if (!email || !password) {
-            return res.status(400).json({
-                message: "Email and password required."
-            })
+            throw new HttpException(Label.EmailPasswordReq, 400);
         }
 
         await dbConnect();
@@ -21,15 +21,13 @@ const handler = async (req: any, res: any) => {
         let user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ message: "User not found with this email." })
+            throw new HttpException(Label.UserNotRegisteredWithEmail, 404);
         }
 
         const comparePassword = await bcrypt.compare(password, user.password);
 
         if (!comparePassword) {
-            return res.status(400).json({
-                message: "Incorrect credentails."
-            })
+            throw new HttpException(Label.IncorrectCredentails, 400);
         };
 
         const token = JWT.sign({ id: user._id }, JWT_SECRET);
@@ -42,12 +40,14 @@ const handler = async (req: any, res: any) => {
             sameSite: 'lax',
         });
 
-        return res.status(200).json({ message: "Login successfull.", token })
+        return res.status(200).json({ message: Label.LoginSuccessfull, token })
 
 
     } catch (error: any) {
         return res.status(error?.statusCode ?? 500).json({
-            message: error?.message
+            message: error?.message,
+            success: false,
+            status: error?.statusCode ?? 500
         })
     }
 };

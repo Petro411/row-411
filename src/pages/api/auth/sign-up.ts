@@ -1,16 +1,18 @@
+import Label from "@/config/Label";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
+import { HttpException } from "@/utils/HttpException";
 import bcrypt from "bcrypt";
 import JWT from "jsonwebtoken";
 import { setCookie } from 'nookies';
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "";
-const MAXAGE =  60 * 60 * 24 * 7;
+const MAXAGE = 60 * 60 * 24 * 7;
 
 async function handler(req: any, res: any) {
     if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method not allowed" });
+        throw new HttpException(Label.MethodNotAllowed, 405);
     }
 
     try {
@@ -19,12 +21,12 @@ async function handler(req: any, res: any) {
         const { name, email, password } = req.body;
 
         if (!name || !email || !password) {
-            return res.status(400).json({ message: "All fields are required" });
+            throw new HttpException(Label.AllFieldsReq, 400);
         }
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(409).json({ message: "User already exists" });
+            throw new HttpException(Label.UserAlreadyExistsWithEmail, 409);
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -46,12 +48,12 @@ async function handler(req: any, res: any) {
         });
 
         res.status(201).json({
-            message: "Signup successful",
+            message: Label.SignUpSuccessfull,
             token,
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Signup error:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: error?.message ?? Label.InternalServerError, success: false, status: error?.statusCode ?? 500 });
     }
 }
 
