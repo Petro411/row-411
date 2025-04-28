@@ -32,7 +32,9 @@ const Label = {
     AllFieldsReq:"All fields are required.",
     UserAlreadyExistsWithEmail:"User already registered with this email.",
     SignUpSuccessfull:"Sign up successfull.",
-    LoginSuccessfull:"Login successfull."
+    LoginSuccessfull:"Login successfull.",
+    TokenMissing:"Authorization token missing or malformed.",
+    UserNotFound:"User not found."
 
 };
 

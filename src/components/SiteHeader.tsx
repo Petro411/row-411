@@ -35,10 +35,10 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                       className={`
                         hover:text-yellow
                         ${
-                        pathname === item.path
-                          ? "text-yellow font-medium"
-                          : "text-gray-500"
-                      }` }
+                          pathname === item.path
+                            ? "text-yellow font-medium"
+                            : "text-gray-500"
+                        }`}
                     >
                       <Text size={"3"}>{item.name}</Text>
                     </Link>
@@ -47,25 +47,36 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                 <div className="lg:col-span-2 flex flex-row justify-end items-center gap-4">
                   <Link
                     href={"/auth/sign-up"}
-                    className="rounded-lg !bg-yellow !cursor-pointer !border !border-btnPrimary rt-BaseButton rt-Button rt-r-size-3 py-1.5"
+                    className="!hidden lg:!block rounded-lg !bg-yellow !cursor-pointer !border !border-btnPrimary rt-BaseButton rt-Button rt-r-size-3 py-1.5"
                   >
                     <Text size={"2"} className="!text-white ">
                       Get Started
                     </Text>
                   </Link>
-                  <Link href={"/auth/login"} className="flex flex-row items-center gap-2 border-2 border-btnPrimary hover:bg-btnPrimary group py-1.5 rt-r-size-3 rt-BaseButton rt-Button">
-                  <Text size={"2"} className="group-hover:!text-white">Login</Text>
-                  <ArrowRightIcon height={18} width={18} className="group-hover:!text-white" />
+                  <Link
+                    href={"/auth/login"}
+                    className="!hidden sm:!flex border-2 border-btnPrimary hover:bg-btnPrimary group py-1.5 rt-r-size-3 rt-BaseButton rt-Button"
+                  >
+                    <Text size={"2"} className="group-hover:!text-white">
+                      Login
+                    </Text>
+                    <ArrowRightIcon
+                      height={18}
+                      width={18}
+                      className="group-hover:!text-white group-hover:!animate-pulse"
+                    />
                   </Link>
 
-                  <Button
+                  <button
                     onClick={toggleSidebar}
-                    size={"2"}
-                    className="!block lg:!hidden !bg-transparent !cursor-pointer !border !border-btnPrimary !transition-all !duration-300 !text-btnPrimary hover:!bg-btnPrimary hover:!text-white"
-                    variant="outline"
+                    className="block lg:!hidden rounded-lg !bg-yellow !cursor-pointer !border !border-btnPrimary rt-BaseButton rt-Button rt-r-size-3 py-1.5"
                   >
-                    <TextAlignRightIcon height={25} width={25} />
-                  </Button>
+                    <TextAlignRightIcon
+                      height={25}
+                      width={25}
+                      className="text-white"
+                    />
+                  </button>
                 </div>
               </>
             )}
@@ -78,4 +89,3 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
 };
 
 export default memo(SiteHeader);
- 

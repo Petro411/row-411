@@ -1,4 +1,6 @@
+import { getItem } from "@/utils/Localstorage";
 import axios from "axios";
+import { parseCookies } from "nookies";
 
 const baseApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -8,16 +10,33 @@ const baseApi = axios.create({
   },
 });
 
-baseApi.interceptors.request.use(
-  (config) => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+
+
+// baseApi.interceptors.request.use(
+//   (config) => {
+//     let token = null;
+
+//     if (typeof window !== "undefined") {
+//       token = getItem("token");
+//     }
+
+//     if (!token) {
+//       const cookies = parseCookies();
+//       console.log(cookies)
+//       token = cookies.token;
+//     }
+
+//     if (token && config.headers) {
+//       config.headers.Authorization = `${token}`;
+//     }
+
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
 
 baseApi.interceptors.response.use(
   (response) => response,
@@ -29,7 +48,9 @@ baseApi.interceptors.response.use(
 
 export const endpoints = {
     login:"/auth/login",
-    signup:"/auth/sign-up"
+    signup:"/auth/sign-up",
+    lookup:"/auth/lookup",
+    google:"/auth/google",
 }
 
 export default baseApi;

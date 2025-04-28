@@ -2,17 +2,24 @@ import AuthLayout from "@/components/auth/AuthLayout";
 import ThirdPartyAuthButton from "@/components/ThirdPartyAuthButton";
 import Label from "@/config/Label";
 import { useMutation } from "@/hooks/useMutation";
-import { endpoints } from "@/services/api";
+import baseApi, { endpoints } from "@/services/api";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import { setItem } from "@/utils/Localstorage";
+import withApp from "@/utils/withApp";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Separator, Text, TextField } from "@radix-ui/themes";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import React, { ChangeEvent, useState } from "react";
+import { useRouter } from "next/router";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-simple-toasts";
+import { useGoogleLogin } from "@react-oauth/google";
+import GoogleAuth from "@/components/auth/GoogleAuth";
 
 const Login = () => {
-  const { request, loading, data } = useMutation(endpoints.login);
+  const router = useRouter();
+  const { request, loading } = useMutation(endpoints.login);
 
   const [form, setForm] = useState({
     email: "",
@@ -29,12 +36,18 @@ const Login = () => {
   const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
-      await request(form);
+      const res = await request(form);
+      setItem("token", res.token);
+      router.push("/dashboard");
     } catch (error: any) {
       console.log(error);
       toast(GetApiErrorMessage(error));
     }
   };
+
+  useEffect(() => {
+    router.prefetch("/dashboard");
+  }, []);
 
   return (
     <>
@@ -108,10 +121,7 @@ const Login = () => {
         </Flex>
 
         <Flex className="flex flex-col xl:flex-row xl:items-center" gap={"3"}>
-          <ThirdPartyAuthButton
-            title={Label.LoginWithGoogle}
-            image="/assets/images/google.png"
-          />
+          <GoogleAuth title={Label.LoginWithGoogle} />
           <ThirdPartyAuthButton
             title={Label.LoginWithFacebook}
             image="/assets/images/facebook.png"
@@ -129,6 +139,10 @@ const Login = () => {
       </AuthLayout>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return withApp(context);
 };
 
 export default Login;

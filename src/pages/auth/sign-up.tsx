@@ -1,24 +1,29 @@
 import AuthLayout from "@/components/auth/AuthLayout";
+import GoogleAuth from "@/components/auth/GoogleAuth";
 import ThirdPartyAuthButton from "@/components/ThirdPartyAuthButton";
 import Label from "@/config/Label";
 import { useMutation } from "@/hooks/useMutation";
 import { endpoints } from "@/services/api";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import { setItem } from "@/utils/Localstorage";
+import withApp from "@/utils/withApp";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Flex,
-  Heading,
   Separator,
   Text,
   TextField,
 } from "@radix-ui/themes";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import React, { ChangeEvent, useState } from "react";
+import { useRouter } from "next/router";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-simple-toasts";
 
 const SignUp = () => {
+  const router = useRouter();
   const { request, loading } = useMutation(endpoints.signup);
 
   const [form, setForm] = useState({
@@ -40,11 +45,16 @@ const SignUp = () => {
     try {
       e.preventDefault();
       const res = await request(form);
-      console.log(res);
+      setItem("token", res.token);
+      router.push("/subscription");
     } catch (error: any) {
       toast(GetApiErrorMessage(error));
     }
   };
+
+  useEffect(() => {
+    router.prefetch("/subscription");
+  }, []);
 
   return (
     <>
@@ -118,9 +128,8 @@ const SignUp = () => {
         </Flex>
 
         <Flex className="flex flex-col xl:flex-row xl:items-center" gap={"3"}>
-          <ThirdPartyAuthButton
-            title={Label.SignUpWithGoogle}
-            image="/assets/images/google.png"
+          <GoogleAuth
+          title={Label.SignUpWithGoogle}
           />
           <ThirdPartyAuthButton
             title={Label.SignUpWithFacebook}
@@ -139,6 +148,10 @@ const SignUp = () => {
       </AuthLayout>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return withApp(context);
 };
 
 export default SignUp;

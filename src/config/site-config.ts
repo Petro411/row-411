@@ -56,18 +56,18 @@ const siteConfig = {
             summary:
                 "Ideal for professionals managing multiple counties. Includes downloads, full mineral lists with contacts, and more users.",
         },
-        {
-            name: "Management",
-            price: "$199.99",
-            billingCycle: "Monthly Subscription",
-            features: {
-                noOfCounties: 25,
-                noOfUsers: 10,
-                noOfDownloads: 500,
-            },
-            summary:
-                "Perfect for teams. Manage wide regions with generous downloads and team access. Includes enhanced filtering and data tools.",
-        },
+        // {
+        //     name: "Management",
+        //     price: "$199.99",
+        //     billingCycle: "Monthly Subscription",
+        //     features: {
+        //         noOfCounties: 25,
+        //         noOfUsers: 10,
+        //         noOfDownloads: 500,
+        //     },
+        //     summary:
+        //         "Perfect for teams. Manage wide regions with generous downloads and team access. Includes enhanced filtering and data tools.",
+        // },
         // {
         //     name: "Executive",
         //     price: "$299.99",

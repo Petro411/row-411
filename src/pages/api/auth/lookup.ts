@@ -1,6 +1,8 @@
+import Label from "@/config/Label";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
+import { HttpException } from "@/utils/HttpException";
 import JWT from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "";
@@ -10,7 +12,7 @@ const handler = async (req: any, res: any) => {
     const token = req.headers.authorization;
 
     if (!token) {
-      return res.status(401).json({ message: "Authorization token missing or malformed." });
+      throw new HttpException(Label.TokenMissing, 401);
     }
 
     const decoded = JWT.verify(token, JWT_SECRET) as { id: string };
@@ -20,13 +22,15 @@ const handler = async (req: any, res: any) => {
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found." });
+      throw new HttpException(Label.UserNotFound, 404);
     }
 
     return res.status(200).json({ user });
   } catch (error: any) {
     return res.status(error?.statusCode ?? 500).json({
-      message: error?.message || "Internal server error",
+      success: false,
+      status: error?.statusCode ?? 500,
+      message: error?.message || Label.InternalServerError,
     });
   }
 };

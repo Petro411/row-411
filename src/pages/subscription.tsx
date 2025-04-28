@@ -1,32 +1,20 @@
 import Container from "@/components/Container";
-import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
-import SiteHeader from "@/components/SiteHeader";
 import siteConfig from "@/config/site-config";
-import { getItem } from "@/utils/Localstorage";
+import withAuth from "@/utils/withAuth";
 import { Flex, Heading, Separator, Text } from "@radix-ui/themes";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React from "react";
 
-const Pricing = () => {
-  const router = useRouter();
-  const handleSubscribe = ()=>{
-    if(getItem('token')){
-      router.push('/dashboard');
-    }else{
-      router.push('/auth/login');
-    }
-  }
-
+const Subscription = () => {
   return (
     <>
       <Head>
-        <title>Pricing</title>
+        <title>Subscription</title>
       </Head>
-      <SiteHeader />
       <PageHeader
-        title="Pricing"
+        title="Subscription"
         description="Choose the plan that fits your needs. Petro411 offers flexible pricing with access to accurate mineral owner data to streamline your land acquisition process."
       />
       <Container>
@@ -50,7 +38,6 @@ const Pricing = () => {
               </Heading>
 
               <button
-              onClick={handleSubscribe}
                 className={`!mt-5 !border rounded-xl py-3 !border-primary ${
                   item?.recommended
                     ? "!bg-primary !text-white"
@@ -92,9 +79,11 @@ const Pricing = () => {
           ))}
         </div>
       </Container>
-      <Footer />
     </>
   );
 };
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return withAuth(context);
+};
 
-export default Pricing;
+export default Subscription;
