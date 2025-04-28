@@ -3,7 +3,7 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 
 const baseApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_API_URL : "http://localhost:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
