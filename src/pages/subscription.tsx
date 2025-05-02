@@ -1,13 +1,53 @@
 import Container from "@/components/Container";
 import PageHeader from "@/components/PageHeader";
 import siteConfig from "@/config/site-config";
+import { getUser } from "@/context/AuthContext";
+import baseApi, { endpoints } from "@/services/api";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import { getItem } from "@/utils/Localstorage";
 import withAuth from "@/utils/withAuth";
-import { Flex, Heading, Separator, Text } from "@radix-ui/themes";
+import { Button, Flex, Heading, Separator, Text } from "@radix-ui/themes";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import toast from "react-simple-toasts";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? ""
+);
+
+enum SubscriptionStatusQueryParams {
+  Success = "success",
+  Cancel = "cancel",
+  Error = "error",
+}
 
 const Subscription = () => {
+  const user = getUser();
+  const checkOutStatus = useSubscriptionStatus();
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubscription = async (id: string) => {
+    try {
+      setIsLoading(true);
+      setSelectedPrice(id);
+      const res = await baseApi.post(endpoints.checkout, {
+        priceId: id,
+        token: getItem("token"),
+        returnUrl: getReturnUrl(),
+      });
+      const stripe = await stripePromise;
+      await stripe?.redirectToCheckout({ sessionId: res?.data.session });
+      setSelectedPrice("");
+      setIsLoading(false);
+    } catch (error) {
+      toast(GetApiErrorMessage(error));
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -17,6 +57,7 @@ const Subscription = () => {
         title="Subscription"
         description="Choose the plan that fits your needs. Petro411 offers flexible pricing with access to accurate mineral owner data to streamline your land acquisition process."
       />
+      {checkOutStatus && <PlansStatusAlert status={checkOutStatus} />}
       <Container>
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
           {siteConfig.subscription.map((item, index) => (
@@ -37,15 +78,21 @@ const Subscription = () => {
                 {item.billingCycle}
               </Heading>
 
-              <button
-                className={`!mt-5 !border rounded-xl py-3 !border-primary ${
+              <Button
+              onClick={()=>handleSubscription(item.stripePriceId)}
+              disabled={!item.stripePriceId || isLoading}
+              loading={isLoading && item.stripePriceId === selectedPrice}
+                variant="outline"
+                color="yellow"
+                size={"4"}
+                className={`!mt-5 !rounded-xl py-3 ${
                   item?.recommended
                     ? "!bg-primary !text-white"
                     : "!bg-transparent !text-black hover:!bg-primary hover:!text-white"
                 }`}
               >
-                Buy
-              </button>
+                <Text size={"3"}>Buy</Text>
+              </Button>
 
               <Heading size={"3"} color="gray" className="mt-5 mb-1">
                 Features
@@ -87,3 +134,51 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default Subscription;
+
+function getReturnUrl() {
+  return typeof window !== "undefined"
+    ? [window.location.origin, window.location.pathname].join("")
+    : undefined;
+}
+
+function useSubscriptionStatus() {
+  const [status, setStatus] = useState<SubscriptionStatusQueryParams>();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    const error = params.has(SubscriptionStatusQueryParams.Error);
+    const canceled = params.has(SubscriptionStatusQueryParams.Cancel);
+    const success = params.has(SubscriptionStatusQueryParams.Success);
+
+    if (canceled) {
+      setStatus(SubscriptionStatusQueryParams.Cancel);
+    } else if (success) {
+      setStatus(SubscriptionStatusQueryParams.Success);
+    } else if (error) {
+      setStatus(SubscriptionStatusQueryParams.Error);
+    }
+  }, []);
+
+  return status;
+}
+
+function PlansStatusAlert({
+  status,
+}: {
+  status: SubscriptionStatusQueryParams;
+}) {
+  switch (status) {
+    case SubscriptionStatusQueryParams.Cancel:
+      toast("Checkout was canceled");
+      break;
+    case SubscriptionStatusQueryParams.Error:
+      toast("Something went wrong please tryagain letter.");
+      break;
+    case SubscriptionStatusQueryParams.Success:
+      toast("Successfull");
+      break;
+  }
+
+  return <></>;
+}

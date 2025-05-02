@@ -14,7 +14,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-simple-toasts";
-import { useGoogleLogin } from "@react-oauth/google";
 import GoogleAuth from "@/components/auth/GoogleAuth";
 
 const Login = () => {

@@ -34,9 +34,28 @@ const userSchema = new mongoose.Schema(
             enum: ["user", "admin"],
             default: "user",
         },
-        isOnboarded:{
+        isOnboarded: {
             type: Boolean,
-            default:false
+            default: false,
+        },
+        customer_id: { type: String },
+        subscription: {
+            id: String,
+            priceId: String,
+            status: {
+                type: String,
+                enum: ["awaitingPayment", "paid"],
+                default: "awaitingPayment"
+            },
+            currency: String,
+            interval: String,
+            intervalCount: Number,
+            createdAt: Date,
+            start_date: Date,
+            cancel_at: Date,
+            canceled_at: Date,
+            ended_at: Date,
+            expires_at: Date
         }
     },
     { timestamps: true }

@@ -3,11 +3,13 @@ export const setItem = (key: string, value: any) => {
 };
 
 export const getItem = (key: string) => {
-    let a = localStorage.getItem(key);
-    if (a) return JSON.parse(a)
+    if (typeof window !== "undefined") {
+        let a = localStorage.getItem(key);
+        if (a) return JSON?.parse(a)
+    }
     else return null;
 };
 
-export const deleteItem = (key:string)=>{
+export const deleteItem = (key: string) => {
     localStorage.removeItem(key);
 }

@@ -6,6 +6,7 @@ import toast from "react-simple-toasts";
 import Label from "@/config/Label";
 import { useRouter } from "next/router";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import { setItem } from "@/utils/Localstorage";
 
 type Props = {
     title?:string
@@ -16,10 +17,11 @@ const GoogleAuth = ({title}:Props) => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (response) => {
       try {
-        await baseApi.post(`${endpoints.google}`, {
+       const res= await baseApi.post(`${endpoints.google}`, {
           token: response.access_token,
           token_type: response.token_type,
         });
+        setItem('token',res.data.token);
         toast(Label.LoginSuccessfull);
         setTimeout(() => {
           router.push("/dashboard");

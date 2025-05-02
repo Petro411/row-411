@@ -51,6 +51,7 @@ export const endpoints = {
     signup:"/auth/sign-up",
     lookup:"/auth/lookup",
     google:"/auth/google",
+    checkout:"/stripe/checkout",
 }
 
 export default baseApi;

@@ -23,7 +23,7 @@ const withAuth: GetServerSideProps = async (context) => {
         }
 
         if (!user.isOnboarded) {
-            if (context.resolvedUrl === "/subscription") {
+            if (context.resolvedUrl.includes("/subscription")) {
                 return {
                     props: {
 
@@ -40,13 +40,13 @@ const withAuth: GetServerSideProps = async (context) => {
 
         }
 
-        if(context.resolvedUrl === "/subscription"){
+        if (context.resolvedUrl === "/subscription") {
             return {
                 redirect: {
                     destination: "/dashboard",
                     permanent: false,
                 },
-            }; 
+            };
         }
 
 

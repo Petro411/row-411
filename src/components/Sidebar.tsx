@@ -3,6 +3,7 @@ import { homeRoutes } from "@/config/HomeRoutes";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
+import { getUser } from "@/context/AuthContext";
 
 type Props = {
   visible: boolean;
@@ -10,6 +11,9 @@ type Props = {
 };
 
 const Sidebar = ({ visible, setVisible }: Props) => {
+
+  const user = getUser().user;
+
   useEffect(() => {
     if (visible) {
       document.body.classList.add("overflow-hidden");
@@ -58,14 +62,14 @@ const Sidebar = ({ visible, setVisible }: Props) => {
             </Link>
           </li>
         ))}
-        <li className="text-center">
-          <Link href={""} className="!text-white">
+        {user && <li className="text-center">
+          <Link href={"/dashboard"} className="!text-white">
             <Text size={"4"} align={"center"}>
               Dashboard
             </Text>
           </Link>
-        </li>
-        <li>
+        </li>}
+        {!user && <li>
           <Flex
             direction={"row"}
             align={"center"}
@@ -86,7 +90,7 @@ const Sidebar = ({ visible, setVisible }: Props) => {
               <Text size={"3"}>Sign up</Text>
             </Link>
           </Flex>
-        </li>
+        </li>}
       </ul>
     </div>
   );

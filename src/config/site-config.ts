@@ -22,6 +22,7 @@ const siteConfig = {
         {
             name: "Intern",
             price: "$29.99",
+            stripePriceId: 'price_1RJXboDbStEa9XHecpYvfqO3',
             billingCycle: "Monthly Subscription",
             features: {
                 noOfCounties: 1,
@@ -34,6 +35,7 @@ const siteConfig = {
         {
             name: "Entry Level",
             price: "$49.99",
+            stripePriceId: 'prod_SDzatb00tCCbUM',
             billingCycle: "Monthly Subscription",
             features: {
                 noOfCounties: 3,
@@ -46,13 +48,14 @@ const siteConfig = {
         {
             name: "Professional",
             price: "$99.99",
+            stripePriceId: 'price_1NKuLeDbStEa9XHe1a3y29pR',
             billingCycle: "Monthly Subscription",
             features: {
                 noOfCounties: 10,
                 noOfUsers: 5,
                 noOfDownloads: 100,
             },
-            recommended:true,
+            recommended: true,
             summary:
                 "Ideal for professionals managing multiple counties. Includes downloads, full mineral lists with contacts, and more users.",
         },
