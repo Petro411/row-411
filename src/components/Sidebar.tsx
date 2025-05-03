@@ -4,15 +4,20 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import { Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { getUser } from "@/context/AuthContext";
+import { DashboardRoutes } from "@/config/DashboardRoutes";
 
 type Props = {
   visible: boolean;
   setVisible: (val: boolean) => void;
 };
 
-const Sidebar = ({ visible, setVisible }: Props) => {
+const hideRoutes = ["/pricing"];
 
+
+const Sidebar = ({ visible, setVisible }: Props) => {
   const user = getUser().user;
+  const filteredRoutes = (item : any) =>
+    user && !hideRoutes.includes(item.path);
 
   useEffect(() => {
     if (visible) {
@@ -42,7 +47,7 @@ const Sidebar = ({ visible, setVisible }: Props) => {
       <ul
         className={`${
           visible ? "opacity-100" : "opacity-0"
-        } flex flex-col gap-5`}
+        } flex flex-col gap-5 overflow-y-auto w-full py-20`}
       >
         <li className="flex flex-row justify-center mb-5">
           <Cross1Icon
@@ -53,7 +58,7 @@ const Sidebar = ({ visible, setVisible }: Props) => {
             onClick={() => setVisible(false)}
           />
         </li>
-        {homeRoutes.map((item, index) => (
+        {homeRoutes.filter(filteredRoutes).map((item, index) => (
           <li key={index} className="text-center">
             <Link href={item.path} className="!text-white">
               <Text size={"4"} align={"center"}>
@@ -62,35 +67,40 @@ const Sidebar = ({ visible, setVisible }: Props) => {
             </Link>
           </li>
         ))}
-        {user && <li className="text-center">
-          <Link href={"/dashboard"} className="!text-white">
-            <Text size={"4"} align={"center"}>
-              Dashboard
-            </Text>
-          </Link>
-        </li>}
-        {!user && <li>
-          <Flex
-            direction={"row"}
-            align={"center"}
-            justify={"center"}
-            gap={"5"}
-            mt={"5"}
-          >
-            <Link
-              href={"/auth/login"}
-              className="py-3 px-5 bg-primary text-white rounded-lg"
+        {user &&
+          DashboardRoutes.map((tab, index) => (
+            <li key={index} className="text-center !block lg:!hidden">
+              <Link href={tab.path} className="!text-white">
+                <Text size={"4"} align={"center"}>
+                  {tab.title}
+                </Text>
+              </Link>
+            </li>
+          ))}
+        {!user && (
+          <li>
+            <Flex
+              direction={"row"}
+              align={"center"}
+              justify={"center"}
+              gap={"5"}
+              mt={"5"}
             >
-              <Text size={"3"}>Login</Text>
-            </Link>
-            <Link
-              href={"/auth/sign-up"}
-              className="py-3 px-5 bg-primary text-white rounded-lg"
-            >
-              <Text size={"3"}>Sign up</Text>
-            </Link>
-          </Flex>
-        </li>}
+              <Link
+                href={"/auth/login"}
+                className="py-3 px-5 bg-primary text-white rounded-lg"
+              >
+                <Text size={"3"}>Login</Text>
+              </Link>
+              <Link
+                href={"/auth/sign-up"}
+                className="py-3 px-5 bg-primary text-white rounded-lg"
+              >
+                <Text size={"3"}>Sign up</Text>
+              </Link>
+            </Flex>
+          </li>
+        )}
       </ul>
     </div>
   );

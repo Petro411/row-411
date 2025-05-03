@@ -22,7 +22,7 @@ async function handler(
 
     try {
 
-        const { priceId, token, returnUrl } = req.body;
+        const { priceId, token } = req.body;
 
         if (!token) {
             res.redirect('/auth/login');
@@ -42,7 +42,7 @@ async function handler(
 
         const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
             quantity: 1,
-            price: 'price_1RKKbBQfgzh7GyQWxuVstmFZ',
+            price: priceId,
         };
 
         const session = await stripe.checkout.sessions.create({
@@ -60,14 +60,7 @@ async function handler(
         res.send({session:session.id})
 
     } catch (error: any) {
-        console.log(error?.message)
-        return res.status(error?.statusCode ?? 500).json({
-            message: error?.message,
-            success: false,
-            status: error?.statusCode ?? 500
-        })
-        // res.redirect([`${siteUrl}/subscription`, 'error=true'].join("?"));
-
+        res.redirect([`${siteUrl}/subscription`, 'error=true'].join("?"));
     }
 
 }

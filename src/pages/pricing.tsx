@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import siteConfig from "@/config/site-config";
 import { getItem } from "@/utils/Localstorage";
 import { Flex, Heading, Separator, Text } from "@radix-ui/themes";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
@@ -30,7 +31,7 @@ const Pricing = () => {
         description="Choose the plan that fits your needs. Petro411 offers flexible pricing with access to accurate mineral owner data to streamline your land acquisition process."
       />
       <Container>
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
+        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 2xl:w-10/12 mx-auto gap-5">
           {siteConfig.subscription.map((item, index) => (
             <Flex
               key={index}
@@ -95,6 +96,13 @@ const Pricing = () => {
       <Footer />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async () => {
+  return {
+    props: {
+    },
+  };
 };
 
 export default Pricing;

@@ -13,6 +13,7 @@ import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
 import { Flex } from "@radix-ui/themes";
 import NewsLetter from "@/components/NewsLetter";
 import Label from "@/config/Label";
+import { GetStaticProps } from "next";
 
 const Home = () => {
   return (
@@ -40,6 +41,14 @@ const Home = () => {
       <Footer />
     </main>
   );
+};
+
+
+export const getStaticProps: GetStaticProps<any> = async () => {
+  return {
+    props: {
+    },
+  };
 };
 
 export default Home;

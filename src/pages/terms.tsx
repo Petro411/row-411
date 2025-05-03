@@ -3,6 +3,7 @@ import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
 import SiteHeader from '@/components/SiteHeader'
 import { demoTerms } from '@/config/dummy'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
 
@@ -25,5 +26,12 @@ const Terms = () => {
     </>
   )
 }
+
+export const getStaticProps: GetStaticProps<any> = async () => {
+  return {
+    props: {
+    },
+  };
+};
 
 export default Terms

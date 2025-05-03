@@ -14,12 +14,16 @@ type Props = {
   className?: string;
 };
 
+const hideRoutes = ["/pricing"];
+
 const SiteHeader = ({ hideNavigation = false, className }: Props) => {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
   const pathname = router.pathname;
   const toggleSidebar = () => setVisible(!visible);
   const user = getUser()?.user ?? null;
+  const filteredRoutes = (item : any) =>
+    user && !hideRoutes.includes(item.path);
   return (
     <>
       <div className={`sticky top-0 py-3 bg-white z-50 shadow ${className}`}>
@@ -31,7 +35,7 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
             {!hideNavigation && (
               <>
                 <div className="hidden lg:col-span-8 lg:flex flex-row items-center justify-center gap-10">
-                  {homeRoutes.map((item, index) => (
+                  {homeRoutes.filter(filteredRoutes).map((item, index) => (
                     <Link
                       key={index}
                       href={item.path}
@@ -49,8 +53,17 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                 </div>
                 <div className="lg:col-span-2 flex flex-row justify-end items-center gap-4">
                   {user?.name ? (
-                    <Flex gap={"3"} className="!cursor-pointer" onClick={()=>router.push("/dashboard")} align={"center"} direction={"row"} as="span">
-                      <Text className="!hidden sm:!block">{user?.name}</Text>
+                    <Flex
+                      gap={"3"}
+                      className="!cursor-pointer"
+                      onClick={() => router.push("/dashboard")}
+                      align={"center"}
+                      direction={"row"}
+                      as="span"
+                    >
+                      <Text className="!hidden sm:!block" size={"2"}>
+                        {user?.name}
+                      </Text>
                       <Avatar
                         radius="full"
                         fallback={user?.name[0]?.toUpperCase() ?? "U"}

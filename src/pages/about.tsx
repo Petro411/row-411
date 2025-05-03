@@ -5,6 +5,7 @@ import PageHeader from "@/components/PageHeader";
 import SiteHeader from "@/components/SiteHeader";
 import TextImageColumn from "@/components/TextImageColumn";
 import { Flex, Heading, Text } from "@radix-ui/themes";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
@@ -72,6 +73,13 @@ const AboutUs = () => {
       <Footer />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async () => {
+  return {
+    props: {
+    },
+  };
 };
 
 export default AboutUs;

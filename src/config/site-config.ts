@@ -35,7 +35,7 @@ const siteConfig = {
         {
             name: "Entry Level",
             price: "$49.99",
-            stripePriceId: 'prod_SDzatb00tCCbUM',
+            stripePriceId: 'price_1RKfMtQfgzh7GyQW5FO0RMyC',
             billingCycle: "Monthly Subscription",
             features: {
                 noOfCounties: 3,
@@ -48,7 +48,7 @@ const siteConfig = {
         {
             name: "Professional",
             price: "$99.99",
-            stripePriceId: 'price_1NKuLeDbStEa9XHe1a3y29pR',
+            stripePriceId: 'price_1RKfNWQfgzh7GyQWE1gUVpmZ',
             billingCycle: "Monthly Subscription",
             features: {
                 noOfCounties: 10,

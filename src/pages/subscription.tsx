@@ -59,7 +59,7 @@ const Subscription = () => {
       />
       {checkOutStatus && <PlansStatusAlert status={checkOutStatus} />}
       <Container>
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
+        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 2xl:w-10/12 mx-auto gap-5">
           {siteConfig.subscription.map((item, index) => (
             <Flex
               key={index}

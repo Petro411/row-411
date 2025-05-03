@@ -10,6 +10,7 @@ import WithPetro from "@/components/services/WithPetro";
 import SiteHeader from "@/components/SiteHeader";
 import { serviceCards } from "@/config/dummy";
 import { Flex } from "@radix-ui/themes";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import React from "react";
 
@@ -41,6 +42,13 @@ const Services = () => {
       <Footer/>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async () => {
+  return {
+    props: {
+    },
+  };
 };
 
 export default Services;

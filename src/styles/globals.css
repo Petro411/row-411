@@ -74,6 +74,9 @@ body {
   button {
     @apply !cursor-pointer !transition-all !duration-300
   }
+  .rt-BaseTabListTrigger:where([data-state='active'], [data-active])::before {
+    @apply !bg-primary
+  }
 }
 
 .AccordionChevron[data-state="open"] {
