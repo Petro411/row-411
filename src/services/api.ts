@@ -52,6 +52,7 @@ export const endpoints = {
     lookup:"/auth/lookup",
     google:"/auth/google",
     checkout:"/stripe/checkout",
+    logout:"/auth/logout",
 }
 
 export default baseApi;

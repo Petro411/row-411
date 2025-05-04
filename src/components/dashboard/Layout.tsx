@@ -4,20 +4,43 @@ import Container from "../Container";
 import { Avatar, Flex, Heading, Separator, Text } from "@radix-ui/themes";
 import { getUser } from "@/context/AuthContext";
 import { useRouter } from "next/router";
-import {DashboardRoutes} from "@/config/DashboardRoutes";
+import { DashboardRoutes } from "@/config/DashboardRoutes";
 import Link from "next/link";
+import toast from "react-simple-toasts";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import { PinLeftIcon } from "@radix-ui/react-icons";
+import { deleteItem } from "@/utils/Localstorage";
+import baseApi, { endpoints } from "@/services/api";
 
 type Props = {
   children?: ReactNode;
 };
 
 const Layout = ({ children }: Props) => {
-  const user = getUser()?.user ?? null;
+  const userContext = getUser();
+  const user = userContext?.user ?? null;
   const router = useRouter();
   const activePath = router.pathname;
-  const activeTabTitle = useMemo(()=>{
-    return DashboardRoutes.find((item)=>item.path === activePath)?.title ?? ""
-  },[activePath])
+  const activeTabTitle = useMemo(() => {
+    return (
+      DashboardRoutes.find((item) => item.path === activePath)?.title ?? ""
+    );
+  }, [activePath]);
+
+  const handleLogout = async () => {
+    try {
+      await baseApi.get(endpoints.logout);
+      deleteItem("token")
+      router.push("/auth/login");
+      setTimeout(() => {
+        userContext?.setUser(null);
+      }, 500);
+      toast("You have been logged out.")
+    } catch (error) {
+      toast(GetApiErrorMessage(error));
+    }
+  };
+
   return (
     <>
       <SiteHeader />
@@ -50,20 +73,38 @@ const Layout = ({ children }: Props) => {
             <Separator size={"4"} orientation={"horizontal"} />
 
             <Flex direction={"column"} py={"3"}>
-                {
-                    DashboardRoutes.map((tab,index)=>(
-                        <Link href={tab.path} key={index} className={`flex flex-row items-center gap-3 py-3 px-3 border-l-[3px] transition-all duration-300  ${tab.path === activePath? 'border-primary text-primary' : 'border-transparent'} hover:!text-primary`}>
-                            {tab.icon}
-                            <Text size={"2"}>{tab.title}</Text>
-                        </Link>
-                    ))
-                }
+              {DashboardRoutes.map((tab, index) => (
+                <Link
+                  href={tab.path}
+                  key={index}
+                  className={`flex flex-row items-center gap-3 py-3 px-3 border-l-[3px] transition-all duration-300  ${
+                    tab.path === activePath
+                      ? "border-primary text-primary"
+                      : "border-transparent"
+                  } hover:!text-primary`}
+                >
+                  {tab.icon}
+                  <Text size={"2"}>{tab.title}</Text>
+                </Link>
+              ))}
+
+              <button
+                onClick={handleLogout}
+                className={`outline-none flex flex-row items-center gap-3 py-3 px-3 border-l-[3px] transition-all duration-300
+                    border-transparent
+                   hover:!text-primary`}
+              >
+                <PinLeftIcon height={20} width={20} />
+                <Text size={"2"}>Logout</Text>
+              </button>
             </Flex>
           </div>
           <div className="lg:col-span-8 2xl:col-span-9 h-fit">
-            <Heading size={"5"} mb={"2"}>{activeTabTitle}</Heading>
+            <Heading size={"5"} mb={"2"}>
+              {activeTabTitle}
+            </Heading>
             {children}
-            </div>
+          </div>
         </div>
       </Container>
     </>

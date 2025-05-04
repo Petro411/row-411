@@ -2,7 +2,7 @@ import AuthLayout from "@/components/auth/AuthLayout";
 import ThirdPartyAuthButton from "@/components/ThirdPartyAuthButton";
 import Label from "@/config/Label";
 import { useMutation } from "@/hooks/useMutation";
-import baseApi, { endpoints } from "@/services/api";
+import { endpoints } from "@/services/api";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { setItem } from "@/utils/Localstorage";
 import withApp from "@/utils/withApp";
@@ -31,6 +31,7 @@ const Login = () => {
     const { value, name } = e.target;
     setForm((pre) => ({ ...pre, [name]: value }));
   };
+
 
   const handleSubmit = async (e: any) => {
     try {

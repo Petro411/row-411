@@ -8,13 +8,7 @@ import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { setItem } from "@/utils/Localstorage";
 import withApp from "@/utils/withApp";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
-import {
-  Button,
-  Flex,
-  Separator,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
+import { Button, Flex, Separator, Text, TextField } from "@radix-ui/themes";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -128,9 +122,7 @@ const SignUp = () => {
         </Flex>
 
         <Flex className="flex flex-col xl:flex-row xl:items-center" gap={"3"}>
-          <GoogleAuth
-          title={Label.SignUpWithGoogle}
-          />
+          <GoogleAuth title={Label.SignUpWithGoogle} />
           <ThirdPartyAuthButton
             title={Label.SignUpWithFacebook}
             image="/assets/images/facebook.png"

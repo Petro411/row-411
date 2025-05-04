@@ -23,7 +23,7 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
   const toggleSidebar = () => setVisible(!visible);
   const user = getUser()?.user ?? null;
   const filteredRoutes = (item : any) =>
-    user && !hideRoutes.includes(item.path);
+    user ? !hideRoutes.includes(item.path): item;
   return (
     <>
       <div className={`sticky top-0 py-3 bg-white z-50 shadow ${className}`}>

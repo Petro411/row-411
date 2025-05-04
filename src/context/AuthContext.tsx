@@ -1,17 +1,22 @@
 import baseApi, { endpoints } from "@/services/api";
-import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { getItem } from "@/utils/Localstorage";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import toast from "react-simple-toasts";
+import { destroyCookie } from "nookies";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type Props = {
   children: ReactNode;
 };
 
 const AuthContext = createContext<any>(null);
-export const getUser = ()=>{
-    return useContext(AuthContext);
-}
+export const getUser = () => {
+  return useContext(AuthContext);
+};
 
 const AuthContextProvider = ({ children }: Props) => {
   const [user, setUser] = useState<any>(null);
@@ -25,13 +30,14 @@ const AuthContextProvider = ({ children }: Props) => {
         });
         setUser(res.data?.user);
       } catch (error) {
-        toast(GetApiErrorMessage(error));
+        destroyCookie(null, "token");
+        baseApi.get(endpoints.logout);
       }
     };
     if (!user && token) {
       getUserInfo();
     }
-  }, []);
+  }, [getItem("token")]);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
