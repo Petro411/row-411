@@ -13,10 +13,11 @@ import { deleteItem } from "@/utils/Localstorage";
 import baseApi, { endpoints } from "@/services/api";
 
 type Props = {
+  hideTitle?: boolean;
   children?: ReactNode;
 };
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children, hideTitle }: Props) => {
   const userContext = getUser();
   const user = userContext?.user ?? null;
   const router = useRouter();
@@ -30,12 +31,12 @@ const Layout = ({ children }: Props) => {
   const handleLogout = async () => {
     try {
       await baseApi.get(endpoints.logout);
-      deleteItem("token")
+      deleteItem("token");
       router.push("/auth/login");
       setTimeout(() => {
         userContext?.setUser(null);
       }, 500);
-      toast("You have been logged out.")
+      toast("You have been logged out.");
     } catch (error) {
       toast(GetApiErrorMessage(error));
     }
@@ -99,10 +100,14 @@ const Layout = ({ children }: Props) => {
               </button>
             </Flex>
           </div>
-          <div className="lg:col-span-8 2xl:col-span-9 h-fit">
-            <Heading size={"5"} mb={"2"}>
-              {activeTabTitle}
-            </Heading>
+          <div className="lg:col-span-8 xl:col-span-9 h-fit">
+            {hideTitle ? (
+              ""
+            ) : (
+              <Heading size={"5"} mb={"2"}>
+                {activeTabTitle}
+              </Heading>
+            )}
             {children}
           </div>
         </div>

@@ -52,7 +52,9 @@ export const endpoints = {
     lookup:"/auth/lookup",
     google:"/auth/google",
     checkout:"/stripe/checkout",
+    portal:"/stripe/portal",
     logout:"/auth/logout",
+    queryOwners:"/query-owners",
 }
 
 export default baseApi;

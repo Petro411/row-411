@@ -22,7 +22,7 @@ const siteConfig = {
         {
             name: "Intern",
             price: "$29.99",
-            stripePriceId: 'price_1RJXboDbStEa9XHecpYvfqO3',
+            stripePriceId: 'price_1RKKbBQfgzh7GyQWxuVstmFZ',
             billingCycle: "Monthly Subscription",
             features: {
                 noOfCounties: 1,

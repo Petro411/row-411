@@ -83,8 +83,7 @@ async function handler(
 
             case StripeWebhooks.SubscriptionUpdated: {
                 const subscription = event.data.object as Stripe.Subscription;
-                console.log(subscription, "subscription");
-                // await onSubscriptionUpdated(subscription);
+                await onSubscriptionUpdated(subscription);
 
                 break;
             }
@@ -125,6 +124,19 @@ async function onCheckoutCompleted(
         subscription: subscriptionData,
         customer_id: customerId,
         isOnboarded: true
+    })
+};
+
+async function onSubscriptionUpdated(
+    subscription: Stripe.Subscription
+) {
+    const subscriptionData = await buildOrganizationSubscription(subscription)
+
+    await User.findOneAndUpdate({
+        customer_id: subscription.customer,
+        "subscription.id": subscription.id
+    }, {
+        subscription: subscriptionData,
     })
 };
 

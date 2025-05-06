@@ -1,4 +1,3 @@
-import Label from "@/config/Label";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
@@ -6,6 +5,7 @@ import { HttpException } from "@/utils/HttpException";
 import { NextApiResponse } from "next";
 import JWT from "jsonwebtoken";
 import Stripe from "stripe";
+import { parseCookies } from "nookies";
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "";
 const siteUrl = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_SITE_URL : 'http://localhost:3000';
@@ -22,10 +22,11 @@ async function handler(
 
     try {
 
-        const { priceId, token } = req.body;
+        const cookies = parseCookies({ req });
+        const token = cookies.token;
 
         if (!token) {
-            res.redirect('/auth/login');
+            throw new HttpException("Unauthorized", 400);
         }
 
         const decoded = JWT.verify(token, JWT_SECRET) as { id: string };
@@ -38,30 +39,19 @@ async function handler(
             res.redirect('/auth/sign-up');
         }
 
+        const session = await stripe.billingPortal.sessions.create({
+            customer: user?.customer_id,
+            return_url: `${siteUrl}/membership`
+        })
 
-        const lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
-            quantity: 1,
-            price: priceId,
-        };
-
-        const session = await stripe.checkout.sessions.create({
-            mode: "subscription",
-            line_items: [lineItem],
-            success_url: `${siteUrl}/dashboard`,
-            cancel_url: `${siteUrl}/subscription`,
-            payment_method_types: ['card'],
-            client_reference_id:user?._id?.toString(),
-            metadata: {
-                userId: user._id.toString()
-              }
-        });
-
-        res.send({session:session.id})
+        // res.redirect(303, session.url);
+        return res.send({session:session.url})
 
     } catch (error: any) {
+        console.log(error)
         res.redirect([`${siteUrl}/subscription`, 'error=true'].join("?"));
     }
 
 }
 
-export default withMethod(handler, ['POST']);
+export default withMethod(handler, ['GET']);

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { ChangeEvent, memo, useCallback, useState } from "react";
 import {
   Button,
   DropdownMenu,
@@ -10,13 +10,15 @@ import {
 import Container from "../Container";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { cityStatesList } from "@/config/dummy";
+import { useRouter } from "next/router";
 
 type Props = {
   title?: string;
   paragraph?: string;
   className?: string;
   formClassName?: string;
-  dropDownClasses?:string
+  dropDownClasses?: string;
+  onSubmit?: () => void;
 };
 
 const MineralOwnerFilter = ({
@@ -24,8 +26,34 @@ const MineralOwnerFilter = ({
   paragraph,
   className,
   formClassName,
-  dropDownClasses
+  dropDownClasses,
+  onSubmit,
 }: Props) => {
+  const router = useRouter();
+  const [form, setForm] = useState({
+    fName: "",
+    lName: "",
+    ml: "",
+    cityState: "",
+  });
+
+  const handleOnChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = e.target;
+      setForm((pre) => ({ ...pre, [name]: value }));
+    },
+    [form]
+  );
+
+  const handleSubmit = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      if (onSubmit) onSubmit();
+      else router.push({pathname:"/owners",query:form});
+    },
+    [form]
+  );
+
   return (
     <Container>
       <div
@@ -33,95 +61,120 @@ const MineralOwnerFilter = ({
       >
         {title || paragraph ? (
           <Flex direction={"column"} gap={"1"}>
-            {title && <Heading size={"6"} className="text-heading">{title}</Heading>}
-            {paragraph && <Text color="gray" size={"3"}>{paragraph}</Text>}
+            {title && (
+              <Heading size={"6"} className="text-heading">
+                {title}
+              </Heading>
+            )}
+            {paragraph && (
+              <Text color="gray" size={"3"}>
+                {paragraph}
+              </Text>
+            )}
           </Flex>
         ) : (
           ""
         )}
-        <Flex
-          className={`gap-4 lg:gap-8 flex-col lg:flex-row ${formClassName}`}
-        >
-          <TextField.Root
-            size={"3"}
-            className="w-full"
-            placeholder="First name"
-          />
-          <TextField.Root
-            size={"3"}
-            className="w-full"
-            placeholder="Last name"
-          />
-          <TextField.Root size={"3"} className="w-full" placeholder="ML" />
-          <Flex className={`${dropDownClasses}`}>
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger className="!w-full">
-                <Button
-                  size={"4"}
-                  className="!bg-transparent !text-black !flex !flex-row items-center !justify-between"
-                  variant="outline"
-                  color="gray"
-                >
-                  <Text
-                    align={"left"}
-                    size={"3"}
+        <form onSubmit={handleSubmit}>
+          <Flex
+            className={`gap-4 lg:gap-8 flex-col lg:flex-row ${formClassName}`}
+          >
+            <TextField.Root
+              size={"3"}
+              className="w-full"
+              placeholder="First name"
+              required={true}
+              name="fName"
+              id="fName"
+              value={form.fName}
+              onChange={handleOnChange}
+            />
+            <TextField.Root
+              size={"3"}
+              className="w-full"
+              placeholder="Last name"
+              name="lName"
+              id="lName"
+              value={form.lName}
+              onChange={handleOnChange}
+            />
+            <TextField.Root size={"3"} className="w-full" placeholder="ML" />
+            <Flex className={`${dropDownClasses}`}>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger className="!w-full">
+                  <Button
+                    size={"4"}
+                    className="!bg-transparent !text-black !flex !flex-row items-center !justify-between"
+                    variant="outline"
                     color="gray"
-                    aria-multiline={false}
-                    className="!font-normal w-full lg:!w-[100px] text-nowrap overflow-hidden"
                   >
-                    City/State
-                  </Text>
-                  <DropdownMenu.TriggerIcon />
-                </Button>
-              </DropdownMenu.Trigger>
-              <DropdownMenu.Content className="max-w-[400px] min-w-[280px] p-3">
-                <TextField.Root
-                  inputMode="search"
-                  placeholder="Search"
-                  size={"2"}
-                  className="!rounded-lg !mb-3"
-                >
-                  <TextField.Slot>
-                    <MagnifyingGlassIcon height="18" width="18" />
-                  </TextField.Slot>
-                </TextField.Root>
-                <Flex
-                  maxHeight={"200px"}
-                  overflowY={"auto"}
-                  direction={"column"}
-                >
-                  {cityStatesList.map((item, index) => {
-                    const isSelected = false;
-                    return (
-                      <DropdownMenu.Item
-                        key={index}
-                        className={`!py-5 group ${
-                          isSelected ? "!bg-primary" : "!bg-transparent"
-                        } hover:!bg-primary`}
-                      >
-                        <Text
-                          color="gray"
-                          size={"3"}
-                          className={`${
-                            isSelected ? "!text-white" : "!text-black"
-                          } group-hover:!text-white`}
+                    <Text
+                      align={"left"}
+                      size={"3"}
+                      color="gray"
+                      aria-multiline={false}
+                      className="!font-normal w-full lg:!w-[100px] text-nowrap overflow-hidden"
+                    >
+                      {form.cityState ? form.cityState : "City/State"}
+                    </Text>
+                    <DropdownMenu.TriggerIcon />
+                  </Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content className="max-w-[400px] min-w-[280px] p-3">
+                  <TextField.Root
+                    inputMode="search"
+                    placeholder="Search"
+                    size={"2"}
+                    className="!rounded-lg !mb-3"
+                  >
+                    <TextField.Slot>
+                      <MagnifyingGlassIcon height="18" width="18" />
+                    </TextField.Slot>
+                  </TextField.Root>
+                  <Flex
+                    maxHeight={"200px"}
+                    overflowY={"auto"}
+                    direction={"column"}
+                  >
+                    {cityStatesList.map((item, index) => {
+                      const isSelected = form.cityState === item;
+                      return (
+                        <DropdownMenu.Item
+                          textValue={item}
+                          onClick={() =>
+                            setForm((pre) => ({ ...pre, cityState: item }))
+                          }
+                          key={index}
+                          className={`!py-5 group ${
+                            isSelected ? "!bg-primary" : "!bg-transparent"
+                          } hover:!bg-primary`}
                         >
-                          {item}
-                        </Text>
-                      </DropdownMenu.Item>
-                    );
-                  })}
-                </Flex>
-              </DropdownMenu.Content>
-            </DropdownMenu.Root>
-          </Flex>
+                          <Text
+                            color="gray"
+                            size={"3"}
+                            className={`${
+                              isSelected ? "!text-white" : "!text-black"
+                            } group-hover:!text-white`}
+                          >
+                            {item}
+                          </Text>
+                        </DropdownMenu.Item>
+                      );
+                    })}
+                  </Flex>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </Flex>
 
-          <Button size={"4"} className="!bg-yellow !cursor-pointer">
-            <Text  size={"3"}>
-            Search
-            </Text>
-          </Button>
-        </Flex>
+            <Button
+              type="submit"
+              size={"4"}
+              className="!bg-yellow !cursor-pointer"
+            >
+              <Text size={"3"}>Search</Text>
+            </Button>
+          </Flex>
+        </form>
       </div>
     </Container>
   );
