@@ -1,6 +1,4 @@
-import { getItem } from "@/utils/Localstorage";
 import axios from "axios";
-import { parseCookies } from "nookies";
 
 const baseApi = axios.create({
   baseURL: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_API_URL : "http://localhost:3000/api",
@@ -47,14 +45,18 @@ baseApi.interceptors.response.use(
 );
 
 export const endpoints = {
-    login:"/auth/login",
-    signup:"/auth/sign-up",
-    lookup:"/auth/lookup",
-    google:"/auth/google",
-    checkout:"/stripe/checkout",
-    portal:"/stripe/portal",
-    logout:"/auth/logout",
-    queryOwners:"/query-owners",
+  login: "/auth/login",
+  signup: "/auth/sign-up",
+  lookup: "/auth/lookup",
+  google: "/auth/google",
+  checkout: "/stripe/checkout",
+  portal: "/stripe/portal",
+  logout: "/auth/logout",
+  updatePassword: "/auth/update-password",
+  getOtp: "/auth/get-otp",
+  verifyOtp: "/auth/verify-otp",
+  queryOwners: "/owners/query-owners",
+  ownerDetails: "/owners",
 }
 
 export default baseApi;

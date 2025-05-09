@@ -1,9 +1,12 @@
+import { useMutation } from "@/hooks/useMutation";
+import { endpoints } from "@/services/api";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { Button, Flex, Heading, TextField } from "@radix-ui/themes";
 import React, { ChangeEvent, memo, useState } from "react";
 import toast from "react-simple-toasts";
 
 const ChangePassworForm = () => {
+  const { request, loading, data } = useMutation(endpoints.updatePassword);
   const [form, setForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -15,6 +18,8 @@ const ChangePassworForm = () => {
   const handleChangeEmail = async (e: any) => {
     try {
       e.preventDefault();
+      await request(form);
+      toast(data?.message);
     } catch (error) {
       toast(GetApiErrorMessage(error));
     }
@@ -43,7 +48,13 @@ const ChangePassworForm = () => {
         onChange={handleOnChange}
         required={true}
       />
-      <Button type="submit" size={"3"} className="!bg-btnPrimary">
+      <Button
+        disabled={loading}
+        loading={loading}
+        type="submit"
+        size={"3"}
+        className="!bg-btnPrimary"
+      >
         Update
       </Button>
     </form>

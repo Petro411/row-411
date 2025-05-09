@@ -1,6 +1,7 @@
 import Container from "@/components/Container";
 import Footer from "@/components/Footer";
 import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
+import OwnerDetails from "@/components/OwnerDetails";
 import SiteHeader from "@/components/SiteHeader";
 import Label from "@/config/Label";
 import baseApi, { endpoints } from "@/services/api";
@@ -8,20 +9,31 @@ import { Heading, Text } from "@radix-ui/themes";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import ReactPaginate from "react-paginate";
 const itemsPerPage = 10;
 
 const Owners = ({ owners, totalPages, currentPage }: any) => {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
-  const handlePageClick = (event: any) => {
-    const selectedPage = event.selected + 1;
+  const handlePageClick = useCallback(
+    (event: any) => {
+      const selectedPage = event.selected + 1;
 
-    router.push({
-      pathname: "/owners",
-      query: { ...router.query, page: selectedPage },
-    });
-  };
+      router.push({
+        pathname: "/owners",
+        query: { ...router.query, page: selectedPage },
+      });
+    },
+    [totalPages]
+  );
+
+  const handleShowDetails = useCallback(
+    (id: string) => {
+      setSelectedId(id);
+    },
+    [selectedId]
+  );
 
   return (
     <>
@@ -51,28 +63,31 @@ const Owners = ({ owners, totalPages, currentPage }: any) => {
             No results found!{" "}
           </Heading>
         ) : (
-          ""
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
-          {owners?.map((item: any, index: number) => (
-            <div
-              key={index}
-              className="flex flex-col p-5 rounded-lg border hover:border-primary transition-all duration-300 hover:shadow-lg shadow-md"
-            >
-              <Heading size={"3"} className="text-heading">
-                {item?.Name}
-              </Heading>
-              <div className="flex flex-col mt-1">
-                <Text size={"2"} color="gray">
-                  {item?.addr_city}
-                </Text>
-                <Text size={"2"} color="gray">
-                  {item?.addr_line1 ?? item?.addr_line2}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
+            {owners?.map((item: any, index: number) => (
+              <div
+                key={index}
+                onClick={() => handleShowDetails(item.id)}
+                className="cursor-pointer flex flex-col p-5 rounded-lg border hover:border-primary transition-all duration-300 hover:shadow-lg shadow-md"
+              >
+                <Heading size={"3"} className="text-heading !line-clamp-2">
+                  {item?.Name}
+                </Heading>
+                <div className="flex flex-col mt-1">
+                  <Text size={"2"} color="gray">
+                    {item?.addr_city}
+                  </Text>
+                  <Text size={"2"} color="gray">
+                    {item?.addr_line1 ?? item?.addr_line2}
+                  </Text>
+                </div>
+                <Text size={"1"} align={"right"} color="gray">
+                  2m ago
                 </Text>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <ReactPaginate
           breakLabel="..."
@@ -91,6 +106,8 @@ const Owners = ({ owners, totalPages, currentPage }: any) => {
           breakClassName="px-4 py-2 text-gray-500"
         />
       </Container>
+
+     <OwnerDetails id={selectedId} setSelectedId={setSelectedId} />
 
       <Footer />
     </>

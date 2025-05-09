@@ -7,12 +7,12 @@ export const useMutation = (endpoint:string) => {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<any>(null);
 
-  const request = async (payload: any) => {
+  const request = async (payload: any, path?:string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await baseApi.post(endpoint, payload);
+      const response = await baseApi.post(path ? path : endpoint, payload);
       setData(response.data);
       return response.data;
     } catch (err: any) {

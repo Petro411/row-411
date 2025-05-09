@@ -2,9 +2,9 @@ import React, { memo, useState } from "react";
 import Logo from "./Logo";
 import Container from "./Container";
 import { homeRoutes } from "@/config/HomeRoutes";
-import { Avatar, Flex, Text } from "@radix-ui/themes";
+import { Avatar, Flex, IconButton, Text } from "@radix-ui/themes";
 import { useRouter } from "next/router";
-import { ArrowRightIcon, TextAlignRightIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon, MagnifyingGlassIcon, TextAlignRightIcon } from "@radix-ui/react-icons";
 import Sidebar from "./Sidebar";
 import Link from "next/link";
 import { getUser } from "@/context/AuthContext";
@@ -53,6 +53,7 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                 </div>
                 <div className="lg:col-span-2 flex flex-row justify-end items-center gap-4">
                   {user?.name ? (
+                    <>
                     <Flex
                       gap={"3"}
                       className="!cursor-pointer"
@@ -70,6 +71,13 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                         title={user?.name}
                       />
                     </Flex>
+                    {/* <Link href={"/"}>
+                    <IconButton size={"2"} className="!bg-primary">
+                      <MagnifyingGlassIcon height={20} width={20} />
+                    </IconButton>
+                    </Link> */}
+                    </>
+
                   ) : (
                     <>
                       <Link

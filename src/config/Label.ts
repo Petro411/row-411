@@ -34,7 +34,15 @@ const Label = {
     SignUpSuccessfull:"Sign up successfull.",
     LoginSuccessfull:"Login successfull.",
     TokenMissing:"Authorization token missing or malformed.",
-    UserNotFound:"User not found."
+    UserNotFound:"User not found.",
+    PasswordCantBeSame:"Current password and new password can't be the same.",
+    CurrentPasswordNotMatched:"Current password not matched.",
+    PasswordUpdated:"Password has been updated successfully.",
+    OtpSentToEmail:"An OTP has been sent to your email, Please verify the otp.",
+    EmailAndOtpReq:"Email address and OTP is required.",
+    InvalidOrExpiredOTP:"Invalid or expired OTP.",
+    TooManyAttempts:"Too many attempts please tryagain latter.",
+    OtpVerified:"OTP has been verified."
 
 };
 
