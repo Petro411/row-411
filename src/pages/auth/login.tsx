@@ -69,6 +69,7 @@ const Login = () => {
           <TextField.Root
             placeholder={Label.Password}
             radius="large"
+            minLength={6}
             className="!flex-row-reverse passwordInput"
             name="password"
             inputMode="text"

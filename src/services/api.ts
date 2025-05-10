@@ -53,6 +53,7 @@ export const endpoints = {
   portal: "/stripe/portal",
   logout: "/auth/logout",
   updatePassword: "/auth/update-password",
+  setNewPassword: "/auth/new-password",
   getOtp: "/auth/get-otp",
   verifyOtp: "/auth/verify-otp",
   queryOwners: "/owners/query-owners",

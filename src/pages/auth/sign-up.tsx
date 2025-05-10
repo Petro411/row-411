@@ -80,6 +80,7 @@ const SignUp = () => {
             placeholder={Label.Password}
             required
             radius="large"
+            minLength={6}
             inputMode="text"
             className="!flex-row-reverse passwordInput"
             name="password"

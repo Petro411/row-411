@@ -40,6 +40,7 @@ const Label = {
     PasswordUpdated:"Password has been updated successfully.",
     OtpSentToEmail:"An OTP has been sent to your email, Please verify the otp.",
     EmailAndOtpReq:"Email address and OTP is required.",
+    EmailReq:"Email address is required.",
     InvalidOrExpiredOTP:"Invalid or expired OTP.",
     TooManyAttempts:"Too many attempts please tryagain latter.",
     OtpVerified:"OTP has been verified."
