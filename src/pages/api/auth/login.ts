@@ -13,7 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET ?? "";
 const handler = async (req: any, res: any) => {
     try {
         const { email, password } = req?.body;
-        console.log(email,password)
+        
         if (!email?.trim() || !password?.trim()) {
             throw new HttpException(Label.EmailPasswordReq, 400);
         }

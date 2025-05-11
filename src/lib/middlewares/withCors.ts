@@ -13,7 +13,7 @@ function initMiddleware(middleware: any) {
 
 const cors = initMiddleware(
   Cors({
-    origin: process.env.NODE_ENV === "production" ? 'https://admin-panel-eta-murex.vercel.app' : 'http://localhost:5173', // Change to your admin panel domain
+    origin: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ADMIN_URL : 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
