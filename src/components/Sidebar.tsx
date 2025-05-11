@@ -17,7 +17,7 @@ const hideRoutes = ["/pricing"];
 const Sidebar = ({ visible, setVisible }: Props) => {
   const user = getUser().user;
   const filteredRoutes = (item : any) =>
-    user && !hideRoutes.includes(item.path);
+    user ? !hideRoutes.includes(item.path) : item;
 
   useEffect(() => {
     if (visible) {

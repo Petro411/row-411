@@ -1,4 +1,5 @@
 import Label from "@/config/Label";
+import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
@@ -12,7 +13,8 @@ const JWT_SECRET = process.env.JWT_SECRET ?? "";
 const handler = async (req: any, res: any) => {
     try {
         const { email, password } = req?.body;
-        if (!email || !password) {
+        console.log(email,password)
+        if (!email?.trim() || !password?.trim()) {
             throw new HttpException(Label.EmailPasswordReq, 400);
         }
 
@@ -52,4 +54,4 @@ const handler = async (req: any, res: any) => {
     }
 };
 
-export default withMethod(handler, ['POST']);
+export default withCors(withMethod(handler, ['POST']));

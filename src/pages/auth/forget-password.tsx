@@ -1,5 +1,4 @@
 import AuthLayout from "@/components/auth/AuthLayout";
-import ChangePasswordForm from "@/components/settings/ChangePasswordForm";
 import Label from "@/config/Label";
 import { useMutation } from "@/hooks/useMutation";
 import { endpoints } from "@/services/api";

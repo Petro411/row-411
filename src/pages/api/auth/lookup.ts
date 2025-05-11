@@ -1,4 +1,5 @@
 import Label from "@/config/Label";
+import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
@@ -35,4 +36,4 @@ const handler = async (req: any, res: any) => {
   }
 };
 
-export default withMethod(handler, ['GET']);
+export default withCors(withMethod(handler, ['GET']));

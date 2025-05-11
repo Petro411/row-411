@@ -47,7 +47,7 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                             : "text-gray-500"
                         }`}
                     >
-                      <Text size={"3"}>{item.name}</Text>
+                      <Text size={"2"}>{item.name}</Text>
                     </Link>
                   ))}
                 </div>

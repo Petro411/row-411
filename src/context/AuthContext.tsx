@@ -31,7 +31,7 @@ const AuthContextProvider = ({ children }: Props) => {
         setUser(res.data?.user);
       } catch (error) {
         destroyCookie(null, "token");
-        baseApi.get(endpoints.logout);
+        await baseApi.get(endpoints.logout);
       }
     };
     if (!user && token) {
