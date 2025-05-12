@@ -18,6 +18,10 @@ const siteConfig = {
         twitter: "https://twitter.com/petro411",
         linkedin: "https://linkedin.com/company/petro411",
     },
+    UserTypes: {
+        user: "user",
+        admin: "admin"
+    },
     subscription: [
         {
             name: "Intern",

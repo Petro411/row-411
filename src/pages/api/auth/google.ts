@@ -32,6 +32,7 @@ const handler = async (req: any, res: any) => {
             let newUser = await User.create({
                 name: data?.name,
                 email: data?.email,
+                picture:data?.picture,
                 password: process.env.JWT_SECRET
             });
             jwtToken = JWT.sign({ id: newUser?._id }, JWT_SECRET);

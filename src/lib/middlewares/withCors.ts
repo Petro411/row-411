@@ -14,14 +14,21 @@ function initMiddleware(middleware: any) {
 const cors = initMiddleware(
   Cors({
     origin: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_ADMIN_URL : 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   })
 );
 
 export const withCors = (handler: any) => {
   return async (req: any, res: any) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
     await cors(req, res);
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
     return handler(req, res);
   };
 };

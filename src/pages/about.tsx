@@ -42,14 +42,14 @@ const AboutUs = () => {
               gap={"4"}
               >
 
-              <Text size={"4"} >
+              <Text size={"3"} >
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem
                 porro, distinctio sapiente doloremque nam deserunt eius ipsum
                 esse labore? Quia quo deleniti, cupiditate vitae distinctio
                 officiis quam adipisci quos repudiandae consequatur pariatur,
                 dolore a labore aliquid aliquam reprehenderit accusantium ullam.
               </Text>
-              <Text size={"4"} >
+              <Text size={"3"} >
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
                 nostrum omnis libero nobis autem cupiditate tenetur quod ducimus
                 ad natus!

@@ -46,7 +46,7 @@ const Testimonials = () => {
           <SwiperSlide key={index} className="px-2 sm:px-5 pb-14">
             <div className="border p-6 sm:p-10 border-gray-100 shadow-lg rounded-xl min-h-[38vh] gap-8 flex flex-col">
               <Flex direction={"column"} gap={"4"}>
-                <Text color="gray" size={"4"}>
+                <Text color="gray" size={"3"}>
                   {item.review}
                 </Text>
                 <Flex

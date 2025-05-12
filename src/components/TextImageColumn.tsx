@@ -37,12 +37,12 @@ const TextImageColumn = ({
             ) : (
               <>
                 {text1 && (
-                  <Text size={"4"} color="gray">
+                  <Text size={"3"} color="gray">
                     {text1}
                   </Text>
                 )}
                 {text2 && (
-                  <Text size={"4"} color="gray">
+                  <Text size={"3"} color="gray">
                     {text2}
                   </Text>
                 )}

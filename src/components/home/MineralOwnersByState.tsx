@@ -13,7 +13,7 @@ const MineralOwnersByState = () => {
             Mineral Owners by State
           </Heading>
           <Text
-            size={"4"}
+            size={"3"}
             color="gray"
             className="!w-full lg:!w-[70%] text-center"
           >
@@ -26,7 +26,7 @@ const MineralOwnersByState = () => {
           {statesList.map((item, index) => (
             <li key={index} className="text-center 2xl:text-start">
               <Link href={"/"}>
-                <Text size={"4"} className="text-gray-500 hover:!underline">
+                <Text size={"3"} className="text-gray-500 hover:!underline">
                   {item}
                 </Text>
               </Link>

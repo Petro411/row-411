@@ -18,13 +18,13 @@ const OurCompany = () => {
         <div className="flex flex-col gap-4 order-1 lg:order-2">
           <Heading size={"8"} className="text-heading">Our Company</Heading>
           <div className="flex flex-col gap-4 mt-5">
-            <Text size={"4"} color="gray">
+            <Text size={"3"} color="gray">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
               Laudantium eligendi odit quos eius libero in nisi nobis velit rem
               a exercitationem earum vitae totam voluptas nulla, neque
               voluptates. Dignissimos, sint.
             </Text>
-            <Text size={"4"} color="gray">
+            <Text size={"3"} color="gray">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
               Laudantium eligendi odit quos eius libero in nisi nobis velit rem
               a exercitationem earum vitae totam voluptas nulla, neque

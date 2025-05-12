@@ -67,6 +67,7 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                       </Text>
                       <Avatar
                         radius="full"
+                        src={user?.picture}
                         fallback={user?.name[0]?.toUpperCase() ?? "U"}
                         title={user?.name}
                       />

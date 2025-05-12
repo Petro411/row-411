@@ -10,7 +10,7 @@ const NewsLetter = () => {
         <div className="flex flex-col gap-8 text-white p-8 sm:p-12 2xl:p-16">
           <Heading size={"8"}>Stay in the Loop</Heading>
           <Flex direction={"column"} gap={"4"}>
-            <Text size={"4"}>
+            <Text size={"3"}>
               Subscribe to our newsletter for the latest updates on mineral
               ownership data, new county releases, platform features, and
               exclusive offers — delivered straight to your inbox.

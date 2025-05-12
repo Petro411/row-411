@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import Container from "../Container";
-import { ChevronDownIcon, Flex, Heading } from "@radix-ui/themes";
+import { ChevronDownIcon, Flex, Heading, Text } from "@radix-ui/themes";
 import * as Accordion from "@radix-ui/react-accordion";
 import { faqs } from "@/config/dummy";
 
@@ -21,13 +21,15 @@ const Faqs = () => {
               className="border-t py-4"
             >
               <Accordion.Header>
-                <Accordion.Trigger className="flex w-full items-center justify-between text-left text-lg font-medium">
+                <Accordion.Trigger className="flex w-full items-center justify-between text-left text-md font-medium">
                   {item.question}
                   <ChevronDownIcon className="transition-transform duration-200 AccordionChevron" />
                 </Accordion.Trigger>
               </Accordion.Header>
               <Accordion.Content className="py-2 text-gray-600">
+                <Text size={"2"}>
                 {item.answer}
+                </Text>
               </Accordion.Content>
             </Accordion.Item>
           ))}

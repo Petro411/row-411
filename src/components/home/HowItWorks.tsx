@@ -10,7 +10,7 @@ const HowItWorks = () => {
           <Heading size={"8"} className="text-white text-center">
             How it works?
           </Heading>
-          <Text size={"4"} className="text-white text-center lg:w-[60%]">
+          <Text size={"3"} className="text-white text-center lg:w-[60%]">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium
             eligendi odit quos eius libero in nisi nobis velit rem a
             exercitationem earum vitae totam voluptas nulla, neque voluptates.
@@ -30,7 +30,7 @@ const HowItWorks = () => {
               <span className="text-primary text-9xl font-bold absolute top-3 left-3">{index + 1}</span>
 
               <Heading size={"5"} className="!relative !z-10">Lorem ipsum dolor sit.</Heading>
-              <Text className="!z-10">
+              <Text className="!z-10" size={"2"}>
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                 Corporis, ipsum culpa? Nisi omnis eum ullam magnam quo tempora
                 iste. Aliquam.

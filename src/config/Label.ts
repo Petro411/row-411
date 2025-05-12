@@ -43,7 +43,13 @@ const Label = {
     EmailReq:"Email address is required.",
     InvalidOrExpiredOTP:"Invalid or expired OTP.",
     TooManyAttempts:"Too many attempts please tryagain latter.",
-    OtpVerified:"OTP has been verified."
+    OtpVerified:"OTP has been verified.",
+
+
+    // With Auth Middleware 
+    DontHavePermissions:"You don't have permissions to perform this action.",
+
+    ParamIdIsReq:"Parameter id is required.",
 
 };
 
