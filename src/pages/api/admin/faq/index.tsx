@@ -16,4 +16,4 @@ async function handler(req: any, res: any) {
         })
  }
 }
-export default withMethod(handler,['GET'])
+export default withCors(withMethod(handler,['GET']))
