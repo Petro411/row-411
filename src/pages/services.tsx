@@ -9,12 +9,19 @@ import WhatDrives from "@/components/services/WhatDrives";
 import WithPetro from "@/components/services/WithPetro";
 import SiteHeader from "@/components/SiteHeader";
 import { serviceCards } from "@/config/dummy";
+import baseApi, { endpoints } from "@/services/api";
 import { Flex } from "@radix-ui/themes";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import React from "react";
 
-const Services = () => {
+
+type Props = {
+  faqs:any[] | []
+}
+
+
+const Services = ({faqs}:Props) => {
   return (
     <>
       <Head>
@@ -37,7 +44,7 @@ const Services = () => {
         <WhatDrives />
         <Testimonials/>
         <NewsLetter/>
-        <Faqs />
+        <Faqs faqs={faqs} />
       </Flex>
       <Footer/>
     </>
@@ -45,10 +52,19 @@ const Services = () => {
 };
 
 export const getStaticProps: GetStaticProps<any> = async () => {
-  return {
-    props: {
-    },
-  };
+   try {
+    const res = await baseApi.get(endpoints.getFaqs);
+    return {
+      props: {
+        faqs: res?.data?.faqs ?? [],
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        faqs: [],
+      },
+    };
+  }
 };
-
 export default Services;

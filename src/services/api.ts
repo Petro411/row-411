@@ -58,6 +58,8 @@ export const endpoints = {
   verifyOtp: "/auth/verify-otp",
   queryOwners: "/owners/query-owners",
   ownerDetails: "/owners",
+  getFaqs: "/faqs",
+  contact:"/contact"
 }
 
 export default baseApi;

@@ -14,8 +14,13 @@ import { Flex } from "@radix-ui/themes";
 import NewsLetter from "@/components/NewsLetter";
 import Label from "@/config/Label";
 import { GetStaticProps } from "next";
+import baseApi, { endpoints } from "@/services/api";
 
-const Home = () => {
+type Props = {
+  faqs:any[] | []
+}
+
+const Home = ({faqs}:Props) => {
   return (
     <main>
       <Head>
@@ -36,7 +41,7 @@ const Home = () => {
         <HowItWorks />
         <Testimonials />
         <NewsLetter />
-        <Faqs />
+        <Faqs faqs={faqs} />
       </Flex>
       <Footer />
     </main>
@@ -45,10 +50,20 @@ const Home = () => {
 
 
 export const getStaticProps: GetStaticProps<any> = async () => {
-  return {
-    props: {
-    },
-  };
+  try {
+    const res = await baseApi.get(endpoints.getFaqs);
+    return {
+      props: {
+        faqs: res?.data?.faqs ?? [],
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        faqs: [],
+      },
+    };
+  }
 };
 
 export default Home;

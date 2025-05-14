@@ -1,39 +1,23 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-type connectionStateType={
-    conn:any;
-    promise:any
-}
-
-var connectionState : connectionStateType = {
-    conn:null,
-    promise:null
-};
-
 export async function dbConnect() {
-    if (connectionState.conn) {
-        return connectionState.conn;
-    }
-
-    if (!connectionState.promise) {
-        if (!MONGODB_URI) {
-            throw new Error("Please define the MONGODB_URI environment variable");
+    try {
+        if (mongoose.connection.readyState !== 1) {
+            const dbURI = process.env.MONGODB_URI ?? "";
+            const options = {
+                family: 4,
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                maxPoolSize: 10,
+            };
+            mongoose.connect(dbURI, options);
+            console.log('Connected to MongoDB');
+            return;
         }
-
-        connectionState.promise = mongoose
-            .connect(MONGODB_URI)
-            .then((mongoose) => {
-                console.log("✅ MongoDB connected");
-                return mongoose;
-            })
-            .catch((err) => {
-                console.error("❌ MongoDB connection error:", err.message);
-                throw err;
-            });
+        console.log('already connected to MongoDB');
+        return;
+    } catch (error: any) {
+        console.error('Error connecting to MongoDB:', error.message);
+        process.exit(1);
     }
-
-    connectionState.conn = await connectionState.conn;
-    return connectionState.conn;
 }

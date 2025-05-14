@@ -50,6 +50,8 @@ const Label = {
     DontHavePermissions:"You don't have permissions to perform this action.",
 
     ParamIdIsReq:"Parameter id is required.",
+    PageNotFound:"Page not found.",
+    NoResultFound:"No results found.",
 
 };
 
