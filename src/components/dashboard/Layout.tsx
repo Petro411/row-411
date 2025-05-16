@@ -33,9 +33,7 @@ const Layout = ({ children, hideTitle }: Props) => {
       await baseApi.get(endpoints.logout);
       deleteItem("token");
       router.push("/auth/login");
-      setTimeout(() => {
-        userContext?.setUser(null);
-      }, 500);
+      userContext?.setUser(null);
       toast("You have been logged out.");
     } catch (error) {
       toast(GetApiErrorMessage(error));

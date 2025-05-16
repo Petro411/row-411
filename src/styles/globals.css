@@ -166,7 +166,7 @@ body {
 }
 
 .editor ol {
-  list-style-type: decimal;
+  list-style-type:circle;
 }
 
 .editor ul {

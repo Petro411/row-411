@@ -8,7 +8,7 @@ import { HttpException } from "@/utils/HttpException";
 const handler = async (req: any, res: any) => {
     try {
         const { slug, title, content, id } = req.body;
-        if (!slug?.trim() || !title?.trim() || !content?.trim() || id?.length) throw new HttpException(Label.AllFieldsReq, 400);
+        if (!slug?.trim() || !title?.trim() || !content?.trim() || !id?.length) throw new HttpException(Label.AllFieldsReq, 400);
         await Page.findByIdAndUpdate(id, { slug, title, content });
         return res.status(200).json({ success: true });
     } catch (error: any) {

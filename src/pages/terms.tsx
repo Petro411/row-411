@@ -2,12 +2,14 @@ import Container from '@/components/Container'
 import Footer from '@/components/Footer'
 import PageHeader from '@/components/PageHeader'
 import SiteHeader from '@/components/SiteHeader'
-import { demoTerms } from '@/config/dummy'
+import baseApi, { endpoints } from '@/services/api'
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import React from 'react'
-
-const Terms = () => {
+type Props = {
+  content:any
+}
+const Terms = ({content}:Props) => {
   return (
     <>
     <Head>
@@ -20,7 +22,7 @@ const Terms = () => {
 
     />
     <Container className='py-20'>
-        <div className='w-full mx-auto 2xl:w-8/12 editor' dangerouslySetInnerHTML={{__html:demoTerms}} />
+        <div className='w-full mx-auto 2xl:w-8/12 editor' dangerouslySetInnerHTML={{__html:content}} />
     </Container>
     <Footer/>
     </>
@@ -28,10 +30,22 @@ const Terms = () => {
 }
 
 export const getStaticProps: GetStaticProps<any> = async () => {
-  return {
-    props: {
-    },
-  };
-};
+  try {
 
+    const res = await baseApi.get(`${endpoints.getPage}?slug=terms`);
+    return {
+      props: {
+        content:res.data?.content,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+   return{
+    props: {
+      content:`<h1>Something went wrong</h1>`
+    },
+    revalidate: 60,
+   } 
+  }
+};
 export default Terms

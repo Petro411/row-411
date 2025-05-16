@@ -59,7 +59,8 @@ export const endpoints = {
   queryOwners: "/owners/query-owners",
   ownerDetails: "/owners",
   getFaqs: "/faqs",
-  contact:"/contact"
+  contact:"/contact",
+  getPage:"/pages/get-page",
 }
 
 export default baseApi;

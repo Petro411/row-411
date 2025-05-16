@@ -58,12 +58,14 @@ export const getStaticProps: GetStaticProps<any> = async () => {
       props: {
         faqs: res?.data?.faqs ?? [],
       },
+      revalidate: 60,
     };
   } catch (error) {
     return {
       props: {
         faqs: [],
       },
+      revalidate: 60,
     };
   }
 };
