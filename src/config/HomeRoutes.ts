@@ -15,10 +15,10 @@ export const homeRoutes=[
         name:"Pricing",
         path:"/pricing"
     },
-    // {
-    //     name:"News Letters",
-    //     path:"/news-letters"
-    // },
+    {
+        name:"Table",
+        path:"table"
+    },
     // {
     //     name:"Contact",
     //     path:"/contact"

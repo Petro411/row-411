@@ -14,6 +14,8 @@ type Props = {
 const hideRoutes = ["/pricing"];
 
 
+
+
 const Sidebar = ({ visible, setVisible }: Props) => {
   const user = getUser().user;
   const filteredRoutes = (item : any) =>
@@ -105,5 +107,8 @@ const Sidebar = ({ visible, setVisible }: Props) => {
     </div>
   );
 };
+
+
+
 
 export default memo(Sidebar);
