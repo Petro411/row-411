@@ -17,10 +17,14 @@ export const homeRoutes=[
     },
     {
         name:"Table",
-        path:"table"
+        path:"/table"
     },
-    // {
-    //     name:"Contact",
-    //     path:"/contact"
-    // },
+    {
+        name:"News Letter",
+        path:"/NewsLetter"
+    },
+    {
+        name:"Contact",
+        path:"/contact"
+    },
 ]
