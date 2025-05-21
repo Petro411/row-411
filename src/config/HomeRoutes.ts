@@ -16,14 +16,6 @@ export const homeRoutes=[
         path:"/pricing"
     },
     {
-        name:"Table",
-        path:"/table"
-    },
-    {
-        name:"News Letter",
-        path:"/NewsLetter"
-    },
-    {
         name:"Contact",
         path:"/contact"
     },

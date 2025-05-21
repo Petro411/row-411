@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Permission } from "../../../../types/permissions";
 
 const userSchema = new mongoose.Schema(
     {
@@ -46,6 +47,11 @@ const userSchema = new mongoose.Schema(
         isOnboarded: {
             type: Boolean,
             default: false,
+        },
+        permissions: {
+            type: [String],
+            enum: Object.values(Permission),
+            default: [],
         },
         customer_id: { type: String },
         subscription: {

@@ -61,6 +61,7 @@ export const endpoints = {
   getFaqs: "/faqs",
   contact:"/contact",
   getPage:"/pages/get-page",
+  registerEmail:"/register-email",
 }
 
 export default baseApi;

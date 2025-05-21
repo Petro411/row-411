@@ -20,7 +20,7 @@ const handler = async (req: any, res: any) => {
 
     await dbConnect();
 
-    const user = await User.findById(decoded.id).select("-password");
+    const user = await User.findById(decoded.id).select(["-password","-permissions"]);
 
     if (!user) {
       throw new HttpException(Label.UserNotFound, 404);

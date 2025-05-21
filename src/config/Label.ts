@@ -52,6 +52,8 @@ const Label = {
     ParamIdIsReq:"Parameter id is required.",
     PageNotFound:"Page not found.",
     NoResultFound:"No results found.",
+    EmailAreadyRegisteredForNewsLetter:"You'r email is already registered for newsletters.",
+    EmailRegisteredForNewsLetter:"You'r email has been registered for newsletters."
 
 };
 
