@@ -1,10 +1,13 @@
 import React, { memo } from "react";
 import Container from "../Container";
-import { statesList } from "@/config/dummy";
 import Link from "next/link";
 import { Flex, Heading, Text } from "@radix-ui/themes";
 
-const MineralOwnersByState = () => {
+type Props = {
+  locations: any[] | [];
+};
+
+const MineralOwnersByState = ({ locations }: Props) => {
   return (
     <Container>
       <Flex direction={"column"} gap={"5"}>
@@ -23,11 +26,11 @@ const MineralOwnersByState = () => {
           </Text>
         </Flex>
         <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-5 mt-8">
-          {statesList.map((item, index) => (
+          {locations?.slice(0,44)?.map((item, index) => (
             <li key={index} className="text-center 2xl:text-start">
-              <Link href={"/"}>
+              <Link href={`/owners?cityState=${item?.code}`}>
                 <Text size={"3"} className="text-gray-500 hover:!underline">
-                  {item}
+                  {item?.name}
                 </Text>
               </Link>
             </li>

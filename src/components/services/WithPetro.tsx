@@ -2,8 +2,11 @@ import React, { memo } from "react";
 import Container from "../Container";
 import { Flex, Heading, Text } from "@radix-ui/themes";
 import MineralOwnerFilter from "../home/MineralOwnerFilter";
+type Props = {
+  locations:any[]|[]
+}
 
-const WithPetro = () => {
+const WithPetro = ({locations}:Props) => {
   return (
     <div className="py-24 gradientBg flex flex-col gap-14">
       <Container>
@@ -21,6 +24,7 @@ const WithPetro = () => {
       <MineralOwnerFilter
         formClassName="lg:flex-col"
         className="w-full sm:w-10/12 lg:w-5/12 mx-auto p-10 md:py-10"
+        locations={locations}
       />
       <Container>
         <Heading size={"6"} className="text-white text-center">

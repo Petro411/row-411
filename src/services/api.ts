@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseApi = axios.create({
   baseURL: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_API_URL : "http://localhost:3000/api",
-  timeout: 10000,
+  timeout: 50000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -59,6 +59,7 @@ export const endpoints = {
   queryOwners: "/owners/query-owners",
   ownerDetails: "/owners",
   getFaqs: "/faqs",
+  getLocations: "/locations",
   contact:"/contact",
   getPage:"/pages/get-page",
   registerEmail:"/register-email",

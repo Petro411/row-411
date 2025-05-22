@@ -15,13 +15,12 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import React from "react";
 
-
 type Props = {
-  faqs:any[] | []
-}
+  faqs: any[] | [];
+  locations: any[] | [];
+};
 
-
-const Services = ({faqs}:Props) => {
+const Services = ({ faqs, locations }: Props) => {
   return (
     <>
       <Head>
@@ -40,23 +39,25 @@ const Services = ({faqs}:Props) => {
             ))}
           </div>
         </Container>
-        <WithPetro />
+        <WithPetro locations={locations} />
         <WhatDrives />
-        <Testimonials/>
-        <NewsLetter/>
+        <Testimonials />
+        <NewsLetter />
         <Faqs faqs={faqs} />
       </Flex>
-      <Footer/>
+      <Footer />
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps<any> = async () => {
-   try {
+  try {
     const res = await baseApi.get(endpoints.getFaqs);
+    const locsQuery = await baseApi.get(endpoints.getLocations);
     return {
       props: {
         faqs: res?.data?.faqs ?? [],
+        locations: locsQuery?.data?.locations ?? [],
       },
       revalidate: 60,
     };
@@ -64,6 +65,7 @@ export const getStaticProps: GetStaticProps<any> = async () => {
     return {
       props: {
         faqs: [],
+        locations: [],
       },
       revalidate: 60,
     };

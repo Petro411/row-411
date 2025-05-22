@@ -27,7 +27,7 @@ const HowItWorks = () => {
               className="p-8 2xl:p-12 rounded-xl bg-gray-700/50 text-white !relative"
               position={"relative"}
             >
-              <span className="text-primary text-9xl font-bold absolute top-3 left-3">{index + 1}</span>
+              <span className="text-primary opacity-60 text-7xl 2xl:text-9xl font-bold absolute top-3 left-3">{index + 1}</span>
 
               <Heading size={"5"} className="!relative !z-10">Lorem ipsum dolor sit.</Heading>
               <Text className="!z-10" size={"2"}>

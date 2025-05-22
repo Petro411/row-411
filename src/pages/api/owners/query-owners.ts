@@ -17,7 +17,7 @@ async function handler(req: any, res: NextApiResponse) {
 
         const filteredOwners = owners.filter(owner => {
             const name = owner?.Name?.toLowerCase() || '';
-            const city = owner?.addr_city?.toLowerCase() || '';
+            const city = owner?.addr_state?.toLowerCase() || '';
             const legal = owner?.legal_description?.toLowerCase() || '';
 
             return (

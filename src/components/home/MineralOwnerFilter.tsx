@@ -19,6 +19,7 @@ type Props = {
   formClassName?: string;
   dropDownClasses?: string;
   onSubmit?: () => void;
+  locations:any[] | []  
 };
 
 const MineralOwnerFilter = ({
@@ -28,6 +29,7 @@ const MineralOwnerFilter = ({
   formClassName,
   dropDownClasses,
   onSubmit,
+  locations
 }: Props) => {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -82,14 +84,13 @@ const MineralOwnerFilter = ({
             <TextField.Root
               size={"3"}
               className="w-full"
-              placeholder="First name"
-              required={true}
+              placeholder="Name"
               name="fName"
               id="fName"
               value={form.fName}
               onChange={handleOnChange}
             />
-            <TextField.Root
+            {/* <TextField.Root
               size={"3"}
               className="w-full"
               placeholder="Last name"
@@ -97,7 +98,7 @@ const MineralOwnerFilter = ({
               id="lName"
               value={form.lName}
               onChange={handleOnChange}
-            />
+            /> */}
             <TextField.Root size={"3"} className="w-full" placeholder="ML" />
             <Flex className={`${dropDownClasses}`}>
               <DropdownMenu.Root>
@@ -136,13 +137,13 @@ const MineralOwnerFilter = ({
                     overflowY={"auto"}
                     direction={"column"}
                   >
-                    {cityStatesList.map((item, index) => {
-                      const isSelected = form.cityState === item;
+                    {locations?.map((item, index) => {
+                      const isSelected = form.cityState === item?.code;
                       return (
                         <DropdownMenu.Item
-                          textValue={item}
+                          textValue={item?.name}
                           onClick={() =>
-                            setForm((pre) => ({ ...pre, cityState: item }))
+                            setForm((pre) => ({ ...pre, cityState: item?.code }))
                           }
                           key={index}
                           className={`!py-5 group ${
@@ -156,7 +157,7 @@ const MineralOwnerFilter = ({
                               isSelected ? "!text-white" : "!text-black"
                             } group-hover:!text-white`}
                           >
-                            {item}
+                            {item?.name}
                           </Text>
                         </DropdownMenu.Item>
                       );

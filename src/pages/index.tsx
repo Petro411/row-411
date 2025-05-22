@@ -17,10 +17,11 @@ import { GetStaticProps } from "next";
 import baseApi, { endpoints } from "@/services/api";
 
 type Props = {
-  faqs:any[] | []
-}
+  faqs: any[] | [];
+  locations: any[] | [];
+};
 
-const Home = ({faqs}:Props) => {
+const Home = ({ faqs, locations }: Props) => {
   return (
     <main>
       <Head>
@@ -33,11 +34,12 @@ const Home = ({faqs}:Props) => {
         title={Label.SearchMineralOwners}
         paragraph={Label.FindMineralOwners}
         dropDownClasses={"w-full lg:w-[180px]"}
+        locations={locations}
       />
       <Flex direction={"column"} gap={"9"}>
         <About />
         <OurCompany />
-        <MineralOwnersByState />
+        <MineralOwnersByState locations={locations} />
         <HowItWorks />
         <Testimonials />
         <NewsLetter />
@@ -48,13 +50,14 @@ const Home = ({faqs}:Props) => {
   );
 };
 
-
 export const getStaticProps: GetStaticProps<any> = async () => {
   try {
-    const res = await baseApi.get(endpoints.getFaqs);
+    const faqsQuery = await baseApi.get(endpoints.getFaqs);
+    const locsQuery = await baseApi.get(endpoints.getLocations);
     return {
       props: {
-        faqs: res?.data?.faqs ?? [],
+        faqs: faqsQuery?.data?.faqs ?? [],
+        locations: locsQuery?.data?.locations ?? [],
       },
       revalidate: 60,
     };
@@ -62,6 +65,7 @@ export const getStaticProps: GetStaticProps<any> = async () => {
     return {
       props: {
         faqs: [],
+        locations: [],
       },
       revalidate: 60,
     };
