@@ -35,14 +35,14 @@ export const getStaticProps: GetStaticProps<any> = async () => {
     const res = await baseApi.get(`${endpoints.getPage}?slug=terms`);
     return {
       props: {
-        content:res.data?.content,
+        content:res?.data?.content ?? "",
       },
       revalidate: 60,
     };
   } catch (error) {
    return{
     props: {
-      content:`<h1>Something went wrong</h1>`
+      content:""
     },
     revalidate: 60,
    } 
