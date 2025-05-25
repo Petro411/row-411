@@ -70,7 +70,8 @@ const userSchema = new mongoose.Schema(
             cancel_at: Date,
             canceled_at: Date,
             ended_at: Date,
-            expires_at: Date
+            expires_at: Date,
+            amount:Number
         }
     },
     { timestamps: true }

@@ -21,6 +21,7 @@ interface UserSubscriptionSubscription {
   canceled_at: number | null;
   ended_at: number | null;
   expires_at: Date;
+  amount: number | null
 }
 
 export function buildOrganizationSubscription(
@@ -29,7 +30,7 @@ export function buildOrganizationSubscription(
 ): UserSubscriptionSubscription {
   const lineItem = subscription.items.data[0];
   const price = lineItem.price;
-
+  
   const interval = price?.recurring?.interval ?? null;
   const intervalCount = price?.recurring?.interval_count ?? 1;
 
@@ -48,7 +49,8 @@ export function buildOrganizationSubscription(
     ended_at: subscription.ended_at ? subscription.ended_at * 1000 : null,
     cancel_at: subscription?.cancel_at ? subscription.cancel_at * 1000 : null,
     canceled_at: subscription.canceled_at ? subscription.canceled_at * 1000 : null,
-    expires_at: expiresAt
+    expires_at: expiresAt,
+    amount: price.unit_amount
   };
 }
 
