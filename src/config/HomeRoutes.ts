@@ -19,4 +19,12 @@ export const homeRoutes=[
         name:"Contact",
         path:"/contact"
     },
+    {
+        name:"Contact",
+        path:"/contact"
+    },
+    {
+        name:"Map",
+        path:"/map"
+    },
 ]
