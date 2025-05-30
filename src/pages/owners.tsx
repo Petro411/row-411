@@ -48,6 +48,7 @@ const Owners = ({ owners, totalPages, currentPage }: any) => {
           paragraph={Label.FindMineralOwners}
           dropDownClasses={"w-full lg:w-[180px]"}
           locations={[]}
+          tabView={true}
         />
       </div>
 
