@@ -8,6 +8,7 @@ import baseApi, { endpoints } from "@/services/api";
 import { Heading, Text } from "@radix-ui/themes";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import ReactPaginate from "react-paginate";
@@ -50,6 +51,7 @@ const Owners = ({ owners, totalPages, currentPage }: any) => {
           locations={[]}
           tabView={true}
         />
+        <Link href={"/map"} className="mt-6 text-white underline">Search through map</Link>
       </div>
 
       <Container className="mt-5 mb-24">

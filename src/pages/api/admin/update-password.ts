@@ -1,35 +1,18 @@
 import Label from "@/config/Label";
+import { withAuth } from "@/lib/middlewares/withAuth";
+import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
-import { dbConnect } from "@/lib/mongodb/dbConnect";
+import { withRoleAuth } from "@/lib/middlewares/withRoleAuth";
 import User from "@/lib/mongodb/models/User";
 import { HttpException } from "@/utils/HttpException";
 import bcrypt from "bcrypt";
-import JWT from "jsonwebtoken";
-import { parseCookies } from "nookies";
-
-const JWT_SECRET = process.env.JWT_SECRET ?? "";
 
 const handler = async (req: any, res: any) => {
     try {
-
-        const cookies = parseCookies({ req });
-        const token = cookies.token;
-        if (!token) {
-            throw new HttpException(Label.TokenMissing, 401);
-        }
-
-        const decoded = JWT.verify(token, JWT_SECRET) as { id: string };
-
-        await dbConnect();
-
-        const user = await User.findById(decoded.id);
-
-        if (!user) {
-            throw new HttpException(Label.UserNotFound, 404);
-        }
+        const user = await User.findById(req.user?._id);
 
         const { currentPassword, newPassword } = req?.body;
-        if (!currentPassword || !newPassword) {
+        if (!currentPassword?.trim()?.length || !newPassword?.trim()?.length) {
             throw new HttpException(Label.EmailPasswordReq, 400);
         }
 
@@ -48,7 +31,7 @@ const handler = async (req: any, res: any) => {
         user.password = hash;
         await user.save();
 
-        return res.status(200).json({ message: Label.PasswordUpdated, token })
+        return res.status(200).json({ message: Label.PasswordUpdated })
 
 
     } catch (error: any) {
@@ -60,4 +43,4 @@ const handler = async (req: any, res: any) => {
     }
 };
 
-export default withMethod(handler, ['POST']);
+export default withCors(withAuth(withRoleAuth(withMethod(handler, ['PUT']), ['admin'])));

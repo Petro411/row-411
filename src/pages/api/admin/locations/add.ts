@@ -7,8 +7,8 @@ import { HttpException } from "@/utils/HttpException";
 
 const handler = async (req: any, res: any) => {
     try {
-        const { name, code, type } = req.body;
-        if(!name?.trim() || !code?.trim() || !type?.trim()) throw new HttpException(Label.AllFieldsReq,400);
+        const { name, type } = req.body;
+        if(!name?.trim() || !type?.trim()) throw new HttpException(Label.AllFieldsReq,400);
         const location = await Location.create(req.body);
         return res.status(200).json({ location, success: true });
     } catch (error: any) {

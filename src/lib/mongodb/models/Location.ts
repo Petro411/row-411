@@ -4,14 +4,20 @@ export interface ILocation extends Document {
   name: string;
   code: string;
   type: 'county' | 'state';
-  stateCode: string | null
+  state: {
+    name: string,
+    code: string
+  }
 }
 
 const LocationSchema = new Schema<ILocation>({
   name: { type: String, required: true },
-  code: { type: String, required: true },
+  code: { type: String },
   type: { type: String, enum: ['county', 'state'], required: true },
-  stateCode: { type: String }
+  state: {
+    name: String,
+    code: String
+  }
 });
 
 export default models.Location || model<ILocation>('Location', LocationSchema);

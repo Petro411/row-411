@@ -8,7 +8,7 @@ import { HttpException } from "@/utils/HttpException";
 const handler = async (req: any, res: any) => {
     try {
         const { id } = req.query;
-        if (id?.length) throw new HttpException(Label.AllFieldsReq, 400);
+        if (!id?.trim()?.length) throw new HttpException(Label.ParamIdIsReq, 400);
         await Newsletter.findByIdAndDelete(id)
         return res.status(200).json({ success: true });
     } catch (error: any) {

@@ -77,6 +77,12 @@ body {
   .rt-BaseTabListTrigger:where([data-state='active'], [data-active])::before {
     @apply !bg-primary
   }
+  .css-vd6460-control{
+    @apply !py-1 !px-1
+  }
+  .css-1jqq78o-placeholder{
+    @apply !text-sm
+  }
 }
 
 .AccordionChevron[data-state="open"] {
@@ -181,3 +187,4 @@ body {
   font-weight: 600;
   color: #111827; /* text-gray-900 */
 }
+
