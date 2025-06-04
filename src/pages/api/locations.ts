@@ -3,7 +3,7 @@ import Location from "@/lib/mongodb/models/Location";
 
 async function handler(req: any, res: any) {
     try {
-        const locations = await Location.find({})
+        const locations = await Location.find({type:"state"})
 
         return res.status(200).json({locations,success:true});
     } catch (error: any) {
