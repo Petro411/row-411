@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { Permission } from "../../../../types/permissions";
 
 const userSchema = new mongoose.Schema(
@@ -55,23 +55,8 @@ const userSchema = new mongoose.Schema(
         },
         customer_id: { type: String },
         subscription: {
-            id: String,
-            priceId: String,
-            status: {
-                type: String,
-                enum: ["awaitingPayment", "paid"],
-                default: "awaitingPayment"
-            },
-            currency: String,
-            interval: String,
-            intervalCount: Number,
-            createdAt: Date,
-            start_date: Date,
-            cancel_at: Date,
-            canceled_at: Date,
-            ended_at: Date,
-            expires_at: Date,
-            amount:Number
+            type: Schema.Types.ObjectId,
+            ref: 'Subscription',
         }
     },
     { timestamps: true }

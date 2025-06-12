@@ -3,9 +3,13 @@ import Location from "@/lib/mongodb/models/Location";
 
 async function handler(req: any, res: any) {
     try {
-        const locations = await Location.find({type:"state"})
+        const { name } = req.query;
+        if (!name?.trim()?.length) {
+            return res.status(200).json({ locations: [], success: true });
+        }
+        const locations = await Location.find({ "state.name": name }).select(['-state','-__v'])
 
-        return res.status(200).json({locations,success:true});
+        return res.status(200).json({ locations, success: true });
     } catch (error: any) {
         return res.status(error?.statusCode ?? 500).json({
             message: error?.message,

@@ -52,7 +52,7 @@ const withAuth: GetServerSideProps = async (context) => {
 
         return {
             props: {
-
+                user
             }
         }
 

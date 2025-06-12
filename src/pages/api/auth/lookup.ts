@@ -3,6 +3,7 @@ import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
+import "@/lib/mongodb/models/Subscription";
 import { HttpException } from "@/utils/HttpException";
 import JWT from "jsonwebtoken";
 
@@ -20,7 +21,11 @@ const handler = async (req: any, res: any) => {
 
     await dbConnect();
 
-    const user = await User.findById(decoded.id).select(["-password","-permissions"]);
+    const user = await User.findById(decoded.id).select(["-password", "-permissions"]);
+
+    if (user?.subscription) {
+      await user.populate({ path: "subscription", options: { strictPopulate: false } })
+    }
 
     if (!user) {
       throw new HttpException(Label.UserNotFound, 404);
@@ -28,6 +33,7 @@ const handler = async (req: any, res: any) => {
 
     return res.status(200).json({ user });
   } catch (error: any) {
+    console.log(error)
     return res.status(error?.statusCode ?? 500).json({
       success: false,
       status: error?.statusCode ?? 500,

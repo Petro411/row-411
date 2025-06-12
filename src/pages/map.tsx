@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  memo,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import {
   ComposableMap,
   Geographies,
@@ -11,34 +17,94 @@ import Footer from "@/components/Footer";
 import SiteHeader from "@/components/SiteHeader";
 import Head from "next/head";
 import Container from "@/components/Container";
-import { Flex, Heading, Text, TextField, Tooltip } from "@radix-ui/themes";
-import { DownloadIcon, ReloadIcon } from "@radix-ui/react-icons";
-// import { geoCentroid } from "d3-geo";
+import {
+  Flex,
+  Heading,
+  Table,
+  Text,
+  TextField,
+  Tooltip,
+} from "@radix-ui/themes";
+import { DownloadIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
+import toast from "react-simple-toasts";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import baseApi, { endpoints } from "@/services/api";
+import { useQuery } from "@/hooks/useQuery";
+import OwnerDetails from "@/components/OwnerDetails";
+import { getUser } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
-// URLs for topology data
 const STATES_TOPO_JSON =
   "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-const COUNTIES_TOPO_JSON =
-  "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
-
-interface FeatureCollection {
-  type: string;
-  features: any[];
-}
 
 function Map() {
+  const user = getUser()?.user;
+  const router = useRouter();
+  const [selectedCounty, setSelectedCounty] = useState<string | null>(null);
   const [statesGeo, setStatesGeo] = useState<any>(null);
-  const [countiesGeo, setCountiesGeo] = useState<FeatureCollection | null>(
-    null
-  );
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [displayedCounties, setDisplayedCounties] = useState<string[]>([]);
-  const [ownerCounts, setOwnerCounts] = useState<Record<string, number>>({});
-  const [stateIdToName, setStateIdToName] = useState<Record<string, string>>(
-    {}
-  );
 
   const [countySearch, setCountySearch] = useState("");
+  const { request, loading } = useQuery();
+  const getMineralsApi = useQuery();
+
+  const getCountiesByState = useCallback(async () => {
+    try {
+      const res = await request(
+        `${endpoints.getCountiesByState}?name=${selectedState}`
+      );
+      setDisplayedCounties(res.locations);
+    } catch (error) {
+      setDisplayedCounties([]);
+      toast(GetApiErrorMessage(error));
+    }
+  }, [selectedState]);
+
+  const handleDownload = useCallback(() => {
+    try {
+      if (!user) {
+        router.push("/auth/login");
+        return;
+      }
+
+      const data = getMineralsApi.data?.minerals;
+
+      const headers = Object.keys(data[0]);
+
+      const csvRows = [
+        headers.join(","), // Header row
+        ...data.map((row: any) =>
+          headers
+            .map((field) => {
+              const value = row[field];
+
+              if (Array.isArray(value)) {
+                return `"${value.join("; ")}"`; // Join array values with ;
+              }
+
+              if (field === "state" && value?.name && value?.code) {
+                return `"${value.name}, ${value.code}"`; // Format state
+              }
+
+              return `"${value ?? ""}"`; // Default case
+            })
+            .join(",")
+        ),
+      ];
+
+      const csvContent = csvRows.join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "minerals.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {}
+  }, [getMineralsApi.data?.minerals]);
 
   useEffect(() => {
     try {
@@ -52,48 +118,19 @@ function Map() {
           for (const feature of geo.features) {
             stateIdMap[feature.id] = feature.properties.name;
           }
-          setStateIdToName(stateIdMap);
         });
-
-      fetch(COUNTIES_TOPO_JSON)
-        .then((res) => res.json())
-        .then((topology) => {
-          const geo = feature(topology, topology.objects.counties);
-          setCountiesGeo(geo as any);
-        });
-
-      const mockCounts: Record<string, number> = {
-        "Adair County": 45,
-        "Adams County": 32,
-      };
-      setOwnerCounts(mockCounts);
     } catch (error) {
       console.log(error, "map data error");
     }
   }, []);
 
   useEffect(() => {
-    if (!selectedState || !countiesGeo || !stateIdToName) {
+    if (!selectedState) {
       setDisplayedCounties([]);
       return;
     }
-
-    const stateFips = Object.entries(stateIdToName).find(
-      ([, name]) => name === selectedState
-    )?.[0];
-
-    if (!stateFips) {
-      setDisplayedCounties([]);
-      return;
-    }
-
-    const counties = countiesGeo.features.filter((c) =>
-      c.id?.toString().startsWith(stateFips)
-    );
-
-    const names = counties.map((c) => c.properties.name + " County");
-    setDisplayedCounties(names);
-  }, [selectedState, countiesGeo, stateIdToName]);
+    getCountiesByState();
+  }, [selectedState]);
 
   return (
     <div>
@@ -121,7 +158,7 @@ function Map() {
       )}
       {statesGeo && (
         <Container className="my-12">
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             <div className="col-span-1 bg-white rounded-xl p-5 shadow-md border relative">
               <div className="flex flex-row items-center justify-between">
                 <Heading size={"4"} className="text-heading">
@@ -152,7 +189,6 @@ function Map() {
                               key={geo.rsmKey}
                               geography={geo}
                               onClick={() => {
-                                console.log(geo)
                                 setSelectedState(name);
                               }}
                               style={{
@@ -194,72 +230,186 @@ function Map() {
               />
 
               {!selectedState ? (
-                <Flex
-                  direction={"column"}
-                  align={"center"}
-                  justify={"center"}
-                  className="min-h-[200px]"
-                >
-                  <Text size={"2"} color="gray" align={"center"}>
-                    No state selected!
-                    <br /> Select a state to see the counties.
-                  </Text>
-                </Flex>
-              ) : (
+                <ListEmpty
+                  description={`No state selected!\nSelect a state to see the counties.`}
+                />
+              ) : !loading && displayedCounties?.length ? (
                 <ul className="mt-3 min-h-[200px] max-h-[250px] overflow-auto">
                   {displayedCounties
-                    .filter((name) =>
-                      name?.toLowerCase()?.includes(countySearch?.toLowerCase())
+                    ?.filter((item: any) =>
+                      item?.name
+                        ?.toLowerCase()
+                        ?.includes(countySearch?.toLowerCase())
                     )
-                    .map((name, index) => (
+                    ?.map((item: any, index: number) => (
                       <li
+                        onClick={(e) => setSelectedCounty(item?.name)}
                         key={index}
-                        className="cursor-pointer hover:bg-gray-200 px-3 py-2 rounded-lg"
+                        value={item?.name}
+                        className="cursor-pointer hover:bg-gray-200 focus:bg-gray-200 active:bg-gray-200 px-3 py-2 rounded-lg text-sm"
                       >
-                        <Text size={"2"} color="gray">
-                          {name}
-                        </Text>
+                        {item?.name}
                       </li>
                     ))}
                 </ul>
+              ) : (
+                <ListEmpty
+                  description={
+                    loading
+                      ? "loading counties..."
+                      : `No counties listed below this state!`
+                  }
+                />
               )}
             </div>
 
             {/* Owners count */}
           </div>
-          <Flex direction={"column"} gap={"2"} mt={"8"}>
-            <Flex
-              className="border-b"
-              direction={"row"}
-              align={"center"}
-              justify={"between"}
-            >
-              <h2 className="text-lg font-semibold mb-2">
-                No. of Mineral Owners
-              </h2>
-              <Flex
-                direction={"row"}
-                align={"center"}
-                justify={"end"}
-                gap={"4"}
-              >
-                <ReloadIcon height={18} width={18} color="gray" />
-                <DownloadIcon height={20} width={20} color="gray" />
-              </Flex>
-            </Flex>
-            <ul className="space-y-1">
-              {displayedCounties.map((name) => (
-                <li key={name} className="text-gray-700">
-                  {/* {ownerCounts[name] ?? 0} */}
-                </li>
-              ))}
-            </ul>
-          </Flex>
+          <MineralsTable state={selectedCounty ?? ""} />
         </Container>
       )}
       <Footer />
     </div>
   );
 }
+
+type ListEmptyProps = {
+  description?: string;
+  children?: ReactNode;
+};
+
+const ListEmpty = memo(({ description, children }: ListEmptyProps) => {
+  return (
+    <Flex
+      direction={"column"}
+      align={"center"}
+      justify={"center"}
+      className="min-h-[200px]"
+    >
+      {description && (
+        <Text size={"2"} color="gray" align={"center"}>
+          {description}
+        </Text>
+      )}
+      {children && children}
+    </Flex>
+  );
+});
+
+type MineralsTableProps = {
+  state: string;
+};
+
+const MineralsTable = memo(({ state }: MineralsTableProps) => {
+  const { request, data, loading } = useQuery(
+    `${endpoints.getOwnersByCounty}?name=${state}`
+  );
+  const [selectedMineral, setSelectedMineral] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (state?.trim()?.length) {
+      request();
+    }
+  }, [state]);
+
+  return (
+    <>
+      <Flex direction={"column"} gap={"2"} mt={"8"}>
+        <Flex
+          className="border-b"
+          direction={"row"}
+          align={"center"}
+          justify={"between"}
+        >
+          <h2 className="text-lg font-semibold mb-2">Mineral Owners</h2>
+          <Flex direction={"row"} align={"center"} justify={"end"} gap={"4"}>
+            <ReloadIcon
+              height={18}
+              width={18}
+              color="gray"
+              onClick={() => request()}
+            />
+            {data?.minerals?.length ? (
+              <DownloadIcon
+                className="cursor-pointer"
+                // onClick={handleDownload}
+                height={20}
+                width={20}
+                color="gray"
+              />
+            ) : (
+              <></>
+            )}
+          </Flex>
+        </Flex>
+        {loading ? (
+          <ListEmpty>
+            <ReloadIcon className="animate-spin" height={20} width={20} />
+          </ListEmpty>
+        ) : data?.minerals?.length ? (
+          <div className="overflow-x-auto lg:overflow-x-visible">
+          <Table.Root className="min-w-[1000px]">
+            <Table.Header>
+              <Table.Row>
+                <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>State</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Zipcode</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>County</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              {data?.minerals?.map((item: any, index: number) => (
+                <Table.Row key={index}>
+                  <Table.Cell>{item?.name}</Table.Cell>
+                  <Table.Cell>{item?.state?.name}</Table.Cell>
+                  <Table.Cell>{item?.zipcode}</Table.Cell>
+                  <Table.Cell className="!w-[400px]">
+                    <ul className="flex flex-col gap-2">
+                      {item?.addresses
+                        ?.slice(0, 2)
+                        ?.map((addr: string, id: number) => (
+                          <li className="!line-clamp-2" key={id}>
+                            {addr}
+                          </li>
+                        ))}
+                    </ul>
+                  </Table.Cell>
+                  <Table.Cell className="!w-[200px]">
+                    <ul className="flex flex-row items-center gap-1 justify-start flex-wrap">
+                      {item?.counties?.map((county: string, id: number) => (
+                        <li className="!line-clamp-1" key={id}>
+                          {county}
+                          {item?.counties?.length > 1 ? "," : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  </Table.Cell>
+                  <Table.Cell className="w-[30px]">
+                    <EyeOpenIcon
+                      onClick={() => setSelectedMineral(item?._id)}
+                      className="cursor-pointer"
+                      height={20}
+                      width={20}
+                      color="gray"
+                    />
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+          </div>
+
+        ) : (
+          <ListEmpty description="No results found!" />
+        )}
+      </Flex>
+
+      <OwnerDetails id={selectedMineral} setSelectedId={setSelectedMineral} />
+    </>
+  );
+});
 
 export default Map;

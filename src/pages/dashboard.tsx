@@ -4,7 +4,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import React from "react";
 
-const Dashboard = () => {
+const Dashboard = ({user}:any) => {
+  console.log(user)
   return (
     <>
       <Head>

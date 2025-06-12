@@ -87,8 +87,7 @@ const MineralSearchForm = memo(
   }: Props) => {
     const router = useRouter();
     const [form, setForm] = useState({
-      fName: "",
-      lName: "",
+      name: "",
       ml: "",
       cityState: "",
     });
@@ -137,20 +136,11 @@ const MineralSearchForm = memo(
               size={"3"}
               className="w-full"
               placeholder="Name"
-              name="fName"
-              id="fName"
-              value={form.fName}
+              name="name"
+              id="name"
+              value={form.name}
               onChange={handleOnChange}
             />
-            {/* <TextField.Root
-              size={"3"}
-              className="w-full"
-              placeholder="Last name"
-              name="lName"
-              id="lName"
-              value={form.lName}
-              onChange={handleOnChange}
-            /> */}
             <TextField.Root size={"3"} className="w-full" placeholder="ML" />
             <Flex className={`${dropDownClasses}`}>
               <DropdownMenu.Root>

@@ -12,19 +12,18 @@ import {
 } from "@radix-ui/themes";
 import React, { memo, useCallback, useEffect } from "react";
 import _ from "lodash";
+
 type Props = {
   id: string | null;
   setSelectedId: (id: string | null) => void;
 };
 
 const OwnerDetails = ({ id, setSelectedId }: Props) => {
-  const { data, loading, error, request, abort } = useQuery(
-    `${endpoints.ownerDetails}?id=${id}`
-  );
+  const { data, loading, error, request, abort } = useQuery();
 
   useEffect(() => {
     if (id) {
-      request();
+      request(`${endpoints.ownerDetails}?id=${id}`);
     }
     return () => {
       abort();
@@ -32,18 +31,56 @@ const OwnerDetails = ({ id, setSelectedId }: Props) => {
   }, [id]);
 
   const renderFieldsValues = useCallback(() => {
-    const a = _.omit(data?.owner, ["id"]);
+    const a = _.omit(data?.owner, [
+      "_id",
+      "__v",
+      "updatedAt",
+      "numbers",
+      "emails",
+      "createdAt"
+    ]);
+    console.log(a);
     return Object.entries(a).map(([key, value]) => (
       <Flex direction={"column"} className="mt-4">
         <Text size={"3"} weight={"medium"}>
-          {key}
+          {key[0]?.toUpperCase()}
+          {key?.slice(1, key?.length)}
         </Text>
         <Separator size={"4"} orientation={"horizontal"} my={"1"} />
         {typeof value === "string" || typeof value === "number" ? (
           <Text size="3" color="gray">
             {value}
           </Text>
-        ) : null}
+        ) : key === "state" ? (
+          <Text size="3" color="gray">
+            {value?.name}
+          </Text>
+        ) : key === "counties" ? (
+          <Flex
+            direction={"row"}
+            align={"center"}
+            justify={"start"}
+            gap={"1"}
+            wrap="wrap"
+          >
+            {value?.map((county: string, id: number) => (
+              <Text key={id} size="3" color="gray">
+                {county}
+                {value?.length > 1 ? "," : ""}
+              </Text>
+            ))}
+          </Flex>
+        ) : key === "addresses" ? (
+          <Flex direction={"column"} gap={"1"}>
+            {value?.map((addr: string, id: number) => (
+              <Text key={id} size="3" color="gray">
+                {addr}
+              </Text>
+            ))}
+          </Flex>
+        ) : (
+          ""
+        )}
       </Flex>
     ));
   }, [data, id]);

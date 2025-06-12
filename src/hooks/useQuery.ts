@@ -2,14 +2,14 @@ import Label from "@/config/Label";
 import baseApi from "@/services/api";
 import { useState, useRef, useEffect } from "react";
 
-export const useQuery = (endpoint: string) => {
+export const useQuery = (endpoint?: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<any>(null);
 
   const controllerRef = useRef<AbortController | null>(null);
 
-  const request = async () => {
+  const request = async (path?: string) => {
     setLoading(true);
     setError(null);
 
@@ -21,7 +21,7 @@ export const useQuery = (endpoint: string) => {
     controllerRef.current = controller;
 
     try {
-      const response = await baseApi.get(endpoint, {
+      const response = await baseApi.get(path ? path : endpoint ? endpoint : "", {
         signal: controller.signal,
       });
 

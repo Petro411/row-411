@@ -52,7 +52,8 @@ async function handler(
             payment_method_types: ['card'],
             client_reference_id:user?._id?.toString(),
             metadata: {
-                userId: user._id.toString()
+                userId: user._id.toString(),
+                monthlyDownloadLimit:10
               }
         });
 

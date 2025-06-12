@@ -63,6 +63,8 @@ export const endpoints = {
   contact:"/contact",
   getPage:"/pages/get-page",
   registerEmail:"/register-email",
+  getCountiesByState:"/get-counties-by-state",
+  getOwnersByCounty:"/owners/query-by-county",
 }
 
 export default baseApi;

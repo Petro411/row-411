@@ -12,9 +12,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
 import ReactPaginate from "react-paginate";
+import moment from "moment";
+
 const itemsPerPage = 10;
 
-const Owners = ({ owners, totalPages, currentPage }: any) => {
+const Owners = ({ owners, totalPages, currentPage, locations}: any) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
   const handlePageClick = useCallback(
@@ -48,7 +50,7 @@ const Owners = ({ owners, totalPages, currentPage }: any) => {
           title={Label.SearchMineralOwners}
           paragraph={Label.FindMineralOwners}
           dropDownClasses={"w-full lg:w-[180px]"}
-          locations={[]}
+          locations={locations}
           tabView={true}
         />
         <Link href={"/map"} className="mt-6 text-white underline">Search through map</Link>
@@ -71,22 +73,22 @@ const Owners = ({ owners, totalPages, currentPage }: any) => {
             {owners?.map((item: any, index: number) => (
               <div
                 key={index}
-                onClick={() => handleShowDetails(item.id)}
+                onClick={() => handleShowDetails(item?._id)}
                 className="cursor-pointer flex flex-col p-5 rounded-lg border hover:border-primary transition-all duration-300 hover:shadow-lg shadow-md"
               >
                 <Heading size={"3"} className="text-heading !line-clamp-2">
-                  {item?.Name}
+                  {item?.name}
                 </Heading>
-                <div className="flex flex-col mt-1">
+                {/* <div className="flex flex-col mt-1">
                   <Text size={"2"} color="gray">
                     {item?.addr_city}
                   </Text>
                   <Text size={"2"} color="gray">
                     {item?.addr_line1 ?? item?.addr_line2}
                   </Text>
-                </div>
+                </div> */}
                 <Text size={"1"} align={"right"} color="gray">
-                  2m ago
+                  {moment(item?.createdAt).format("MMMM Do YYYY")}
                 </Text>
               </div>
             ))}
@@ -120,8 +122,7 @@ const Owners = ({ owners, totalPages, currentPage }: any) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
-    fName = "",
-    lName = "",
+    name = "",
     ml = "",
     cityState = "",
     page = "1",
@@ -129,15 +130,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     const res = await baseApi.get(
-      `${endpoints.queryOwners}?fName=${fName}&lName=${lName}&ml=${ml}&cityState=${cityState}&page=${page}&limit=${itemsPerPage}`
+      `${endpoints.queryOwners}?name=${name}&ml=${ml}&cityState=${cityState}&page=${page}&limit=${itemsPerPage}`
     );
     const { owners, totalPages } = res.data;
+    const locsQuery = await baseApi.get(endpoints.getLocations);
 
     return {
       props: {
         owners,
         totalPages,
         currentPage: parseInt(page as string, 10),
+        locations: locsQuery?.data?.locations ?? [],
       },
     };
   } catch (error) {

@@ -8,6 +8,7 @@ import JWT from "jsonwebtoken";
 import Stripe from "stripe";
 import getRawBody from 'raw-body';
 import { buildOrganizationSubscription } from "@/lib/stripe/build-organization-subscription";
+import Subscription from "@/lib/mongodb/models/Subscription";
 
 const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
 
@@ -118,10 +119,11 @@ async function onCheckoutCompleted(
     const customerId = session.customer as string;
     const status = getOrderStatus(session.payment_status);
 
-    const subscriptionData = buildOrganizationSubscription(subscription, status);
+    const subscriptionData = buildOrganizationSubscription({ ...subscription, userId, monthlyDownloadLimit: session?.metadata?.monthlyDownloadLimit ?? "" }, status);
 
+    const userSubscription = await Subscription.create(subscriptionData);
     await User.findByIdAndUpdate(userId, {
-        subscription: subscriptionData,
+        subscription: userSubscription._id,
         customer_id: customerId,
         isOnboarded: true
     })
@@ -130,12 +132,13 @@ async function onCheckoutCompleted(
 async function onSubscriptionUpdated(
     subscription: Stripe.Subscription
 ) {
-    const subscriptionData = await buildOrganizationSubscription(subscription)
-
-    await User.findOneAndUpdate({
+    const user = await User.findOne({
         customer_id: subscription.customer,
         "subscription.id": subscription.id
-    }, {
+    });
+    const subscriptionData = await buildOrganizationSubscription({ ...subscription, userId: user?._id, monthlyDownloadLimit: "0" });
+
+    await User.findByIdAndUpdate(user?._id, {
         subscription: subscriptionData,
     })
 };

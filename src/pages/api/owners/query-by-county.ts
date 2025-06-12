@@ -1,19 +1,20 @@
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { NextApiResponse } from "next";
 import Label from "@/config/Label";
-import { HttpException } from "@/utils/HttpException";
 import MineralOwner from "@/lib/mongodb/models/MineralOwner";
 
 async function handler(req: any, res: NextApiResponse) {
     try {
-        const { id } = req.query;
-        if (!id) {
-            throw new HttpException(Label.SomethingWentWrong, 500);
-        }
- 
-        const owner = await MineralOwner.findById(id);
+        const { name } = req.query;
 
-        return res.status(200).json({ owner });
+        const minerals = await MineralOwner.find({
+            counties:{ $elemMatch: { $regex: new RegExp(`^${name}$`, 'i') } }
+        })
+
+        return res.status(200).json({
+            success:true,
+            minerals
+        });
 
     } catch (error: any) {
         return res.status(error?.statusCode ?? 500).json({
