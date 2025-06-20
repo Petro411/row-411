@@ -135,13 +135,13 @@ const MineralSearchForm = memo(
             <TextField.Root
               size={"3"}
               className="w-full"
-              placeholder="Name"
+              placeholder="First Name/Company name"
               name="name"
               id="name"
               value={form.name}
               onChange={handleOnChange}
             />
-            <TextField.Root size={"3"} className="w-full" placeholder="ML" />
+            <TextField.Root size={"3"} className="w-full" placeholder="MI/Last Name" />
             <Flex className={`${dropDownClasses}`}>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger className="!w-full">
@@ -158,7 +158,7 @@ const MineralSearchForm = memo(
                       aria-multiline={false}
                       className="!font-normal w-full lg:!w-[100px] text-nowrap overflow-hidden"
                     >
-                      {form.cityState ? form.cityState : "City/State"}
+                      {form.cityState ? form.cityState : "County/State"}
                     </Text>
                     <DropdownMenu.TriggerIcon />
                   </Button>
