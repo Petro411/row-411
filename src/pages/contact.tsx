@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Container from "@/components/Container";
 import Footer from "@/components/Footer";
 import Faqs from "@/components/home/Faqs";
@@ -12,12 +12,14 @@ import { Button, Flex, TextArea, TextField } from "@radix-ui/themes";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import toast from "react-simple-toasts";
+import { useQuery } from "@/hooks/useQuery";
 
-type Props = {
-  faqs: any[] | [];
-};
+const ContactPage = () => {
+  const [faqs, setFaqs] = useState([]);
 
-const ContactPage = ({ faqs }: Props) => {
+  const getFaqsApi = useQuery(endpoints.getFaqs);
+
+  console.log(getFaqsApi.data);
 
   const { request, loading } = useMutation(endpoints.contact);
 
@@ -49,6 +51,16 @@ const ContactPage = ({ faqs }: Props) => {
       console.error("Error submitting form:", error);
     }
   };
+
+  const fetchFaqs = useCallback(async () => {
+    try {
+      const res = await baseApi.get(endpoints.getFaqs);
+      setFaqs(res?.data?.faqs ?? []);
+    } catch (error) {}
+  }, [faqs]);
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
 
   return (
     <>
@@ -130,17 +142,11 @@ export const getStaticProps: GetStaticProps<any> = async () => {
   try {
     const res = await baseApi.get(endpoints.getFaqs);
     return {
-      props: {
-        faqs: res?.data?.faqs ?? [],
-      },
-      revalidate: 60,
+      props: {},
     };
   } catch (error) {
     return {
-      props: {
-        faqs: [],
-      },
-      revalidate: 60,
+      props: {},
     };
   }
 };

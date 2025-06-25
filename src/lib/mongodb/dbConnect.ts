@@ -1,23 +1,41 @@
 import mongoose from "mongoose";
 
+const MONGODB_URI = process.env.MONGODB_URI ?? "";
+
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable");
+}
+
+let cached = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
+
 export async function dbConnect() {
-    try {
-        if (mongoose.connection.readyState !== 1) {
-            const dbURI = process.env.MONGODB_URI ?? "";
-            const options = {
-                family: 4,
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                maxPoolSize: 10,
-            };
-            mongoose.connect(dbURI, options);
-            console.log('Connected to MongoDB');
-            return;
-        }
-        console.log('already connected to MongoDB');
-        return;
-    } catch (error: any) {
-        console.error('Error connecting to MongoDB:', error.message);
-        process.exit(1);
-    }
+  if (cached.conn) {
+    // ✅ Use existing connection
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const options = {
+      maxPoolSize: 20,
+      serverSelectionTimeoutMS: 5000, // Fail fast if cannot connect
+      socketTimeoutMS: 45000,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, options).then((mongoose) => {
+      console.log("✅ Connected to MongoDB");
+      return mongoose;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (error) {
+    console.error("❌ MongoDB connection error:", error);
+    throw error;
+  }
 }

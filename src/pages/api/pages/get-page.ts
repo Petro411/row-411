@@ -8,7 +8,7 @@ async function handler(req: any, res: any) {
  try {
     await dbConnect();
     const {slug} = req.query;
-    const page = await Page.findOne({slug}).select(['content']);
+    const page = await Page.findById(slug).select(['content']);
     if(!page) throw new HttpException(Label.PageNotFound,404);
     return res.status(200).json({content:page?.content,success:true});
  } catch (error:any) {
