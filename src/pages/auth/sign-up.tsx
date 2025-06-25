@@ -40,14 +40,14 @@ const SignUp = () => {
       e.preventDefault();
       const res = await request(form);
       setItem("token", res.token);
-      router.push("/subscription");
+      router.push("/profile");
     } catch (error: any) {
       toast(GetApiErrorMessage(error));
     }
   };
 
   useEffect(() => {
-    router.prefetch("/subscription");
+    router.prefetch("/profile");
   }, []);
 
   return (
@@ -124,10 +124,6 @@ const SignUp = () => {
 
         <Flex className="flex flex-col xl:flex-row xl:items-center" gap={"3"}>
           <GoogleAuth title={Label.SignUpWithGoogle} />
-          <ThirdPartyAuthButton
-            title={Label.SignUpWithFacebook}
-            image="/assets/images/facebook.png"
-          />
         </Flex>
 
         <Flex direction={"row"} align={"center"} justify={"center"} pt={"5"}>

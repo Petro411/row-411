@@ -1,7 +1,5 @@
 import Container from "@/components/Container";
 import PageHeader from "@/components/PageHeader";
-import siteConfig from "@/config/site-config";
-import { getUser } from "@/context/AuthContext";
 import baseApi, { endpoints } from "@/services/api";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { getItem } from "@/utils/Localstorage";
@@ -23,8 +21,7 @@ enum SubscriptionStatusQueryParams {
   Error = "error",
 }
 
-const Subscription = () => {
-  const user = getUser();
+const Subscription = ({ plans }: any) => {
   const checkOutStatus = useSubscriptionStatus();
   const [selectedPrice, setSelectedPrice] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +57,7 @@ const Subscription = () => {
       {checkOutStatus && <PlansStatusAlert status={checkOutStatus} />}
       <Container>
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 2xl:w-10/12 mx-auto gap-5">
-          {siteConfig.subscription.map((item, index) => (
+          {plans?.map((item: any, index: number) => (
             <Flex
               key={index}
               direction={"column"}
@@ -69,19 +66,19 @@ const Subscription = () => {
               }`}
             >
               <Heading size={"4"} align={"left"} className="mb-5">
-                {item.name}
+                {item?.title}
               </Heading>
               <Heading size={"8"} align={"left"} className="mb-2">
-                {item.price}
+                ${item?.amount}
               </Heading>
               <Heading size={"3"} color="gray" align={"left"}>
-                {item.billingCycle}
+                {item?.subtitle}
               </Heading>
 
               <Button
-              onClick={()=>handleSubscription(item.stripePriceId)}
-              disabled={!item.stripePriceId || isLoading}
-              loading={isLoading && item.stripePriceId === selectedPrice}
+                onClick={() => handleSubscription(item.priceId)}
+                disabled={!item.priceId || isLoading}
+                loading={isLoading && item.priceId === selectedPrice}
                 variant="outline"
                 color="yellow"
                 size={"4"}
@@ -99,28 +96,18 @@ const Subscription = () => {
               </Heading>
               <Separator className="!w-full mb-2" />
 
-              <Flex direction={"row"} align={"center"} gap={"3"}>
-                <Text size={"3"} color="gray">
-                  Countr{item.features.noOfCounties > 1 ? "ies" : "y"} (
-                  {item.features.noOfCounties})
-                </Text>
-              </Flex>
-              <Flex direction={"row"} align={"center"} gap={"3"}>
-                <Text size={"3"} color="gray">
-                  User{item.features.noOfUsers > 1 ? "s" : ""} (
-                  {item.features.noOfUsers})
-                </Text>
-              </Flex>
-              <Flex direction={"row"} align={"center"} gap={"3"}>
-                <Text size={"3"} color="gray">
-                  Download{item.features.noOfDownloads > 1 ? "s" : ""} (
-                  {item.features.noOfDownloads})
-                </Text>
-              </Flex>
+              {item?.features?.map((feat: string, id: number) => (
+                <Flex key={id} direction={"row"} align={"center"} gap={"3"}>
+                  <Text size={"3"} color="gray">
+                    {feat}
+                  </Text>
+                </Flex>
+              ))}
+
               <Separator className="!w-full mt-2" />
 
               <Text size={"3"} color="gray" className="mt-3">
-                {item.summary}
+                {item?.description}
               </Text>
             </Flex>
           ))}
@@ -130,7 +117,21 @@ const Subscription = () => {
   );
 };
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  return withAuth(context);
+  try {
+    await withAuth(context);
+    const res = await baseApi.get(endpoints.getPlans);
+    return {
+      props: {
+        plans: res?.data?.plans ?? [],
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        plans: [],
+      },
+    };
+  }
 };
 
 export default Subscription;

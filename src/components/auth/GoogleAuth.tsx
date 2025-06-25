@@ -24,7 +24,7 @@ const GoogleAuth = ({title}:Props) => {
         setItem('token',res.data.token);
         toast(Label.LoginSuccessfull);
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/profile");
         }, 500);
       } catch (error) {
         console.log(error);

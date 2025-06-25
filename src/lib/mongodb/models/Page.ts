@@ -2,9 +2,9 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IPage extends Document {
-  slug: string; // e.g., 'privacy-policy', 'terms-of-service'
+  slug: string; 
   title: string;
-  content: string; // HTML or JSON string from a rich text editor
+  content: string;
   updatedAt: Date;
 }
 

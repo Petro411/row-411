@@ -57,7 +57,7 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                     <Flex
                       gap={"3"}
                       className="!cursor-pointer"
-                      onClick={() => router.push("/dashboard")}
+                      onClick={() => router.push("/profile")}
                       align={"center"}
                       direction={"row"}
                       as="span"

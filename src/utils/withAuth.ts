@@ -18,36 +18,36 @@ const withAuth: GetServerSideProps = async (context) => {
             throw new Error("unauthorized.");
         }
 
-        if (user.isDeleted || user.isSuspended) {
-            throw new Error("unauthorized.");
-        }
+        // if (user.isDeleted || user.isSuspended) {
+        //     throw new Error("unauthorized.");
+        // }
 
-        if (!user.isOnboarded) {
-            if (context.resolvedUrl.includes("/subscription")) {
-                return {
-                    props: {
+        // if (!user.isOnboarded) {
+        //     if (context.resolvedUrl.includes("/subscription")) {
+        //         return {
+        //             props: {
 
-                    }
-                }
-            } else {
-                return {
-                    redirect: {
-                        destination: "/subscription",
-                        permanent: false,
-                    },
-                };
-            }
+        //             }
+        //         }
+        //     } else {
+        //         return {
+        //             redirect: {
+        //                 destination: "/subscription",
+        //                 permanent: false,
+        //             },
+        //         };
+        //     }
 
-        }
+        // }
 
-        if (context.resolvedUrl === "/subscription") {
-            return {
-                redirect: {
-                    destination: "/dashboard",
-                    permanent: false,
-                },
-            };
-        }
+        // if (context.resolvedUrl === "/subscription") {
+        //     return {
+        //         redirect: {
+        //             destination: "/dashboard",
+        //             permanent: false,
+        //         },
+        //     };
+        // }
 
 
         return {

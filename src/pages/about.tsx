@@ -1,6 +1,8 @@
 import Container from "@/components/Container";
 import Footer from "@/components/Footer";
+import About from "@/components/home/About";
 import Faqs from "@/components/home/Faqs";
+import OurCompany from "@/components/home/OurCompany";
 import PageHeader from "@/components/PageHeader";
 import SiteHeader from "@/components/SiteHeader";
 import TextImageColumn from "@/components/TextImageColumn";
@@ -27,7 +29,7 @@ const AboutUs = ({ faqs }: Props) => {
         description={`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaqueLorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaque?`}
       />
       <Flex direction={"column"} gap={"9"} className="pt-20">
-        <TextImageColumn
+        {/* <TextImageColumn
           title="Our Mission"
           text1="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
           text2="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
@@ -37,7 +39,9 @@ const AboutUs = ({ faqs }: Props) => {
           title="What we offer"
           text1="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
           text2="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
-        />
+        /> */}
+        <About />
+                <OurCompany />
         <Container className="py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gradientBg p-8 sm:p-16 2xl:p-20 rounded-xl gap-12 2xl:gap-0">
             <div className="flex flex-col gap-8 text-white">

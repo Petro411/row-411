@@ -37,8 +37,6 @@ const Home = ({ faqs, locations }: Props) => {
         locations={locations}
       />
       <Flex direction={"column"} gap={"9"}>
-        <About />
-        <OurCompany />
         <MineralOwnersByState locations={locations} />
         <HowItWorks />
         <Testimonials />

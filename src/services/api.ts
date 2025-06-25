@@ -65,6 +65,7 @@ export const endpoints = {
   registerEmail:"/register-email",
   getCountiesByState:"/get-counties-by-state",
   getOwnersByCounty:"/owners/query-by-county",
+  getPlans:"/stripe/plans",
 }
 
 export default baseApi;

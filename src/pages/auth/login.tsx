@@ -38,7 +38,7 @@ const Login = () => {
       e.preventDefault();
       const res = await request(form);
       setItem("token", res.token);
-      router.push("/dashboard");
+      router.push("/profile");
     } catch (error: any) {
       console.log(error);
       toast(GetApiErrorMessage(error));
@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    router.prefetch("/dashboard");
+    router.prefetch("/profile");
   }, []);
 
   return (
@@ -123,10 +123,6 @@ const Login = () => {
 
         <Flex className="flex flex-col xl:flex-row xl:items-center" gap={"3"}>
           <GoogleAuth title={Label.LoginWithGoogle} />
-          <ThirdPartyAuthButton
-            title={Label.LoginWithFacebook}
-            image="/assets/images/facebook.png"
-          />
         </Flex>
 
         <Flex direction={"row"} align={"center"} justify={"center"} pt={"5"}>
