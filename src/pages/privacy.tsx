@@ -4,7 +4,6 @@ import PageHeader from "@/components/PageHeader";
 import SiteHeader from "@/components/SiteHeader";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import Page from "@/lib/mongodb/models/Page";
-import baseApi, { endpoints } from "@/services/api";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import React from "react";

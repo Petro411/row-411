@@ -47,8 +47,8 @@ async function handler(
         const session = await stripe.checkout.sessions.create({
             mode: "subscription",
             line_items: [lineItem],
-            success_url: `${siteUrl}/dashboard`,
-            cancel_url: `${siteUrl}/subscription`,
+            success_url: `${siteUrl}/profile`,
+            cancel_url: `${siteUrl}/profile`,
             payment_method_types: ['card'],
             client_reference_id:user?._id?.toString(),
             metadata: {

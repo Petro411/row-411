@@ -74,8 +74,8 @@ async function handler(
             }
 
             case StripeWebhooks.SubscriptionDeleted: {
-                // const subscription = event.data.object as Stripe.Subscription;
-                // console.log(subscription, "subscription");
+                const subscription = event.data.object as Stripe.Subscription;
+                console.log(subscription, "subscription");
 
                 // await deleteOrganizationSubscription(subscription.id);
 
@@ -132,15 +132,9 @@ async function onCheckoutCompleted(
 async function onSubscriptionUpdated(
     subscription: Stripe.Subscription
 ) {
-    const user = await User.findOne({
-        customer_id: subscription.customer,
-        "subscription.id": subscription.id
-    });
+    const user = await User.findOne({ customer_id: subscription.customer });
     const subscriptionData = await buildOrganizationSubscription({ ...subscription, userId: user?._id, monthlyDownloadLimit: "0" });
-
-    await User.findByIdAndUpdate(user?._id, {
-        subscription: subscriptionData,
-    })
+    await Subscription.findByIdAndUpdate(user?.subscription, subscriptionData);
 };
 
 

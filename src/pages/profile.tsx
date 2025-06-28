@@ -1,21 +1,73 @@
-import Layout from "@/components/dashboard/Layout";
+import Container from "@/components/Container";
+import Subscription from "@/components/dashboard/Subscription";
+import SiteHeader from "@/components/SiteHeader";
+import { getUser } from "@/context/AuthContext";
+import baseApi, { endpoints } from "@/services/api";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import { deleteItem } from "@/utils/Localstorage";
 import withAuth from "@/utils/withAuth";
+import { Avatar, Button, Flex, Separator, Text } from "@radix-ui/themes";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
+import toast from "react-simple-toasts";
 
-const Dashboard = ({user}:any) => {
-  console.log(user)
+const Dashboard = ({ user }: any) => {
+  const router = useRouter();
+  const userContext = getUser();
+
+  const handleLogout = async () => {
+    try {
+      await baseApi.get(endpoints.logout);
+      deleteItem("token");
+      router.push("/auth/login");
+      userContext?.setUser(null);
+      toast("You have been logged out.");
+    } catch (error) {
+      toast(GetApiErrorMessage(error));
+    }
+  };
   return (
     <>
       <Head>
         <title>Dashboard</title>
       </Head>
-      <Layout>
-
-        content
-
-      </Layout>
+      <SiteHeader />
+      <Container className="lg:w-8/12 mx-auto">
+        <Flex
+          direction={"column"}
+          align={"center"}
+          justify={"center"}
+          mt={"8"}
+          mb={"6"}
+        >
+          <Avatar
+            radius="full"
+            src={user?.picture}
+            fallback={user?.name[0]?.toUpperCase() ?? "U"}
+            title={user?.name}
+            size="8"
+          />
+          <Flex direction={"column"} mt={"2"} align={"center"}>
+            <Text size={"4"}>{user?.name}</Text>
+            <Text size={"2"} color="gray">
+              {user?.email}
+            </Text>
+          </Flex>
+          <Button
+            onClick={handleLogout}
+            mt={"4"}
+            size="2"
+            color="red"
+            variant="outline"
+          >
+            Logout
+          </Button>
+        </Flex>
+        <Separator orientation={"horizontal"} size={"4"} />
+        <Subscription />
+      </Container>
     </>
   );
 };

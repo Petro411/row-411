@@ -41,7 +41,7 @@ async function handler(
 
         const session = await stripe.billingPortal.sessions.create({
             customer: user?.customer_id,
-            return_url: `${siteUrl}/membership`
+            return_url: `${siteUrl}/profile`
         })
 
         // res.redirect(303, session.url);
