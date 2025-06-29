@@ -44,7 +44,7 @@ const Pricing = ({ plans }: any) => {
                 {item?.title}
               </Heading>
               <Heading size={"8"} align={"left"} className="mb-2">
-                {item?.amount}
+                ${item?.amount}
               </Heading>
               <Heading size={"3"} color="gray" align={"left"}>
                 {item?.subtitle}
