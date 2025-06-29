@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-simple-toasts";
 import GoogleAuth from "@/components/auth/GoogleAuth";
+import { setCookie } from "nookies";
 
 const Login = () => {
   const router = useRouter();
@@ -32,12 +33,17 @@ const Login = () => {
     setForm((pre) => ({ ...pre, [name]: value }));
   };
 
-
   const handleSubmit = async (e: any) => {
     try {
       e.preventDefault();
       const res = await request(form);
       setItem("token", res.token);
+      setCookie(null, "token", res?.token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+      });
       router.push("/profile");
     } catch (error: any) {
       console.log(error);

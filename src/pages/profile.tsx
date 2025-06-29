@@ -10,6 +10,7 @@ import { Avatar, Button, Flex, Separator, Text } from "@radix-ui/themes";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { destroyCookie } from "nookies";
 import React from "react";
 import toast from "react-simple-toasts";
 
@@ -19,7 +20,8 @@ const Dashboard = ({ user }: any) => {
 
   const handleLogout = async () => {
     try {
-      await baseApi.get(endpoints.logout);
+      // await baseApi.get(endpoints.logout);
+      destroyCookie(null, 'token', { path: '/' });
       deleteItem("token");
       router.push("/auth/login");
       userContext?.setUser(null);

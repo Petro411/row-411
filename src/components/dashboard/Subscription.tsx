@@ -32,13 +32,13 @@ const Subscription = () => {
     return plans?.find((item: any) =>
       item?.priceId === userSubscription?.priceId ? true : false
     );
-  }, [authContext?.user]);
+  }, [authContext?.user, userSubscription]);
 
   const isCurrentPlan = useCallback(
     (priceId: string) => {
       return currentPlan?.priceId === priceId;
     },
-    [currentPlan]
+    [currentPlan, user]
   );
 
   const handleSubscription = useCallback(async () => {
@@ -65,7 +65,7 @@ const Subscription = () => {
       };
       fetchPlans();
     }
-  }, []);
+  }, [user]);
 
   return (
     <>

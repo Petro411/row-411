@@ -13,6 +13,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { setCookie } from "nookies";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-simple-toasts";
 
@@ -40,6 +41,12 @@ const SignUp = () => {
       e.preventDefault();
       const res = await request(form);
       setItem("token", res.token);
+      setCookie(null, "token", res?.token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+      });
       router.push("/profile");
     } catch (error: any) {
       toast(GetApiErrorMessage(error));

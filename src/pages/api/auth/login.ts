@@ -34,13 +34,13 @@ const handler = async (req: any, res: any) => {
 
         const token = JWT.sign({ id: user._id }, JWT_SECRET);
 
-        setCookie({ res }, 'token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 60 * 60 * 24 * 7,
-            path: '/',
-            sameSite: 'lax',
-        });
+        // setCookie({ res }, 'token', token, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === 'production',
+        //     maxAge: 60 * 60 * 24 * 7,
+        //     path: '/',
+        //     sameSite: 'lax',
+        // });
 
         return res.status(200).json({ message: Label.LoginSuccessfull, token })
 
