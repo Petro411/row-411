@@ -29,11 +29,11 @@ async function handler(req: any, res: any) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
+            ...req.body,
             name,
             email,
-            password: hashedPassword,
             role,
-            ...req.body
+            password: hashedPassword,
         });
 
         return res.status(201).json({
@@ -42,7 +42,7 @@ async function handler(req: any, res: any) {
                 email: user?.email,
                 role: user?.role,
                 picture: user?.picture,
-                _id:user?._id
+                _id: user?._id
             },
             message: Label.SignUpSuccessfull,
         });
