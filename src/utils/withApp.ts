@@ -21,18 +21,9 @@ const withApp: GetServerSideProps = async (context) => {
             throw new Error("unauthorized.");
         }
 
-        if (!user.isOnboarded) {
-            return {
-                redirect: {
-                    destination: "/subscription",
-                    permanent: false,
-                },
-            };
-        }
-
         return {
             redirect: {
-                destination: "/dashboard",
+                destination: "/profile",
                 permanent: false,
             },
         };
