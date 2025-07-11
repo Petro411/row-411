@@ -1,7 +1,10 @@
+import { Button, Flex, Heading, Text } from "@radix-ui/themes";
 import React, { memo } from "react";
-import Container from "../Container";
+import Image from "next/image";
 import Link from "next/link";
-import { Flex, Heading, Text } from "@radix-ui/themes";
+
+import Container from "../Container";
+
 
 type Props = {
   locations: any[] | [];
@@ -36,6 +39,10 @@ const MineralOwnersByState = ({ locations }: Props) => {
             </li>
           ))}
         </ul>
+
+        <Link href={"/map"} className="bg-white py-2.5 px-5 text-black border hover:bg-gray-100 border-btnPrimary rounded-lg self-center flex flex-row items-center justify-center gap-4" >
+        <Image src={'/assets/images/us.png'} alt="" className="rounded overflow-hidden" height={30} width={30} />
+        <Text size="3">Map Search</Text></Link>
       </Flex>
     </Container>
   );

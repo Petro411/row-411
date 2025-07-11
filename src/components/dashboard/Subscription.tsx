@@ -1,21 +1,13 @@
-import { getUser } from "@/context/AuthContext";
-import { useQuery } from "@/hooks/useQuery";
-import baseApi, { endpoints } from "@/services/api";
-import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
-import {
-  Badge,
-  Button,
-  Flex,
-  Heading,
-  Separator,
-  Text,
-} from "@radix-ui/themes";
+import { Badge, Button, Flex, Heading, Separator, Text, } from "@radix-ui/themes";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
-import toast from "react-simple-toasts";
-
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import baseApi, { endpoints } from "@/services/api";
+import { getUser } from "@/context/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
 import { getItem } from "@/utils/Localstorage";
+import toast from "react-simple-toasts";
 import moment from "moment";
+
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? ""
@@ -146,64 +138,6 @@ const Subscription = () => {
                 {item?.description}
               </Text>
             </Flex>
-
-            //   <Flex
-            //     key={index}
-            //     direction={"column"}
-            //     className={`min-h-[20vh] relative border rounded-xl p-6 ${
-            //       isCurrentPlan(item.stripePriceId)
-            //         ? "bg-blue-500/5 border-yellow"
-            //         : ""
-            //     }`}
-            //   >
-            //     {isCurrentPlan(item.stripePriceId) && (
-            //       <Badge
-            //         size={"3"}
-            //         radius="large"
-            //         className="absolute top-0 right-0"
-            //         color="green"
-            //       >
-            //         <Text size={"1"}>Current</Text>
-            //       </Badge>
-            //     )}
-            //     <Heading size={"2"} align={"left"} className="mb-3">
-            //       {item.name}
-            //     </Heading>
-            //     <Heading size={"6"} align={"left"} className="mb-2">
-            //       {item.price}
-            //     </Heading>
-            //     <Heading size={"2"} color="gray" align={"left"}>
-            //       {item.billingCycle}
-            //     </Heading>
-            //     <Heading size={"3"} color="gray" className="mt-5 mb-1">
-            //       Features
-            //     </Heading>
-            //     <Separator className="!w-full mb-2" />
-
-            //     <Flex direction={"row"} align={"center"} gap={"3"}>
-            //       <Text size={"2"} color="gray">
-            //         Countr{item.features.noOfCounties > 1 ? "ies" : "y"} (
-            //         {item.features.noOfCounties})
-            //       </Text>
-            //     </Flex>
-            //     <Flex direction={"row"} align={"center"} gap={"3"}>
-            //       <Text size={"2"} color="gray">
-            //         User{item.features.noOfUsers > 1 ? "s" : ""} (
-            //         {item.features.noOfUsers})
-            //       </Text>
-            //     </Flex>
-            //     <Flex direction={"row"} align={"center"} gap={"3"}>
-            //       <Text size={"2"} color="gray">
-            //         Download{item.features.noOfDownloads > 1 ? "s" : ""} (
-            //         {item?.features.noOfDownloads})
-            //       </Text>
-            //     </Flex>
-            //     <Separator className="!w-full mt-2" />
-
-            //     <Text size={"2"} color="gray" className="mt-3">
-            //       {item?.summary}
-            //     </Text>
-            //   </Flex>
           ))}
         </div>
       ) : (

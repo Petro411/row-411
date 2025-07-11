@@ -1,8 +1,11 @@
-import { withMethod } from "@/lib/middlewares/withMethod"
+import { withMethod } from "@/lib/middlewares/withMethod";
+import { dbConnect } from "@/lib/mongodb/dbConnect";
 import Plan from "@/lib/mongodb/models/Plan";
+
 
 async function handler(req: any, res: any) {
     try {
+        await dbConnect();
         const plans = await Plan.find({})
         return res.status(200).json({ plans, success: true });
     } catch (error: any) {

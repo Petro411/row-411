@@ -1,12 +1,13 @@
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import User from "@/lib/mongodb/models/User";
+
 
 const handler = async (req: any, res: any) => {
     try {
 
-       const users = await User.find({}).select(['-password']);
+       const users = await User.find({}).select(['-password']).populate({path:"subscription",select:['amount']});
        
         return res.status(200).json({ success:true, users})
 

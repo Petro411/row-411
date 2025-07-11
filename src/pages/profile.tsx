@@ -1,18 +1,18 @@
-import Container from "@/components/Container";
+import { Avatar, Button, Flex, Separator, Text } from "@radix-ui/themes";
 import Subscription from "@/components/dashboard/Subscription";
-import SiteHeader from "@/components/SiteHeader";
-import { getUser } from "@/context/AuthContext";
-import baseApi, { endpoints } from "@/services/api";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { deleteItem } from "@/utils/Localstorage";
-import withAuth from "@/utils/withAuth";
-import { Avatar, Button, Flex, Separator, Text } from "@radix-ui/themes";
+import SiteHeader from "@/components/SiteHeader";
+import { getUser } from "@/context/AuthContext";
+import Container from "@/components/Container";
 import { GetServerSideProps } from "next";
-import Head from "next/head";
+import withAuth from "@/utils/withAuth";
+import toast from "react-simple-toasts";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
+import Head from "next/head";
 import React from "react";
-import toast from "react-simple-toasts";
+
 
 const Dashboard = ({ user }: any) => {
   const router = useRouter();

@@ -1,38 +1,22 @@
-import React, {
-  memo,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from "react-simple-maps";
-import { feature } from "topojson-client";
-import Select from "react-select";
-import Footer from "@/components/Footer";
-import SiteHeader from "@/components/SiteHeader";
-import Head from "next/head";
-import Container from "@/components/Container";
-import {
-  Flex,
-  Heading,
-  Table,
-  Text,
-  TextField,
-  Tooltip,
-} from "@radix-ui/themes";
+import { Flex, Heading, Table, Text, TextField, Tooltip, } from "@radix-ui/themes";
+import React, { memo, ReactNode, useCallback, useEffect, useState, } from "react";
+import { ComposableMap, Geographies, Geography, Marker, } from "react-simple-maps";
 import { DownloadIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
-import toast from "react-simple-toasts";
+import { downloadMineralList } from "@/utils/downloadMineralList";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
-import baseApi, { endpoints } from "@/services/api";
-import { useQuery } from "@/hooks/useQuery";
 import OwnerDetails from "@/components/OwnerDetails";
+import baseApi, { endpoints } from "@/services/api";
+import SiteHeader from "@/components/SiteHeader";
 import { getUser } from "@/context/AuthContext";
+import Container from "@/components/Container";
+import { useQuery } from "@/hooks/useQuery";
+import { feature } from "topojson-client";
+import Footer from "@/components/Footer";
+import toast from "react-simple-toasts";
 import { useRouter } from "next/router";
+import Select from "react-select";
+import Head from "next/head";
+
 
 const STATES_TOPO_JSON =
   "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
@@ -306,6 +290,13 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
   );
   const [selectedMineral, setSelectedMineral] = useState<string | null>(null);
 
+  const handleDownload = useCallback(() => {
+    if (data?.minerals?.length) {
+      downloadMineralList(data?.minerals);
+      toast("Mineral list has been downloaded.")
+    }
+  }, [data?.minerals]);
+
   useEffect(() => {
     if (state?.trim()?.length) {
       request();
@@ -332,7 +323,7 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
             {data?.minerals?.length ? (
               <DownloadIcon
                 className="cursor-pointer"
-                // onClick={handleDownload}
+                onClick={handleDownload}
                 height={20}
                 width={20}
                 color="gray"
@@ -348,60 +339,59 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
           </ListEmpty>
         ) : data?.minerals?.length ? (
           <div className="overflow-x-auto lg:overflow-x-visible">
-          <Table.Root className="min-w-[1000px]">
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>State</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Zipcode</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>County</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
-              </Table.Row>
-            </Table.Header>
+            <Table.Root className="min-w-[1000px]">
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>State</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Zipcode</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>County</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-            <Table.Body>
-              {data?.minerals?.map((item: any, index: number) => (
-                <Table.Row key={index}>
-                  <Table.Cell>{item?.name}</Table.Cell>
-                  <Table.Cell>{item?.state?.name}</Table.Cell>
-                  <Table.Cell>{item?.zipcode}</Table.Cell>
-                  <Table.Cell className="!w-[400px]">
-                    <ul className="flex flex-col gap-2">
-                      {item?.addresses
-                        ?.slice(0, 2)
-                        ?.map((addr: string, id: number) => (
-                          <li className="!line-clamp-2" key={id}>
-                            {addr}
+              <Table.Body>
+                {data?.minerals?.map((item: any, index: number) => (
+                  <Table.Row key={index}>
+                    <Table.Cell>{item?.name}</Table.Cell>
+                    <Table.Cell>{item?.state?.name}</Table.Cell>
+                    <Table.Cell>{item?.zipcode}</Table.Cell>
+                    <Table.Cell className="!w-[400px]">
+                      <ul className="flex flex-col gap-2">
+                        {item?.addresses
+                          ?.slice(0, 2)
+                          ?.map((addr: string, id: number) => (
+                            <li className="!line-clamp-2" key={id}>
+                              {addr}
+                            </li>
+                          ))}
+                      </ul>
+                    </Table.Cell>
+                    <Table.Cell className="!w-[200px]">
+                      <ul className="flex flex-row items-center gap-1 justify-start flex-wrap">
+                        {item?.counties?.map((county: string, id: number) => (
+                          <li className="!line-clamp-1" key={id}>
+                            {county}
+                            {item?.counties?.length > 1 ? "," : ""}
                           </li>
                         ))}
-                    </ul>
-                  </Table.Cell>
-                  <Table.Cell className="!w-[200px]">
-                    <ul className="flex flex-row items-center gap-1 justify-start flex-wrap">
-                      {item?.counties?.map((county: string, id: number) => (
-                        <li className="!line-clamp-1" key={id}>
-                          {county}
-                          {item?.counties?.length > 1 ? "," : ""}
-                        </li>
-                      ))}
-                    </ul>
-                  </Table.Cell>
-                  <Table.Cell className="w-[30px]">
-                    <EyeOpenIcon
-                      onClick={() => setSelectedMineral(item?._id)}
-                      className="cursor-pointer"
-                      height={20}
-                      width={20}
-                      color="gray"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+                      </ul>
+                    </Table.Cell>
+                    <Table.Cell className="w-[30px]">
+                      <EyeOpenIcon
+                        onClick={() => setSelectedMineral(item?._id)}
+                        className="cursor-pointer"
+                        height={20}
+                        width={20}
+                        color="gray"
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
           </div>
-
         ) : (
           <ListEmpty description="No results found!" />
         )}

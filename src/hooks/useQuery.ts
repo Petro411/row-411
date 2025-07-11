@@ -1,6 +1,7 @@
-import Label from "@/config/Label";
-import baseApi from "@/services/api";
 import { useState, useRef, useEffect } from "react";
+import baseApi from "@/services/api";
+import Label from "@/config/Label";
+
 
 export const useQuery = (endpoint?: string) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,7 +44,9 @@ export const useQuery = (endpoint?: string) => {
 
   useEffect(() => {
     return () => {
-      controllerRef.current?.abort();
+      if(controllerRef?.current){
+        controllerRef.current?.abort();
+      }
     };
   }, []);
 
