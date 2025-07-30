@@ -1,40 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Petro411
 
-## Getting Started
+**Petro411** is a powerful mineral and mineral owners data platform designed for professionals in the energy, land, and legal industries. With Petro411, users can **subscribe**, **search**, and **download mineral and ownership data** in just a few clicks.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 🔍 **Comprehensive Mineral & Owner Data**  
+  Access detailed and regularly updated data of mineral owners across various counties and states.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 📦 **Subscription-Based Access**  
+  Flexible subscription plans to suit your business needs and data consumption.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- ⬇️ **Downloadable Data**  
+  Export data in CSV or Excel formats for offline analysis and reporting.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- 🧠 **User-Friendly Interface**  
+  Intuitive and responsive UI for seamless data exploration and export.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## 🧾 How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Sign Up / Log In** – Create your Petro411 account to get started.
+2. **Choose a Subscription Plan** – Select a plan that fits your data needs.
+3. **Search & Filter Data** – Use our smart filters to find the exact data you need.
+4. **Download** – Export your selected data instantly.
 
-## Learn More
+## 🛠 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** React / Next.js / Tailwind CSS
+- **Backend:** Node.js / Express / MongoDB
+- **Authentication:** JWT / Cookies
+- **Data Export:** CSV / XLSX support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+## 📄 Sample Data Fields
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Owner Name
+- Email Addresses
+- Phone Numbers
+- Property Address
+- County & State
+- Zipcode
+- Mineral Description
+- Ownership Type
 
-## Deploy on Vercel
+## 💼 Who Is It For?
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Petro411 is built for:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- Landmen
+- Oil & Gas Companies
+- Legal Firms
+- Real Estate & Mineral Investors
+- Title & Abstract Professionals
+
+## 🔐 Security & Compliance
+
+We take data privacy seriously and ensure your data and transactions are secured using modern encryption and compliance standards.
+
+## 📧 Contact
+
+For support, custom data needs, or enterprise solutions:  
+📩 Email: [support@petro411.com](mailto:support@petro411.com)  
+🌐 Website: [https://petro411.com](https://petro411.com)
+
+---
+
+**Petro411** — Your trusted source for mineral and owner data.
