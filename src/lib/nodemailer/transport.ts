@@ -1,6 +1,8 @@
 import nodemailer from "nodemailer";
+
+
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "smtp.ethereal.email",
   port: 587,
   // secure: false,
   // auth: {
@@ -11,8 +13,8 @@ const transporter = nodemailer.createTransport({
     // service: "smtp.gmail.com",
     // port: 587,
     auth:{
-      user: 'hasnainalam1166@gmail.com',
-      pass: 'zdbw ppso feph dzww',
+      user: 'hertha.nicolas85@ethereal.email',
+      pass: 'F9ZyewvXbJtyE9QtU6',
     }
 });
 

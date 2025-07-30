@@ -1,9 +1,10 @@
-import Label from "@/config/Label";
-import { withMethod } from "@/lib/middlewares/withMethod"
-import Contact from "@/lib/mongodb/models/Contact";
 import { getTemplate } from "@/lib/nodemailer/get-template";
+import { withMethod } from "@/lib/middlewares/withMethod";
 import { transporter } from "@/lib/nodemailer/transport";
 import { HttpException } from "@/utils/HttpException";
+import Contact from "@/lib/mongodb/models/Contact";
+import Label from "@/config/Label";
+
 
 async function handler(req: any, res: any) {
     try {
