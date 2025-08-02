@@ -1,7 +1,9 @@
+import { Text } from "@radix-ui/themes";
 import React, { memo } from "react";
-import Container from "../Container";
-import {Text } from "@radix-ui/themes";
 import Label from "@/config/Label";
+
+import Container from "../Container";
+
 
 const Hero = () => {
   return (

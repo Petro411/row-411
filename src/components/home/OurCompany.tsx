@@ -1,7 +1,9 @@
-import React, { memo } from "react";
-import Container from "../Container";
-import Image from "next/image";
 import { Heading, Text } from "@radix-ui/themes";
+import React, { memo } from "react";
+import Image from "next/image";
+
+import Container from "../Container";
+
 
 const OurCompany = () => {
   return (
@@ -9,8 +11,9 @@ const OurCompany = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
         <div className="flex flex-row order-2 lg:order-1 justify-center lg:justify-start">
           <Image
-            alt=""
-            src={"/assets/images/empty-img.jpg"}
+            alt="alt"
+            src={"/industries/land-8.png"}
+                className="rounded-lg overflow-x-hidden"
             height={450}
             width={450}
           />

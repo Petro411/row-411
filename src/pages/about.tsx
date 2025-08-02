@@ -1,17 +1,18 @@
+import TextImageColumn from "@/components/TextImageColumn";
+import { Flex, Heading, Text } from "@radix-ui/themes";
+import OurCompany from "@/components/home/OurCompany";
+import baseApi, { endpoints } from "@/services/api";
+import SiteHeader from "@/components/SiteHeader";
+import PageHeader from "@/components/PageHeader";
 import Container from "@/components/Container";
-import Footer from "@/components/Footer";
 import About from "@/components/home/About";
 import Faqs from "@/components/home/Faqs";
-import OurCompany from "@/components/home/OurCompany";
-import PageHeader from "@/components/PageHeader";
-import SiteHeader from "@/components/SiteHeader";
-import TextImageColumn from "@/components/TextImageColumn";
-import baseApi, { endpoints } from "@/services/api";
-import { Flex, Heading, Text } from "@radix-ui/themes";
+import Footer from "@/components/Footer";
 import { GetStaticProps } from "next";
-import Head from "next/head";
 import Image from "next/image";
+import Head from "next/head";
 import React from "react";
+
 
 type Props = {
   faqs: any[] | [];
@@ -65,9 +66,10 @@ const AboutUs = ({ faqs }: Props) => {
             <div className={`flex flex-row justify-center lg:justify-end`}>
               <Image
                 alt=""
-                src={"/assets/images/empty-img.jpg"}
+                src={"/industries/land-6.png"}
                 height={450}
                 width={450}
+                className="rounded-lg overflow-x-hidden"
               />
             </div>
           </div>

@@ -1,18 +1,20 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Container from "@/components/Container";
-import Footer from "@/components/Footer";
-import Faqs from "@/components/home/Faqs";
-import NewsLetter from "@/components/NewsLetter";
-import PageHeader from "@/components/PageHeader";
-import SiteHeader from "@/components/SiteHeader";
-import { useMutation } from "@/hooks/useMutation";
-import baseApi, { endpoints } from "@/services/api";
-import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { Button, Flex, TextArea, TextField } from "@radix-ui/themes";
-import { GetStaticProps } from "next";
-import Head from "next/head";
-import toast from "react-simple-toasts";
+import React, { useCallback, useEffect, useState } from "react";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import baseApi, { endpoints } from "@/services/api";
+import { useMutation } from "@/hooks/useMutation";
+import SiteHeader from "@/components/SiteHeader";
+import PageHeader from "@/components/PageHeader";
+import NewsLetter from "@/components/NewsLetter";
+import Container from "@/components/Container";
 import { useQuery } from "@/hooks/useQuery";
+import Faqs from "@/components/home/Faqs";
+import Footer from "@/components/Footer";
+import toast from "react-simple-toasts";
+import { GetStaticProps } from "next";
+import Image from "next/image";
+import Head from "next/head";
+
 
 const ContactPage = () => {
   const [faqs, setFaqs] = useState([]);
@@ -75,7 +77,15 @@ const ContactPage = () => {
         containerClassname="!min-h-[40vh]"
       />
       <Container>
-        <div className="bg-white rounded-xl shadow-lg p-8 sm:p-10 border mt-16 md:mt-0 md:-translate-y-12 w-full lg:w-8/12 2xl:w-6/12 mx-auto">
+        <div className="bg-white border shadow-lg mt-20 p-12 rounded-xl grid grid-cols-2 gap-10">
+           <div className="flex flex-col items-center justify-center">
+            <Image
+            alt=";"
+            src={"/industries/contact.png"}
+            height={450}
+            width={450}
+            />
+          </div>
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <TextField.Root
               size="3"
@@ -126,11 +136,13 @@ const ContactPage = () => {
               Submit
             </Button>
           </form>
+         
         </div>
+
       </Container>
 
       <Flex direction="column" gap="9" className="pt-20">
-        <NewsLetter />
+        {/* <NewsLetter /> */}
         <Faqs faqs={faqs} />
       </Flex>
       <Footer />
