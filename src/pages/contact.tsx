@@ -5,7 +5,6 @@ import baseApi, { endpoints } from "@/services/api";
 import { useMutation } from "@/hooks/useMutation";
 import SiteHeader from "@/components/SiteHeader";
 import PageHeader from "@/components/PageHeader";
-import NewsLetter from "@/components/NewsLetter";
 import Container from "@/components/Container";
 import { useQuery } from "@/hooks/useQuery";
 import Faqs from "@/components/home/Faqs";
@@ -72,7 +71,7 @@ const ContactPage = () => {
       <SiteHeader />
       <PageHeader
         title="Contact Us"
-        description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaque."
+        description="If you have any questions or concerns, please contact us using the form below."
         className="!min-h-[40vh]"
         containerClassname="!min-h-[40vh]"
       />
