@@ -1,15 +1,37 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
-import { toastConfig } from "react-simple-toasts";
-import "react-simple-toasts/dist/style.css";
 import "react-simple-toasts/dist/theme/dark.css";
+import "react-simple-toasts/dist/style.css";
+import "@radix-ui/themes/styles.css";
+import "@/styles/globals.css";
+
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import AuthContextProvider from "@/context/AuthContext";
+import { toastConfig } from "react-simple-toasts";
+import type { AppProps } from "next/app";
+import { Theme } from "@radix-ui/themes";
+
+
 toastConfig({
   theme: "dark",
 });
+import Router from 'next/router'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+// Optional: Customize NProgress style
+NProgress.configure({ showSpinner: false, speed: 400 })
+
+Router.events.on('routeChangeStart', () => {
+  NProgress.start()
+})
+
+Router.events.on('routeChangeComplete', () => {
+  NProgress.done()
+})
+
+Router.events.on('routeChangeError', () => {
+  NProgress.done()
+})
+
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

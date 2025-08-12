@@ -188,3 +188,13 @@ body {
   color: #111827; /* text-gray-900 */
 }
 
+
+#nprogress .bar {
+  background: #0078B7; /* Tailwind blue-600 */
+  height: 4px;
+}
+
+/* Hide the spinner */
+#nprogress .spinner {
+  display: none;
+}
