@@ -94,7 +94,7 @@ export const serviceCards = [
     image: "/assets/images/price-tag.png",
   },
   {
-    title: "Downloadable Reports",
+    title: "Downloadable Spreadsheets",
     subtitle: "Export Anytime",
     description:
       "Need data offline? Easily download ownership reports and datasets in multiple formats for your convenience.",
@@ -120,25 +120,25 @@ export const valuesCards = [
   {
     title: "User-Centered Experience",
     description:
-      "We continuously enhance our platform to ensure it's intuitive, efficient, and delivers the best experience for our subscribers.",
+      "Search individual or company mineral owners based on County & State Query (Map Search Option available)",
     image: "/assets/images/like.png",
   },
   {
     title: "Data Accuracy",
     description:
-      "We prioritize precision by regularly verifying and updating mineral ownership and related records for dependable results.",
+      "Download an entire County mineral owner listing - Each mineral owner listing will include name (Individual or Company), email (s), phone number (s), address, county, state and a short legal description.",
     image: "/assets/images/accurad.png",
   },
   {
     title: "Security First",
     description:
-      "We implement strict security measures to safeguard user data and maintain confidentiality at every level.",
+      "Download multiple Counties mineral owner listings",
     image: "/assets/images/lock.png",
   },
   {
     title: "Performance & Speed",
     description:
-      "Our system is optimized to deliver fast search results and immediate access to downloadable reports and data.",
+      "Free searches without phone numbers and email addresses",
     image: "/assets/images/speed.png",
   },
   {
