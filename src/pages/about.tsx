@@ -34,7 +34,7 @@ const AboutUs = ({ faqs }: Props) => {
         <TextImageColumn
           imageFirst={true}
           title="Our Mission"
-          image="/industries/land-3.png"
+          image="/industries/land-3.jpg"
           text1="Unlike all the people search sources mentioned, Petro411 will be County specific and based
 on government tax listings, which will align the phone contact numbers with data sources
 currently being utilized by oil and gas land and title professionals throughout the United

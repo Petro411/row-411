@@ -10,7 +10,7 @@ const OurCompany = () => {
     <Container>
       <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
         
-        <div className="flex flex-col gap-4 order-1 lg:order-2">
+        <div className="flex flex-col gap-4 order-2 lg:order-1">
           <Heading size={"8"} className="text-heading">
             Our Company
           </Heading>
@@ -25,7 +25,7 @@ const OurCompany = () => {
           </div>
         </div>
 
-        <div className="flex flex-row order-2 lg:order-1 justify-center lg:justify-start">
+        <div className="flex flex-row order-1 lg:order-2 justify-center lg:justify-end">
           <Image
             alt="alt"
             src={"/industries/land-8.png"}
