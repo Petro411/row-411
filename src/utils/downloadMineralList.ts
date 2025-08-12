@@ -1,6 +1,6 @@
 type Item = {
   _id: string;
-  name: string;
+  names: string[];
   emails: string[];
   numbers: string[];
   addresses: string[];
@@ -17,34 +17,29 @@ type Item = {
 };
 
 export const downloadMineralList = (data: Item[], filename = "data.csv") => {
+  // Match the format the admin originally uploaded
   const headers = [
-    "ID",
     "Name",
-    "Emails",
-    "Numbers",
-    "Addresses",
-    "Counties",
-    "Zip Code",
+    "Email",       // single email per cell (or comma-separated if multiple)
+    "Number",      // single number per cell (or comma-separated)
+    "Address",     // same as uploaded
+    "County",
+    "Zip",
     "Description",
-    "State Name",
-    "State Code",
-    "Created At",
-    "Updated At"
+    "State",       // State Name
+    "State Code"
   ];
 
   const rows = data.map(item => [
-    item._id,
-    item.name,
-    item.emails.join(", "),
-    item.numbers.join(", "),
-    item.addresses.join(", "),
-    item.counties.join(", "),
-    item.zipcode,
-    item.description,
-    item.state.name,
-    item.state.code,
-    new Date(item.createdAt).toLocaleString(),
-    new Date(item.updatedAt).toLocaleString(),
+    Array.isArray(item.names) ? item.names.join(", ") : (item.names ?? ""),
+    Array.isArray(item.emails) ? item.emails.join(", ") : (item.emails ?? ""),
+    Array.isArray(item.numbers) ? item.numbers.join(", ") : (item.numbers ?? ""),
+    Array.isArray(item.addresses) ? item.addresses.join(", ") : (item.addresses ?? ""),
+    Array.isArray(item.counties) ? item.counties.join(", ") : (item.counties ?? ""),
+    item.zipcode ?? "",
+    item.description ?? "",
+    item.state?.name ?? "",
+    item.state?.code ?? ""
   ]);
 
   const csvContent =

@@ -1,18 +1,19 @@
-import Container from "@/components/Container";
-import Footer from "@/components/Footer";
 import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
-import OwnerDetails from "@/components/OwnerDetails";
-import SiteHeader from "@/components/SiteHeader";
-import Label from "@/config/Label";
-import baseApi, { endpoints } from "@/services/api";
-import { Heading, Text } from "@radix-ui/themes";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
+import OwnerDetails from "@/components/OwnerDetails";
+import baseApi, { endpoints } from "@/services/api";
+import SiteHeader from "@/components/SiteHeader";
+import { Heading, Text } from "@radix-ui/themes";
+import Container from "@/components/Container";
 import ReactPaginate from "react-paginate";
+import { GetServerSideProps } from "next";
+import Footer from "@/components/Footer";
+import { useRouter } from "next/router";
+import Label from "@/config/Label";
+import Link from "next/link";
+import Head from "next/head";
 import moment from "moment";
+
 
 const itemsPerPage = 10;
 
@@ -77,7 +78,7 @@ const Owners = ({ owners, totalPages, currentPage, locations}: any) => {
                 className="cursor-pointer flex flex-col p-5 rounded-lg border hover:border-primary transition-all duration-300 hover:shadow-lg shadow-md"
               >
                 <Heading size={"3"} className="text-heading !line-clamp-2">
-                  {item?.name}
+                  {item?.names[0]}
                 </Heading>
                 {/* <div className="flex flex-col mt-1">
                   <Text size={"2"} color="gray">
@@ -88,7 +89,7 @@ const Owners = ({ owners, totalPages, currentPage, locations}: any) => {
                   </Text>
                 </div> */}
                 <Text size={"1"} align={"right"} color="gray">
-                  {moment(item?.createdAt).format("MMMM Do YYYY")}
+                  {moment(item?.createdAt).format("MMMM DD YYYY")}
                 </Text>
               </div>
             ))}

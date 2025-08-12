@@ -7,7 +7,7 @@ interface State {
 }
 
 export interface IMineralOwner extends Document {
-    name: string;
+    names: string;
     emails: string[];
     numbers: string[];
     addresses: string[];
@@ -24,7 +24,7 @@ const StateSchema: Schema<State> = new Schema({
 }, { _id: false });
 
 const MineralOwnerSchema = new Schema<IMineralOwner>({
-    name: { type: String, required: true },
+    names: [{type: String}],
     emails: [{ type: String, }],
     numbers: [{ type: String, }],
     addresses: [{ type: String }],
