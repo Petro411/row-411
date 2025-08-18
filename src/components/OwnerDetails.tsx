@@ -49,7 +49,17 @@ const OwnerDetails = ({ id, setSelectedId }: Props) => {
           <Text size="3" color="gray">
             {value?.name}
           </Text>
-        ) : key === "emails" ? (
+        ) : 
+        key === "names" ? (
+           <Flex direction={"column"} gap={"1"}>
+            {value?.map((name: string, id: number) => (
+              <Text key={id} size="3" color="gray">
+                {name}
+              </Text>
+            ))}
+          </Flex>
+        ) :
+        key === "emails" ? (
           !authContext?.user || !authContext?.user?.subscription ? (
             <LockedSection user={authContext?.user} />
           ) : authContext?.user && authContext?.user?.subscription ? (
@@ -84,7 +94,7 @@ const OwnerDetails = ({ id, setSelectedId }: Props) => {
 
   return (
     <Dialog.Root open={id ? true : false}>
-      <Dialog.Content className="max-h-[90vh] overflow-y-auto ">
+      <Dialog.Content className="max-h-[60vh] overflow-y-auto ">
         <Flex direction={"row"} justify={"end"}>
           <IconButton
             size={"1"}

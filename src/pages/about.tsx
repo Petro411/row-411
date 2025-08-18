@@ -30,18 +30,22 @@ const AboutUs = ({ faqs }: Props) => {
         description={`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaqueLorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaque?`}
       />
       <Flex direction={"column"} gap={"9"} className="pt-20">
-        {/* <TextImageColumn
-          title="Our Mission"
-          text1="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
-          text2="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
-        />
+        <About />
         <TextImageColumn
           imageFirst={true}
-          title="What we offer"
-          text1="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
-          text2="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti sed magni impedit quas eos vero omnis velit sint quam rerum."
-        /> */}
-        <About />
+          title="Our Mission"
+          image="/industries/land-3.jpg"
+          text1="Unlike all the people search sources mentioned, Petro411 will be County specific and based
+on government tax listings, which will align the phone contact numbers with data sources
+currently being utilized by oil and gas land and title professionals throughout the United
+States. Therefore, the data sources within Petro411 will coincide with existing land practices
+utilized to assess the feasibility of oil and gas land-based projects."
+          text2="Petro411.com provides individual mineral owner searches and Mineral Owner Listings with
+Phone Numbers and Emails throughout the United States, appends phone numbers to
+existing lists provided by the client, prepares customized orders based on how it’s requested
+from the client, phone number verification, cell phone numbers and landline phone
+numbers."
+        />
                 <OurCompany />
         <Container className="py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gradientBg p-8 sm:p-16 2xl:p-20 rounded-xl gap-12 2xl:gap-0">
@@ -49,17 +53,8 @@ const AboutUs = ({ faqs }: Props) => {
               <Heading size={"8"}>Our vision</Heading>
               <Flex direction={"column"} gap={"4"}>
                 <Text size={"3"}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem
-                  porro, distinctio sapiente doloremque nam deserunt eius ipsum
-                  esse labore? Quia quo deleniti, cupiditate vitae distinctio
-                  officiis quam adipisci quos repudiandae consequatur pariatur,
-                  dolore a labore aliquid aliquam reprehenderit accusantium
-                  ullam.
-                </Text>
-                <Text size={"3"}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
-                  nostrum omnis libero nobis autem cupiditate tenetur quod
-                  ducimus ad natus!
+                 Petro411.com intends to become the primary data source for oil and gas land professionals to
+contact mineral owners.
                 </Text>
               </Flex>
             </div>

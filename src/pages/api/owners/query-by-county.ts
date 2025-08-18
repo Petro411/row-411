@@ -1,19 +1,40 @@
+import MineralOwner from "@/lib/mongodb/models/MineralOwner";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { NextApiResponse } from "next";
 import Label from "@/config/Label";
-import MineralOwner from "@/lib/mongodb/models/MineralOwner";
+
 
 async function handler(req: any, res: NextApiResponse) {
     try {
-        const { name } = req.query;
+        const { name, page = 1, limit = 10 } = req.query;
 
-        const minerals = await MineralOwner.find({
-            counties:{ $elemMatch: { $regex: new RegExp(`^${name}$`, 'i') } }
-        })
+        const pageNum = parseInt(page as string, 10) || 1;
+        const limitNum = parseInt(limit as string, 10) || 10;
+        const skip = (pageNum - 1) * limitNum;
+
+        // Build query condition
+        const query: any = {};
+        if (name && name.trim().length > 0) {
+            query.counties = { $elemMatch: { $regex: new RegExp(`^${name}$`, 'i') } };
+        }
+
+        // Get total count for pagination metadata
+        const total = await MineralOwner.countDocuments(query);
+
+        // Get paginated data
+        const minerals = await MineralOwner.find(query)
+            .skip(skip)
+            .limit(limitNum);
 
         return res.status(200).json({
-            success:true,
-            minerals
+            success: true,
+            minerals,
+            pagination: {
+                total,
+                page: pageNum,
+                limit: limitNum,
+                totalPages: Math.ceil(total / limitNum)
+            }
         });
 
     } catch (error: any) {

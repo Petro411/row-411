@@ -1,6 +1,6 @@
 import { Flex, Heading, Table, Text, TextField, Tooltip, } from "@radix-ui/themes";
-import React, { memo, ReactNode, useCallback, useEffect, useState, } from "react";
 import { ComposableMap, Geographies, Geography, Marker, } from "react-simple-maps";
+import React, { memo, ReactNode, useCallback, useEffect, useState, } from "react";
 import { DownloadIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { downloadMineralList } from "@/utils/downloadMineralList";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
@@ -10,6 +10,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { getUser } from "@/context/AuthContext";
 import Container from "@/components/Container";
 import { useQuery } from "@/hooks/useQuery";
+import ReactPaginate from "react-paginate";
 import { feature } from "topojson-client";
 import Footer from "@/components/Footer";
 import toast from "react-simple-toasts";
@@ -285,41 +286,44 @@ type MineralsTableProps = {
 };
 
 const MineralsTable = memo(({ state }: MineralsTableProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(10); // You can make this selectable if needed
+  const [totalPages, setTotalPages] = useState(0);
+
   const { request, data, loading } = useQuery(
-    `${endpoints.getOwnersByCounty}?name=${state}`
+    `${endpoints.getOwnersByCounty}?name=${state}&page=${currentPage}&limit=${limit}`
   );
+
   const [selectedMineral, setSelectedMineral] = useState<string | null>(null);
 
   const handleDownload = useCallback(() => {
     if (data?.minerals?.length) {
       downloadMineralList(data?.minerals);
-      toast("Mineral list has been downloaded.")
+      toast("Mineral list has been downloaded.");
     }
   }, [data?.minerals]);
 
   useEffect(() => {
     if (state?.trim()?.length) {
-      request();
+      request().then((res: any) => {
+        if (res?.pagination) {
+          setTotalPages(res.pagination.totalPages);
+        }
+      });
     }
-  }, [state]);
+  }, [state, currentPage]);
+
+  const handlePageClick = (event: { selected: number }) => {
+    setCurrentPage(event.selected + 1);
+  };
 
   return (
     <>
       <Flex direction={"column"} gap={"2"} mt={"8"}>
-        <Flex
-          className="border-b"
-          direction={"row"}
-          align={"center"}
-          justify={"between"}
-        >
+        <Flex className="border-b" direction={"row"} align={"center"} justify={"between"}>
           <h2 className="text-lg font-semibold mb-2">Mineral Owners</h2>
           <Flex direction={"row"} align={"center"} justify={"end"} gap={"4"}>
-            <ReloadIcon
-              height={18}
-              width={18}
-              color="gray"
-              onClick={() => request()}
-            />
+            <ReloadIcon height={18} width={18} color="gray" onClick={() => request()} />
             {data?.minerals?.length ? (
               <DownloadIcon
                 className="cursor-pointer"
@@ -328,78 +332,124 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
                 width={20}
                 color="gray"
               />
-            ) : (
-              <></>
-            )}
+            ) : null}
           </Flex>
         </Flex>
+
         {loading ? (
           <ListEmpty>
             <ReloadIcon className="animate-spin" height={20} width={20} />
           </ListEmpty>
         ) : data?.minerals?.length ? (
-          <div className="overflow-x-auto lg:overflow-x-visible">
-            <Table.Root className="min-w-[1000px]">
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>State</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Zipcode</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>County</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
-                </Table.Row>
-              </Table.Header>
+          <div className="overflow-x-auto">
+  <Table.Root className="min-w-[1200px]">
+    <Table.Header>
+      <Table.Row>
+        <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Phone</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>County</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>State</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Zipcode</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+      </Table.Row>
+    </Table.Header>
 
-              <Table.Body>
-                {data?.minerals?.map((item: any, index: number) => (
-                  <Table.Row key={index}>
-                    <Table.Cell>{item?.name}</Table.Cell>
-                    <Table.Cell>{item?.state?.name}</Table.Cell>
-                    <Table.Cell>{item?.zipcode}</Table.Cell>
-                    <Table.Cell className="!w-[400px]">
-                      <ul className="flex flex-col gap-2">
-                        {item?.addresses
-                          ?.slice(0, 2)
-                          ?.map((addr: string, id: number) => (
-                            <li className="!line-clamp-2" key={id}>
-                              {addr}
-                            </li>
-                          ))}
-                      </ul>
-                    </Table.Cell>
-                    <Table.Cell className="!w-[200px]">
-                      <ul className="flex flex-row items-center gap-1 justify-start flex-wrap">
-                        {item?.counties?.map((county: string, id: number) => (
-                          <li className="!line-clamp-1" key={id}>
-                            {county}
-                            {item?.counties?.length > 1 ? "," : ""}
-                          </li>
-                        ))}
-                      </ul>
-                    </Table.Cell>
-                    <Table.Cell className="w-[30px]">
-                      <EyeOpenIcon
-                        onClick={() => setSelectedMineral(item?._id)}
-                        className="cursor-pointer"
-                        height={20}
-                        width={20}
-                        color="gray"
-                      />
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table.Root>
-          </div>
+    <Table.Body>
+      {data.minerals.map((item: any, index: number) => (
+        <Table.Row key={index}>
+          {/* Names */}
+          <Table.Cell>
+            <div className="flex flex-col">
+              {item?.names?.map((name: string, i: number) => (
+                <span key={i}>{name}</span>
+              ))}
+            </div>
+          </Table.Cell>
+
+          {/* Emails */}
+          <Table.Cell>
+            <div className="flex flex-col">
+              {item?.emails?.map((email: string, i: number) => (
+                <span key={i}>{email}</span>
+              ))}
+            </div>
+          </Table.Cell>
+
+          {/* Phone numbers */}
+          <Table.Cell>
+            <div className="flex flex-col">
+              {item?.numbers?.map((num: string, i: number) => (
+                <span key={i}>{num}</span>
+              ))}
+            </div>
+          </Table.Cell>
+
+          {/* Addresses */}
+          <Table.Cell className="!w-[300px]">
+            <div className="flex flex-col">
+              {item?.addresses?.map((addr: string, i: number) => (
+                <span key={i}>{addr}</span>
+              ))}
+            </div>
+          </Table.Cell>
+
+          {/* Counties */}
+          <Table.Cell>
+            {item?.counties?.join(", ")}
+          </Table.Cell>
+
+          {/* State */}
+          <Table.Cell>{item?.state?.name}</Table.Cell>
+
+          {/* Zipcode */}
+          <Table.Cell>{item?.zipcode}</Table.Cell>
+
+          {/* Action */}
+          <Table.Cell className="w-[30px]">
+            <EyeOpenIcon
+              onClick={() => setSelectedMineral(item?._id)}
+              className="cursor-pointer"
+              height={20}
+              width={20}
+              color="gray"
+            />
+          </Table.Cell>
+        </Table.Row>
+      ))}
+    </Table.Body>
+  </Table.Root>
+</div>
+
         ) : (
           <ListEmpty description="No results found!" />
         )}
       </Flex>
 
+      {totalPages > 1 && (
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel="Next"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={totalPages}
+          forcePage={currentPage - 1}
+          previousLabel="Prev"
+          renderOnZeroPageCount={null}
+          containerClassName="flex items-center justify-center mt-8 gap-2 flex-wrap"
+          pageClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
+          activeClassName="bg-primary text-white border-primary hover:bg-primary"
+          previousClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
+          nextClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
+          breakClassName="px-4 py-2 text-gray-500"
+        />
+      )}
+
       <OwnerDetails id={selectedMineral} setSelectedId={setSelectedMineral} />
     </>
   );
 });
+
 
 export default Map;

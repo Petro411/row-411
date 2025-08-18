@@ -94,7 +94,7 @@ export const serviceCards = [
     image: "/assets/images/price-tag.png",
   },
   {
-    title: "Downloadable Reports",
+    title: "Downloadable Spreadsheets",
     subtitle: "Export Anytime",
     description:
       "Need data offline? Easily download ownership reports and datasets in multiple formats for your convenience.",
@@ -120,25 +120,25 @@ export const valuesCards = [
   {
     title: "User-Centered Experience",
     description:
-      "We continuously enhance our platform to ensure it's intuitive, efficient, and delivers the best experience for our subscribers.",
+      "Search individual or company mineral owners based on County & State Query (Map Search Option available)",
     image: "/assets/images/like.png",
   },
   {
     title: "Data Accuracy",
     description:
-      "We prioritize precision by regularly verifying and updating mineral ownership and related records for dependable results.",
+      "Download an entire County mineral owner listing - Each mineral owner listing will include name (Individual or Company), email (s), phone number (s), address, county, state and a short legal description.",
     image: "/assets/images/accurad.png",
   },
   {
     title: "Security First",
     description:
-      "We implement strict security measures to safeguard user data and maintain confidentiality at every level.",
+      "Download multiple Counties mineral owner listings",
     image: "/assets/images/lock.png",
   },
   {
     title: "Performance & Speed",
     description:
-      "Our system is optimized to deliver fast search results and immediate access to downloadable reports and data.",
+      "Free searches without phone numbers and email addresses",
     image: "/assets/images/speed.png",
   },
   {
@@ -300,3 +300,58 @@ export const demoTerms = `<p>Welcome to Petro411. By accessing or using our webs
     "Mobile, Washington",
     "Mesa, Oregon"
   ];
+
+
+
+export const US_STATES: Record<string, string> = {
+  AL: "Alabama",
+  AK: "Alaska",
+  AZ: "Arizona",
+  AR: "Arkansas",
+  CA: "California",
+  CO: "Colorado",
+  CT: "Connecticut",
+  DE: "Delaware",
+  FL: "Florida",
+  GA: "Georgia",
+  HI: "Hawaii",
+  ID: "Idaho",
+  IL: "Illinois",
+  IN: "Indiana",
+  IA: "Iowa",
+  KS: "Kansas",
+  KY: "Kentucky",
+  LA: "Louisiana",
+  ME: "Maine",
+  MD: "Maryland",
+  MA: "Massachusetts",
+  MI: "Michigan",
+  MN: "Minnesota",
+  MS: "Mississippi",
+  MO: "Missouri",
+  MT: "Montana",
+  NE: "Nebraska",
+  NV: "Nevada",
+  NH: "New Hampshire",
+  NJ: "New Jersey",
+  NM: "New Mexico",
+  NY: "New York",
+  NC: "North Carolina",
+  ND: "North Dakota",
+  OH: "Ohio",
+  OK: "Oklahoma",
+  OR: "Oregon",
+  PA: "Pennsylvania",
+  RI: "Rhode Island",
+  SC: "South Carolina",
+  SD: "South Dakota",
+  TN: "Tennessee",
+  TX: "Texas",
+  UT: "Utah",
+  VT: "Vermont",
+  VA: "Virginia",
+  WA: "Washington",
+  WV: "West Virginia",
+  WI: "Wisconsin",
+  WY: "Wyoming",
+};

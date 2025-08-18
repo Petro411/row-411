@@ -1,7 +1,9 @@
-import React, { memo, ReactNode } from "react";
-import Container from "./Container";
 import { Heading, Text } from "@radix-ui/themes";
+import React, { memo, ReactNode } from "react";
 import Image from "next/image";
+
+import Container from "./Container";
+
 
 const imageFirstClassName = "lg:order-1 order-2";
 
@@ -23,7 +25,7 @@ const TextImageColumn = ({
   imageFirst,
 }: Props) => {
   return (
-    <Container>
+    <Container className="py-20">
       <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
         <div
           className={`flex flex-col gap-4 ${
@@ -59,6 +61,7 @@ const TextImageColumn = ({
             alt=""
             src={image ? image : "/assets/images/empty-img.jpg"}
             height={450}
+            className="rounded-lg overflow-x-hidden"
             width={450}
           />
         </div>
