@@ -155,26 +155,31 @@ export const demoReviews = [
     name: "Sarah M.",
     rating: 5,
     review: "Petro411 made it incredibly easy to find the exact mineral data I needed. The platform is fast and reliable.",
+    image:"/assets/images/reviewimg.webp"
   },
   {
     name: "James R.",
     rating: 4,
     review: "Great service and accurate data. I found everything I was looking for with just a few clicks.",
+    image:"/assets/james.png"
   },
   {
     name: "Laura B.",
     rating: 5,
     review: "I love how user-friendly the search tool is. Subscribing was totally worth it for my research work.",
+    image:"/assets/laura.png"
   },
   {
     name: "Daniel T.",
     rating: 4,
     review: "Very helpful platform. A couple of filters could be improved, but overall it saved me hours of work.",
+    image:"/assets/daniel.png"
   },
   {
     name: "Emily K.",
     rating: 5,
     review: "Secure, fast, and easy to use. Highly recommend Petro411 to anyone dealing with mineral data.",
+    image:"/assets/emily.png"
   },
 ];
 
