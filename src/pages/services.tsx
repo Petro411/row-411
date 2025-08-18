@@ -1,19 +1,20 @@
-import Container from "@/components/Container";
-import Footer from "@/components/Footer";
-import Faqs from "@/components/home/Faqs";
-import Testimonials from "@/components/home/Testimonials";
-import NewsLetter from "@/components/NewsLetter";
-import PageHeader from "@/components/PageHeader";
-import Card from "@/components/services/Card";
 import WhatDrives from "@/components/services/WhatDrives";
+import Testimonials from "@/components/home/Testimonials";
 import WithPetro from "@/components/services/WithPetro";
-import SiteHeader from "@/components/SiteHeader";
-import { serviceCards } from "@/config/dummy";
 import baseApi, { endpoints } from "@/services/api";
+import SiteHeader from "@/components/SiteHeader";
+import PageHeader from "@/components/PageHeader";
+import NewsLetter from "@/components/NewsLetter";
+import Container from "@/components/Container";
+import Card from "@/components/services/Card";
+import { serviceCards } from "@/config/dummy";
+import Faqs from "@/components/home/Faqs";
+import Footer from "@/components/Footer";
 import { Flex } from "@radix-ui/themes";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import React from "react";
+
 
 type Props = {
   faqs: any[] | [];
@@ -29,7 +30,7 @@ const Services = ({ faqs, locations }: Props) => {
       <SiteHeader />
       <PageHeader
         title="Services"
-        description={`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaqueLorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaque?`}
+        description={`At Petro411, we provide reliable access to comprehensive mineral ownership data across the United States. From detailed property records to ownership information, our platform is designed to help investors, landmen, and energy professionals make informed decisions. With easy search tools, subscription-based downloads, and state-by-state insights, Petro411 delivers the data you need—when you need it.`}
       />
       <Flex direction={"column"} gap={"9"}>
         <Container>
