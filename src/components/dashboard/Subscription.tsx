@@ -133,6 +133,7 @@ const Subscription = () => {
 
 const CheckoutButton = memo(({ item }: any) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [showPopup, setShowPopup] = useState(false)
 
   const handleStripeSubscription = async () => {
     try {
@@ -152,30 +153,57 @@ const CheckoutButton = memo(({ item }: any) => {
   }
 
   return (
-    <div className="mt-5 space-y-3">
-      <div className="flex flex-col gap-3">
-        {/* Stripe Button */}
-        <Button
-          onClick={handleStripeSubscription}
-          disabled={!item?.priceId || isLoading}
-          loading={isLoading && item.priceId}
-          variant="outline"
-          color="yellow"
-          size={"4"}
-          className={`!rounded-xl py-3 w-full ${
-            item?.recommended
-              ? "!bg-primary !text-white"
-              : "!bg-transparent !text-black hover:!bg-primary hover:!text-white"
-          }`}
-        >
-          <Text size={"3"}>Buy with Card</Text>
-        </Button>
+    <div className="mt-5">
+      {/* Main Buy Button */}
+      <Button
+        onClick={() => setShowPopup(true)}
+        disabled={!item?.priceId || isLoading}
+        loading={isLoading}
+        variant="outline"
+        color="yellow"
+        size={"4"}
+        className={`!rounded-xl py-3 w-full ${
+          item?.recommended
+            ? "!bg-primary !text-white"
+            : "!bg-transparent !text-black hover:!bg-primary hover:!text-white"
+        }`}
+      >
+        <Text size={"3"}>Buy</Text>
+      </Button>
 
-        {/* PayPal Button */}
-        <div className="w-full">
-          <PayPalButton plan={item} />
+      {/* Popup for payment selection */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white rounded-2xl shadow-xl p-6 w-96">
+            <Heading size="4" className="mb-4">Choose Payment Method</Heading>
+
+            <div className="flex flex-col gap-3">
+              {/* Stripe option */}
+              <Button
+                onClick={handleStripeSubscription}
+                disabled={!item?.priceId || isLoading}
+                loading={isLoading}
+                className="!bg-primary !text-white !rounded py-5 w-full"
+              >
+                Pay with Card (Stripe)
+              </Button>
+
+              {/* PayPal option */}
+              <div className="w-full">
+                <PayPalButton plan={item} />
+              </div>
+            </div>
+
+            <Button
+              variant="ghost"
+              className="mt-4 w-full"
+              onClick={() => setShowPopup(false)}
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 })
