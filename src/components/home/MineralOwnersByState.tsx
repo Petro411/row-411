@@ -23,13 +23,15 @@ const MineralOwnersByState = ({ locations }: Props) => {
             color="gray"
             className="!w-full lg:!w-[70%] text-center"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-            dolorem ipsum voluptatem tempore reiciendis porro earum provident
-            temporibus doloribus natus?
+            Explore mineral ownership across the U.S. with Petro411. Select any
+            state to instantly access detailed mineral owner information,
+            including property data and ownership records. Whether you’re
+            researching opportunities or verifying ownership, Petro411 makes it
+            simple to navigate state-specific mineral data in just one click.
           </Text>
         </Flex>
         <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-5 mt-8">
-          {locations?.slice(0,44)?.map((item, index) => (
+          {locations?.slice(0, 44)?.map((item, index) => (
             <li key={index} className="text-center 2xl:text-start">
               <Link href={`/owners?cityState=${item?.code}`}>
                 <Text size={"3"} className="text-gray-500 hover:!underline">
@@ -40,9 +42,19 @@ const MineralOwnersByState = ({ locations }: Props) => {
           ))}
         </ul>
 
-        <Link href={"/map"} className="bg-white py-2.5 px-5 text-black border hover:bg-gray-100 border-btnPrimary rounded-lg self-center flex flex-row items-center justify-center gap-4" >
-        <Image src={'/assets/images/us.png'} alt="" className="rounded overflow-hidden" height={30} width={30} />
-        <Text size="3">Map Search</Text></Link>
+        <Link
+          href={"/map"}
+          className="bg-white py-2.5 px-5 text-black border hover:bg-gray-100 border-btnPrimary rounded-lg self-center flex flex-row items-center justify-center gap-4"
+        >
+          <Image
+            src={"/assets/images/us.png"}
+            alt=""
+            className="rounded overflow-hidden"
+            height={30}
+            width={30}
+          />
+          <Text size="3">Map Search</Text>
+        </Link>
       </Flex>
     </Container>
   );

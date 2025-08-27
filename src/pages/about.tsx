@@ -27,7 +27,12 @@ const AboutUs = ({ faqs }: Props) => {
       <SiteHeader />
       <PageHeader
         title="About Us"
-        description={`Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaqueLorem ipsum dolor, sit amet consectetur adipisicing elit. Quod error enim amet, dicta et iure similique nesciunt soluta ullam itaque?`}
+        description={` Petro411.com is a technology product specializing in oil and gas
+              mineral owner information for acquisition, management, and
+              identification. The system is designed primarily for the oil and
+              gas industry’s professionals engaged in the land acquisition
+              process (i.e. land acquisition, mineral acquisition, oil and gas
+              leasing, etc. for the oil and gas industry).`}
       />
       <Flex direction={"column"} gap={"9"} className="pt-20">
         <About />

@@ -1,3 +1,5 @@
+"use client"
+
 import Container from "@/components/Container";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
@@ -8,12 +10,22 @@ import { Flex, Heading, Separator, Text } from "@radix-ui/themes";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import PayPalButton from "@/components/dashboard/PaypalButton";
 
 const Pricing = ({ plans }: any) => {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const handleSubscribe = () => {
-    if (getItem("token")) {
+    if (isLoggedIn) {
       router.push("/dashboard");
     } else {
       router.push("/auth/login");
@@ -50,6 +62,7 @@ const Pricing = ({ plans }: any) => {
                 {item?.subtitle}
               </Heading>
 
+              {/* Stripe button (always shown) */}
               <button
                 onClick={handleSubscribe}
                 className={`!mt-5 !border rounded-xl py-3 !border-primary ${
@@ -58,8 +71,25 @@ const Pricing = ({ plans }: any) => {
                     : "!bg-transparent !text-black hover:!bg-primary hover:!text-white"
                 }`}
               >
-                Buy
+                Buy with Stripe
               </button>
+
+              {/* PayPal button only if logged in */}
+              {isLoggedIn && (
+                <div className="!mt-3">
+                  <PayPalButton
+                    plan={{
+                      _id: item._id,
+                      priceId: item.priceId,
+                      amount: item.amount,
+                      title: item.title,
+                    }}
+                    onSuccess={() => {
+                      router.push("/dashboard");
+                    }}
+                  />
+                </div>
+              )}
 
               <Heading size={"3"} color="gray" className="mt-5 mb-1">
                 Features

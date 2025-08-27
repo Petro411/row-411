@@ -15,15 +15,6 @@ const About = () => {
           </Heading>
           <div className="flex flex-col gap-4 mt-5">
             <Text size={"3"} color="gray">
-              Petro411.com is a technology product specializing in oil and gas
-              mineral owner information for acquisition, management, and
-              identification. The system is designed primarily for the oil and
-              gas industry’s professionals engaged in the land acquisition
-              process (i.e. land acquisition, mineral acquisition, oil and gas
-              leasing, etc. for the oil and gas industry).
-            </Text>
-
-            <Text size={"3"} color="gray">
               Petro411.com (or “Petro411”) aka “oil & gas white pages” seeks to develop an oil and gas
 industry specific database to consolidate mineral owner contact and land data into one
 system. The key to the system is to align the oil and gas industry with an industry-specific

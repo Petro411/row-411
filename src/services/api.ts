@@ -66,6 +66,8 @@ export const endpoints = {
   getCountiesByState:"/get-counties-by-state",
   getOwnersByCounty:"/owners/query-by-county",
   getPlans:"/stripe/plans",
+    createPayPalOrder: "/paypal/create-order",
+  capturePayPalOrder: "/paypal/capture-order",
 }
 
 export default baseApi;

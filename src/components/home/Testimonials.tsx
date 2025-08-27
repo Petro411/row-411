@@ -1,15 +1,16 @@
-import React, { memo } from "react";
-import Container from "../Container";
+import "swiper/css/pagination";
+import "swiper/css";
+
+import { StarFilledIcon } from "@radix-ui/react-icons";
 import { Flex, Heading, Text } from "@radix-ui/themes";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { demoReviews } from "@/config/dummy";
+import { Pagination } from "swiper/modules";
+import React, { memo } from "react";
 import Image from "next/image";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import Container from "../Container";
 
-import "swiper/css";
-import "swiper/css/pagination";
-import { demoReviews } from "@/config/dummy";
-import { StarFilledIcon } from "@radix-ui/react-icons";
 
 const Testimonials = () => {
   return (
@@ -70,7 +71,7 @@ const Testimonials = () => {
                 <div className="h-20 w-20 rounded-xl overflow-hidden mx-auto">
                   <Image
                     alt=""
-                    src={"/assets/images/reviewimg.webp"}
+                    src={item.image}
                     className="w-full h-full object-cover"
                     width={100}
                     height={100}
