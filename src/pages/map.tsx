@@ -1,7 +1,7 @@
 import { Flex, Heading, Table, Text, TextField, Tooltip, } from "@radix-ui/themes";
 import { ComposableMap, Geographies, Geography, Marker, } from "react-simple-maps";
 import React, { memo, ReactNode, useCallback, useEffect, useState, } from "react";
-import { DownloadIcon, EyeOpenIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { DownloadIcon, EyeOpenIcon, LockClosedIcon, PersonIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { downloadMineralList } from "@/utils/downloadMineralList";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import OwnerDetails from "@/components/OwnerDetails";
@@ -17,6 +17,7 @@ import toast from "react-simple-toasts";
 import { useRouter } from "next/router";
 import Select from "react-select";
 import Head from "next/head";
+import Link from "next/link";
 
 
 const STATES_TOPO_JSON =
@@ -88,7 +89,7 @@ function Map() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (error) {}
+    } catch (error) { }
   }, [getMineralsApi.data?.minerals]);
 
   useEffect(() => {
@@ -289,6 +290,8 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit] = useState(10); // You can make this selectable if needed
   const [totalPages, setTotalPages] = useState(0);
+  const user = getUser()?.user;
+
 
   const { request, data, loading } = useQuery(
     `${endpoints.getOwnersByCounty}?name=${state}&page=${currentPage}&limit=${limit}`
@@ -325,103 +328,130 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
           <Flex direction={"row"} align={"center"} justify={"end"} gap={"4"}>
             <ReloadIcon height={18} width={18} color="gray" onClick={() => request()} />
             {data?.minerals?.length ? (
-              <DownloadIcon
-                className="cursor-pointer"
-                onClick={handleDownload}
-                height={20}
-                width={20}
-                color="gray"
-              />
+              !user || !user?.subscription ? (
+                <div className="relative">
+                  <div className="backdrop-blur-sm absolute top-0 left-0 w-full h-full flex flex-row items-center justify-center z-10">
+                    <Link
+                      href={"/auth/login"}
+                      className="bg-primary rounded-lg w-fit flex flex-row items-center justify-center gap-2 px-3 py-1.5 text-white"
+                    >
+                      {!user ? <PersonIcon /> : !user?.subscription ? <LockClosedIcon /> : ""}
+                      <Text>
+                        {!user ? "Login" : !user?.subscription ? "Upgrade plan" : ""}
+                      </Text>
+                    </Link>
+                  </div>
+                  <DownloadIcon
+                    className="cursor-not-allowed opacity-50"
+                    height={20}
+                    width={20}
+                    color="gray"
+                  />
+                </div>
+              ) : (
+                <DownloadIcon
+                  className="cursor-pointer"
+                  onClick={handleDownload}
+                  height={20}
+                  width={20}
+                  color="gray"
+                />
+              )
             ) : null}
           </Flex>
         </Flex>
-
+       
         {loading ? (
           <ListEmpty>
             <ReloadIcon className="animate-spin" height={20} width={20} />
           </ListEmpty>
         ) : data?.minerals?.length ? (
           <div className="overflow-x-auto">
-  <Table.Root className="min-w-[1200px]">
-    <Table.Header>
-      <Table.Row>
-        <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Phone</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>County</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>State</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Zipcode</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
-      </Table.Row>
-    </Table.Header>
+            <Table.Root className="min-w-[1200px]">
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Phone</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>County</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>State</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Zipcode</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-    <Table.Body>
-      {data.minerals.map((item: any, index: number) => (
-        <Table.Row key={index}>
-          {/* Names */}
-          <Table.Cell>
-            <div className="flex flex-col">
-              {item?.names?.map((name: string, i: number) => (
-                <span key={i}>{name}</span>
-              ))}
-            </div>
-          </Table.Cell>
+              <Table.Body>
+                {data.minerals.map((item: any, index: number) => (
+                  <Table.Row key={index}>
+                    {/* Names */}
+                    <Table.Cell>
+                      <div className="flex flex-col">
+                        {item?.names?.map((name: string, i: number) => (
+                          <span key={i}>{name}</span>
+                        ))}
+                      </div>
+                    </Table.Cell>
 
-          {/* Emails */}
-          <Table.Cell>
-            <div className="flex flex-col">
-              {item?.emails?.map((email: string, i: number) => (
-                <span key={i}>{email}</span>
-              ))}
-            </div>
-          </Table.Cell>
+                    {/* Emails */}
+                    <Table.Cell>
+                      {!user || !user?.subscription ? (
+                        <LockedSection user={user} />
+                      ) : (
+                        <div className="flex flex-col">
+                          {item?.emails?.map((email: string, i: number) => (
+                            <span key={i}>{email}</span>
+                          ))}
+                        </div>
+                      )}
+                    </Table.Cell>
 
-          {/* Phone numbers */}
-          <Table.Cell>
-            <div className="flex flex-col">
-              {item?.numbers?.map((num: string, i: number) => (
-                <span key={i}>{num}</span>
-              ))}
-            </div>
-          </Table.Cell>
+                    {/* Phone numbers */}
+                    <Table.Cell>
+                      {!user || !user?.subscription ? (
+                        <LockedSection user={user} />
+                      ) : (
+                        <div className="flex flex-col">
+                          {item?.numbers?.map((num: string, i: number) => (
+                            <span key={i}>{num}</span>
+                          ))}
+                        </div>
+                      )}
+                    </Table.Cell>
 
-          {/* Addresses */}
-          <Table.Cell className="!w-[300px]">
-            <div className="flex flex-col">
-              {item?.addresses?.map((addr: string, i: number) => (
-                <span key={i}>{addr}</span>
-              ))}
-            </div>
-          </Table.Cell>
+                    {/* Addresses */}
+                    <Table.Cell className="!w-[300px]">
+                      <div className="flex flex-col">
+                        {item?.addresses?.map((addr: string, i: number) => (
+                          <span key={i}>{addr}</span>
+                        ))}
+                      </div>
+                    </Table.Cell>
 
-          {/* Counties */}
-          <Table.Cell>
-            {item?.counties?.join(", ")}
-          </Table.Cell>
+                    {/* Counties */}
+                    <Table.Cell>{item?.counties?.join(", ")}</Table.Cell>
 
-          {/* State */}
-          <Table.Cell>{item?.state?.name}</Table.Cell>
+                    {/* State */}
+                    <Table.Cell>{item?.state?.name}</Table.Cell>
 
-          {/* Zipcode */}
-          <Table.Cell>{item?.zipcode}</Table.Cell>
+                    {/* Zipcode */}
+                    <Table.Cell>{item?.zipcode}</Table.Cell>
 
-          {/* Action */}
-          <Table.Cell className="w-[30px]">
-            <EyeOpenIcon
-              onClick={() => setSelectedMineral(item?._id)}
-              className="cursor-pointer"
-              height={20}
-              width={20}
-              color="gray"
-            />
-          </Table.Cell>
-        </Table.Row>
-      ))}
-    </Table.Body>
-  </Table.Root>
-</div>
-
+                    {/* Action */}
+                    <Table.Cell className="w-[30px]">
+                      <EyeOpenIcon
+                        onClick={() => setSelectedMineral(item?._id)}
+                        className="cursor-pointer"
+                        height={20}
+                        width={20}
+                        color="gray"
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
+          </div>
         ) : (
           <ListEmpty description="No results found!" />
         )}
@@ -450,6 +480,27 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
     </>
   );
 });
+type LockedSectionProps = {
+  user: any;
+};
+
+const LockedSection = memo(({ user }: LockedSectionProps) => (
+  <div className="flex flex-row gap-2 relative overflow-hidden px-2 min-h-10">
+    <div className="backdrop-blur-sm absolute top-0 left-0 w-full !h-full flex flex-row items-center justify-center">
+      <Link
+        href={"/auth/login"}
+        className="bg-primary rounded-lg w-fit flex flex-row items-center justify-center gap-2 px-3 py-1.5 text-white"
+      >
+        {!user ? <PersonIcon /> : !user?.subscription ? <LockClosedIcon /> : ""}
+        <Text>
+          {!user ? "Login" : !user?.subscription ? "Upgrade plan" : ""}
+        </Text>
+      </Link>
+    </div>
+    <span>example@gmail.com</span>
+    
+  </div>
+));
 
 
 export default Map;

@@ -9,6 +9,7 @@ import Stripe from "stripe";
 import getRawBody from 'raw-body';
 import { buildOrganizationSubscription } from "@/lib/stripe/build-organization-subscription";
 import Subscription from "@/lib/mongodb/models/Subscription";
+import Plan from "@/lib/mongodb/models/Plan";
 
 const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
 
@@ -110,7 +111,7 @@ async function handler(
 export default withMethod(handler, ['POST']);
 
 
-
+//yahn pr plane subscription se id le k yahn object ma download limit add karna hai
 async function onCheckoutCompleted(
     session: Stripe.Checkout.Session,
     subscription: Stripe.Subscription
@@ -119,7 +120,23 @@ async function onCheckoutCompleted(
     const customerId = session.customer as string;
     const status = getOrderStatus(session.payment_status);
 
-    const subscriptionData = buildOrganizationSubscription({ ...subscription, userId, monthlyDownloadLimit: session?.metadata?.monthlyDownloadLimit ?? "" }, status);
+    // Get the plan details to get the download limit
+    const lineItem = subscription.items.data[0];
+    const priceId = lineItem.price.id;
+    s
+    let downloadLimit = 0;
+    try {
+        const plan = await Plan.findOne({ priceId });
+        downloadLimit = plan?.downloadLimit || 0;
+    } catch (error) {
+        console.log("Error fetching plan for download limit:", error);
+    }
+
+    const subscriptionData = buildOrganizationSubscription({ 
+        ...subscription, 
+        userId, 
+        monthlyDownloadLimit: downloadLimit.toString() 
+    }, status);
 
     const userSubscription = await Subscription.create(subscriptionData);
     await User.findByIdAndUpdate(userId, {

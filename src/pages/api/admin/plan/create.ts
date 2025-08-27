@@ -11,7 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 const handler = async (req: any, res: any) => {
   try {
-    const { title, subtitle, description, features, priceId, amount } = req.body;
+    const { title, subtitle, description, features, priceId, amount, downloadLimit } = req.body;
 
     if (!priceId || typeof amount !== 'number') {
       return res.status(400).json({
@@ -52,7 +52,8 @@ const handler = async (req: any, res: any) => {
       description,
       features,
       priceId,
-      amount, 
+      amount,
+      downloadLimit,
     });
 
     return res.status(200).json({
