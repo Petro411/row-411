@@ -16,6 +16,7 @@ toastConfig({
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 // Optional: Customize NProgress style
 NProgress.configure({ showSpinner: false, speed: 400 })
@@ -40,7 +41,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ""}
         >
-          <Component {...pageProps} />
+          <PayPalScriptProvider
+            options={{
+              
+              "clientId": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+              currency: "USD",
+              intent: "capture",
+            }}
+          >
+
+            <Component {...pageProps} />
+          </PayPalScriptProvider>
         </GoogleOAuthProvider>
       </Theme>
     </AuthContextProvider>
