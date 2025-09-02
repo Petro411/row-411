@@ -6,7 +6,8 @@ export interface IPlan extends Document {
     description: string;
     features: string[];
     priceId: string;
-    amount: number
+    amount: number;
+    downloadLimit?: number;
 }
 
 const PlanSchema: Schema = new Schema<IPlan>(
@@ -16,7 +17,8 @@ const PlanSchema: Schema = new Schema<IPlan>(
         description: { type: String, required: true },
         features: { type: [String], default: [] },
         priceId: { type: String, required: true, unique: true },
-        amount: { type: Number, required: true }
+        amount: { type: Number, required: true },
+        downloadLimit: { type: Number, default: 0 }
     },
     { timestamps: true }
 );

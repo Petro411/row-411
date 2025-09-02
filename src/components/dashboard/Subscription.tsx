@@ -21,8 +21,13 @@ const Subscription = () => {
   const [plans, setPlans] = useState<any[]>([])
 
   const currentPlan = useMemo(() => {
-    return plans?.find((item: any) => (item?.priceId === userSubscription?.priceId ? true : false))
-  }, [authContext?.user, userSubscription])
+    try {
+      return plans?.find((item: any) => (item?.priceId === userSubscription?.priceId ? true : false))
+    } catch (error) {
+      console.error("Error finding current plan:", error);
+      return null;
+    }
+  }, [authContext?.user, userSubscription, plans])
 
   const isCurrentPlan = useCallback(
     (priceId: string) => {
@@ -77,6 +82,54 @@ const Subscription = () => {
           </Button>
         )}
       </Flex>
+
+      {/* Current Subscription Details - Only show if user has subscription */}
+      {user?.subscription && (
+        <div className="mt-6 mb-8 bg-gray-50 rounded-xl p-6 border border-gray-200">
+          <Heading size="4" className="mb-4 text-gray-800">Current Plan Features</Heading>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Download Limit */}
+            <div className="bg-white rounded-lg p-4 border border-gray-300">
+              <Heading size="3" className="mb-3 text-blue-800">Download Limit</Heading>
+              <Flex direction="column" gap="2">
+                <Flex justify="between" align="center">
+                  <Text size="2" color="gray">Monthly Downloads:</Text>
+                  <Text size="2" weight="medium">{userSubscription?.monthlyDownloadLimit || 0} GB</Text>
+                </Flex>
+                <Flex justify="between" align="center">
+                  <Text size="2" color="gray">Used This Month:</Text>
+                  <Text size="2" weight="medium">{userSubscription?.downloadsThisMonth || 0} GB</Text>
+                </Flex>
+                <Flex justify="between" align="center">
+                  <Text size="2" color="gray">Remaining:</Text>
+                  <Text size="2" weight="medium" className="text-green-600">
+                    {Math.max(0, (userSubscription?.monthlyDownloadLimit || 0) - (userSubscription?.downloadsThisMonth || 0))} GB
+                  </Text>
+                </Flex>
+              </Flex>
+            </div>
+
+            {/* Current Features */}
+            <div className="bg-white rounded-lg p-4 border border-gray-300">
+              <Heading size="3" className="mb-3 text-green-800">Active Features</Heading>
+              <Flex direction="column" gap="2">
+                {currentPlan?.features?.map((feat: string, id: number) => (
+                  <Flex key={id} align="center" gap="2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <Text size="2">{feat || "Feature"}</Text>
+                  </Flex>
+                )) || (
+                  <Flex align="center" gap="2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <Text size="2">No features available</Text>
+                  </Flex>
+                )}
+              </Flex>
+            </div>
+          </div>
+        </div>
+      )}
       {plans?.length ? (
         <div className="pt-2 pb-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-full gap-5">
           {plans?.map((item, index) => (

@@ -328,13 +328,35 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
           <Flex direction={"row"} align={"center"} justify={"end"} gap={"4"}>
             <ReloadIcon height={18} width={18} color="gray" onClick={() => request()} />
             {data?.minerals?.length ? (
-              <DownloadIcon
-                className="cursor-pointer"
-                onClick={handleDownload}
-                height={20}
-                width={20}
-                color="gray"
-              />
+              !user || !user?.subscription ? (
+                <div className="relative">
+                  <div className="backdrop-blur-sm absolute top-0 left-0 w-full h-full flex flex-row items-center justify-center z-10">
+                    <Link
+                      href={"/auth/login"}
+                      className="bg-primary rounded-lg w-fit flex flex-row items-center justify-center gap-2 px-3 py-1.5 text-white"
+                    >
+                      {!user ? <PersonIcon /> : !user?.subscription ? <LockClosedIcon /> : ""}
+                      <Text>
+                        {!user ? "Login" : !user?.subscription ? "Upgrade plan" : ""}
+                      </Text>
+                    </Link>
+                  </div>
+                  <DownloadIcon
+                    className="cursor-not-allowed opacity-50"
+                    height={20}
+                    width={20}
+                    color="gray"
+                  />
+                </div>
+              ) : (
+                <DownloadIcon
+                  className="cursor-pointer"
+                  onClick={handleDownload}
+                  height={20}
+                  width={20}
+                  color="gray"
+                />
+              )
             ) : null}
           </Flex>
         </Flex>
