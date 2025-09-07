@@ -1,20 +1,19 @@
-import SiteHeader from "@/components/SiteHeader";
-import Head from "next/head";
-import React from "react";
-import About from "@/components/home/About";
-import OurCompany from "@/components/home/OurCompany";
 import MineralOwnersByState from "@/components/home/MineralOwnersByState";
-import HowItWorks from "@/components/home/HowItWorks";
-import Hero from "@/components/home/Hero";
+import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
 import Testimonials from "@/components/home/Testimonials";
+import HowItWorks from "@/components/home/HowItWorks";
+import baseApi, { endpoints } from "@/services/api";
+import SiteHeader from "@/components/SiteHeader";
+import NewsLetter from "@/components/NewsLetter";
+import Hero from "@/components/home/Hero";
 import Faqs from "@/components/home/Faqs";
 import Footer from "@/components/Footer";
-import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
 import { Flex } from "@radix-ui/themes";
-import NewsLetter from "@/components/NewsLetter";
-import Label from "@/config/Label";
 import { GetStaticProps } from "next";
-import baseApi, { endpoints } from "@/services/api";
+import Label from "@/config/Label";
+import Head from "next/head";
+import React from "react";
+
 
 type Props = {
   faqs: any[] | [];
