@@ -1,15 +1,16 @@
-import Label from "@/config/Label";
-import { withMethod } from "@/lib/middlewares/withMethod";
-import { dbConnect } from "@/lib/mongodb/dbConnect";
-import User from "@/lib/mongodb/models/User";
-import { HttpException } from "@/utils/HttpException";
-import { NextApiResponse } from "next";
-import JWT from "jsonwebtoken";
-import Stripe from "stripe";
-import getRawBody from 'raw-body';
 import { buildOrganizationSubscription } from "@/lib/stripe/build-organization-subscription";
 import Subscription from "@/lib/mongodb/models/Subscription";
+import { withMethod } from "@/lib/middlewares/withMethod";
+import { HttpException } from "@/utils/HttpException";
+import { dbConnect } from "@/lib/mongodb/dbConnect";
+import User from "@/lib/mongodb/models/User";
 import Plan from "@/lib/mongodb/models/Plan";
+import { NextApiResponse } from "next";
+import Label from "@/config/Label";
+import getRawBody from 'raw-body';
+import JWT from "jsonwebtoken";
+import Stripe from "stripe";
+
 
 const STRIPE_SIGNATURE_HEADER = 'stripe-signature';
 
@@ -123,7 +124,6 @@ async function onCheckoutCompleted(
     // Get the plan details to get the download limit
     const lineItem = subscription.items.data[0];
     const priceId = lineItem.price.id;
-    s
     let downloadLimit = 0;
     try {
         const plan = await Plan.findOne({ priceId });
