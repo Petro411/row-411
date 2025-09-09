@@ -1,14 +1,30 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
+import MineralOwner from "@/lib/mongodb/models/MineralOwner";
 import { withMethod } from "@/lib/middlewares/withMethod";
-import Location from "@/lib/mongodb/models/Location";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import Location from "@/lib/mongodb/models/Location";
+import Label from "@/config/Label";
+
 
 const handler = async (req: any, res: any) => {
   try {
     const { id } = req.query;
     if (!id?.trim()?.length) throw new HttpException(Label.ParamIdIsReq, 400);
+    const location = await Location.findById(id);
+
+    if (location?.type === 'state') {
+      await MineralOwner.findOneAndDelete({ 'state.code': location.code });
+    }
+
+    if (location?.type === 'county') {
+      const countyName = location.name.replace(/county/i, '').trim();
+
+      await MineralOwner.deleteMany({
+        counties: { $regex: new RegExp(`^${countyName}\\s*(county)?$`, 'i') }
+      });
+    }
+
     await Location.findByIdAndDelete(id);
     return res.status(200).json({ success: true });
   } catch (error: any) {
