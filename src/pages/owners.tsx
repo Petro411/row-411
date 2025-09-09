@@ -1,7 +1,11 @@
+import "swiper/css/pagination";
+import "swiper/css";
+
 import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
 import React, { useCallback, useState } from "react";
 import OwnerDetails from "@/components/OwnerDetails";
 import baseApi, { endpoints } from "@/services/api";
+import { Swiper, SwiperSlide } from "swiper/react";
 import SiteHeader from "@/components/SiteHeader";
 import { Heading, Text } from "@radix-ui/themes";
 import Container from "@/components/Container";
@@ -17,9 +21,20 @@ import moment from "moment";
 
 const itemsPerPage = 10;
 
-const Owners = ({ owners, totalPages, currentPage, locations}: any) => {
+const Owners = ({ owners, totalPages, currentPage, locations, counties}: any) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
+
+    const handleSelectCounty = useCallback(
+    (county: string) => {
+      router.push({
+        pathname: "/owners",
+        query: { ...router.query, county },
+      });
+    },
+    [router.query?.county]
+  );
+
   const handlePageClick = useCallback(
     (event: any) => {
       const selectedPage = event.selected + 1;
@@ -55,6 +70,19 @@ const Owners = ({ owners, totalPages, currentPage, locations}: any) => {
           tabView={true}
         />
         <Link href={"/map"} className="mt-6 text-white underline">Search through map</Link>
+
+         {counties?.length ? <div className="w-10/12 rounded-lg py-5 lg:w-9/12 mx-auto mt-10 flex flex-row flex-nowrap overflow-x-auto items-center gap-5">
+
+        {
+          counties?.map((item: any, index: number) => (
+              <div key={index} onClick={()=>handleSelectCounty(item?.name)} className={`px-2 py-2 min-w-56 text-center rounded-full text-sm cursor-pointer ${router?.query?.county === item?.name ? "bg-primary text-white" :"bg-white"} hover:bg-primary hover:text-white transition-all duration-300`}>
+              {item?.name}
+              </div>
+           ))
+        }
+          
+      </div> : ""}
+
       </div>
 
       <Container className="mt-5 mb-24">
@@ -125,15 +153,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {
     name = "",
     ml = "",
-    cityState = "",
+    state = "",
     page = "1",
+    county="",
   } = context.query;
 
   try {
     const res = await baseApi.get(
-      `${endpoints.queryOwners}?name=${name}&ml=${ml}&cityState=${cityState}&page=${page}&limit=${itemsPerPage}`
+      `${endpoints.queryOwners}?name=${name}&ml=${ml}&state=${state}&county=${county}&page=${page}&limit=${itemsPerPage}`
     );
-    const { owners, totalPages } = res.data;
+    const { owners, totalPages, counties } = res.data;
     const locsQuery = await baseApi.get(endpoints.getLocations);
 
     return {
@@ -142,6 +171,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         totalPages,
         currentPage: parseInt(page as string, 10),
         locations: locsQuery?.data?.locations ?? [],
+        counties: counties ?? []
       },
     };
   } catch (error) {

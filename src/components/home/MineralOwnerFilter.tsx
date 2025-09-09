@@ -1,18 +1,12 @@
-import React, { ChangeEvent, memo, useCallback, useState } from "react";
-import {
-  Button,
-  DropdownMenu,
-  Flex,
-  Heading,
-  Tabs,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
-import Container from "../Container";
+import { Button, DropdownMenu, Flex, Heading, Tabs, Text, TextField, } from "@radix-ui/themes";
+import React, { ChangeEvent, memo, useCallback, useMemo, useState } from "react";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { cityStatesList } from "@/config/dummy";
 import { useRouter } from "next/router";
+
 import MineralMapSearch from "../mineralSearch/MineralMapSearch";
+import Container from "../Container";
+
 
 type Props = {
   tabView?: boolean;
@@ -40,7 +34,7 @@ const MineralOwnerFilter = ({
     fName: "",
     lName: "",
     ml: "",
-    cityState: "",
+    state: "",
   });
 
   const handleOnChange = useCallback(
@@ -89,7 +83,7 @@ const MineralSearchForm = memo(
     const [form, setForm] = useState({
       name: "",
       ml: "",
-      cityState: "",
+      state: "",
     });
 
     const handleOnChange = useCallback(
@@ -108,6 +102,11 @@ const MineralSearchForm = memo(
       },
       [form]
     );
+
+    const selectedState = useMemo(() => { 
+      return locations?.find(item => item.code === form.state)?.name || ''
+    },[form.state]);
+
     return (
       <div
         className={`rounded-xl md:shadow-xl bg-white md:py-10 md:p-10 flex flex-col gap-6 ${className}`}
@@ -158,7 +157,7 @@ const MineralSearchForm = memo(
                       aria-multiline={false}
                       className="!font-normal w-full lg:!w-[100px] text-nowrap overflow-hidden"
                     >
-                      {form.cityState ? form.cityState : "County/State"}
+                      {selectedState ? selectedState : "County/State"}
                     </Text>
                     <DropdownMenu.TriggerIcon />
                   </Button>
@@ -180,14 +179,14 @@ const MineralSearchForm = memo(
                     direction={"column"}
                   >
                     {locations?.map((item, index) => {
-                      const isSelected = form.cityState === item?.code;
+                      const isSelected = form.state === item?.code;
                       return (
                         <DropdownMenu.Item
                           textValue={item?.name}
                           onClick={() =>
                             setForm((pre) => ({
                               ...pre,
-                              cityState: item?.code,
+                              state: item?.code,
                             }))
                           }
                           key={index}

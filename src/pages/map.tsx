@@ -1,7 +1,7 @@
+import { DownloadIcon, EyeOpenIcon, LockClosedIcon, PersonIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Flex, Heading, Table, Text, TextField, Tooltip, } from "@radix-ui/themes";
 import { ComposableMap, Geographies, Geography, Marker, } from "react-simple-maps";
 import React, { memo, ReactNode, useCallback, useEffect, useState, } from "react";
-import { DownloadIcon, EyeOpenIcon, LockClosedIcon, PersonIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { downloadMineralList } from "@/utils/downloadMineralList";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import OwnerDetails from "@/components/OwnerDetails";
@@ -16,8 +16,8 @@ import Footer from "@/components/Footer";
 import toast from "react-simple-toasts";
 import { useRouter } from "next/router";
 import Select from "react-select";
-import Head from "next/head";
 import Link from "next/link";
+import Head from "next/head";
 
 
 const STATES_TOPO_JSON =
@@ -492,9 +492,9 @@ const LockedSection = memo(({ user }: LockedSectionProps) => (
         className="bg-primary rounded-lg w-fit flex flex-row items-center justify-center gap-2 px-3 py-1.5 text-white"
       >
         {!user ? <PersonIcon /> : !user?.subscription ? <LockClosedIcon /> : ""}
-        <Text>
+        {/* <Text>
           {!user ? "Login" : !user?.subscription ? "Upgrade plan" : ""}
-        </Text>
+        </Text> */}
       </Link>
     </div>
     <span>example@gmail.com</span>

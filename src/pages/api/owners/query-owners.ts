@@ -1,17 +1,19 @@
+import MineralOwner from "@/lib/mongodb/models/MineralOwner";
 import { withMethod } from "@/lib/middlewares/withMethod";
+import Location from "@/lib/mongodb/models/Location";
+import { dbConnect } from "@/lib/mongodb/dbConnect";
 import { NextApiResponse } from "next";
 import Label from "@/config/Label";
-import { dbConnect } from "@/lib/mongodb/dbConnect";
-import MineralOwner from "@/lib/mongodb/models/MineralOwner";
+
 
 async function handler(req: any, res: NextApiResponse) {
     await dbConnect(); // ensure DB is connected
 
     try {
-        const { cityState, name, lName, ml, page = '1', limit = '10' } = req.query;
+        const { state, name, lName, ml, page = '1', limit = '10', county = '' } = req.query;
 
-        const ownerName = typeof name === "string"? name.toLowerCase(): '';
-        const ownerCity = typeof cityState === "string" ? cityState.toLowerCase() : '';
+        const ownerName = typeof name === "string" ? name.toLowerCase() : '';
+        const ownerCity = typeof state === "string" ? state.toLowerCase() : '';
         const legalMatch = typeof ml === "string" ? ml.toLowerCase() : '';
         const pageNum = parseInt(page as string, 10);
         const limitNum = parseInt(limit as string, 10);
@@ -25,21 +27,30 @@ async function handler(req: any, res: NextApiResponse) {
         if (ownerCity) {
             filter['state.code'] = { $regex: new RegExp(ownerCity, 'i') };
         }
+        if (county) {
+            const countyName = county.replace(/county/i, '').trim();
+            filter.counties = {
+                $regex: new RegExp(`^${countyName}\\s*(county)?$`, 'i')
+            };
+        }
         // if (legalMatch) {
         //     filter.legal_description = { $regex: new RegExp(legalMatch, 'i') };
         // }
 
         // Fetch data from MongoDB
-        const [owners, totalItems] = await Promise.all([
+
+        const [owners, totalItems, counties] = await Promise.all([
             MineralOwner.find(filter).skip(skip).limit(limitNum),
-            MineralOwner.countDocuments(filter)
+            MineralOwner.countDocuments(filter),
+            Location.find({ type: "county", "state.code": { $regex: new RegExp(ownerCity, 'i') } })
         ]);
 
         return res.status(200).json({
             owners,
             currentPage: pageNum,
             totalItems,
-            totalPages: Math.ceil(totalItems / limitNum)
+            totalPages: Math.ceil(totalItems / limitNum),
+            counties
         });
 
     } catch (error: any) {

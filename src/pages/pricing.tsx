@@ -71,7 +71,7 @@ const Pricing = ({ plans }: any) => {
                     : "!bg-transparent !text-black hover:!bg-primary hover:!text-white"
                 }`}
               >
-                Buy with Stripe
+                Buy
               </button>
 
               {/* PayPal button only if logged in */}
