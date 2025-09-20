@@ -19,7 +19,6 @@ async function handler(req: any, res: NextApiResponse) {
         const limitNum = parseInt(limit as string, 10);
         const skip = (pageNum - 1) * limitNum;
 
-        // Build MongoDB dynamic filter
         const filter: any = {};
         if (ownerName) {
             filter.names = { $elemMatch: { $regex: new RegExp(ownerName, "i") } };
@@ -33,11 +32,6 @@ async function handler(req: any, res: NextApiResponse) {
                 $regex: new RegExp(`^${countyName}\\s*(county)?$`, 'i')
             };
         }
-        // if (legalMatch) {
-        //     filter.legal_description = { $regex: new RegExp(legalMatch, 'i') };
-        // }
-
-        // Fetch data from MongoDB
 
         const [owners, totalItems, counties] = await Promise.all([
             MineralOwner.find(filter).skip(skip).limit(limitNum),

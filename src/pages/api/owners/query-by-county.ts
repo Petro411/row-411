@@ -12,7 +12,6 @@ async function handler(req: any, res: NextApiResponse) {
         const limitNum = parseInt(limit as string, 10) || 10;
         const skip = (pageNum - 1) * limitNum;
 
-        // Build query condition
         const query: any = {};
         if (name && name.trim().length > 0) {
             query.counties = { $elemMatch: { $regex: new RegExp(`^${name?.replace(/\s*county\s*$/i, "").trim()}(\\s*county)?$`, 'i') } };
@@ -20,7 +19,6 @@ async function handler(req: any, res: NextApiResponse) {
 
         const total = await MineralOwner.countDocuments(query);
 
-        // Get paginated data
         const minerals = await MineralOwner.find(query)
             .skip(skip)
             .limit(limitNum);

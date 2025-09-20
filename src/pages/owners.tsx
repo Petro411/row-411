@@ -107,14 +107,6 @@ const Owners = ({ owners, totalPages, currentPage, locations, counties,totalItem
                 <Heading size={"3"} className="text-heading !line-clamp-2">
                   {item?.names[0]}
                 </Heading>
-                {/* <div className="flex flex-col mt-1">
-                  <Text size={"2"} color="gray">
-                    {item?.addr_city}
-                  </Text>
-                  <Text size={"2"} color="gray">
-                    {item?.addr_line1 ?? item?.addr_line2}
-                  </Text>
-                </div> */}
                 <Text size={"1"} align={"right"} color="gray">
                   {moment(item?.createdAt).format("MMMM DD YYYY")}
                 </Text>
