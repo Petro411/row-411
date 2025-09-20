@@ -13,7 +13,7 @@ async function handler(req: any, res: NextApiResponse) {
         const { state, name, lName, ml, page = '1', limit = '10', county = '' } = req.query;
 
         const ownerName = typeof name === "string" ? name.toLowerCase() : '';
-        const ownerCity = typeof state === "string" ? state.toLowerCase() : '';
+        const ownerCity = typeof state === "string" ? state.toLowerCase() : name ? name?.toLowerCase() : '';
         const legalMatch = typeof ml === "string" ? ml.toLowerCase() : '';
         const pageNum = parseInt(page as string, 10);
         const limitNum = parseInt(limit as string, 10);
@@ -22,7 +22,7 @@ async function handler(req: any, res: NextApiResponse) {
         // Build MongoDB dynamic filter
         const filter: any = {};
         if (ownerName) {
-            filter.name = { $regex: new RegExp(ownerName, 'i') };
+            filter.names = { $elemMatch: { $regex: new RegExp(ownerName, "i") } };
         }
         if (ownerCity) {
             filter['state.code'] = { $regex: new RegExp(ownerCity, 'i') };
@@ -50,7 +50,7 @@ async function handler(req: any, res: NextApiResponse) {
             currentPage: pageNum,
             totalItems,
             totalPages: Math.ceil(totalItems / limitNum),
-            counties
+            counties:ownerCity?.length ? counties : []
         });
 
     } catch (error: any) {

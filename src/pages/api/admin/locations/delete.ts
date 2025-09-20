@@ -14,7 +14,8 @@ const handler = async (req: any, res: any) => {
     const location = await Location.findById(id);
 
     if (location?.type === 'state') {
-      await MineralOwner.findOneAndDelete({ 'state.code': location.code });
+      await MineralOwner.deleteMany({ 'state.code': location.code });
+      await Location.deleteMany({ 'state.code': location.code, type: "county" })
     }
 
     if (location?.type === 'county') {

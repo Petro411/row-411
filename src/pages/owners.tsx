@@ -5,7 +5,6 @@ import MineralOwnerFilter from "@/components/home/MineralOwnerFilter";
 import React, { useCallback, useState } from "react";
 import OwnerDetails from "@/components/OwnerDetails";
 import baseApi, { endpoints } from "@/services/api";
-import { Swiper, SwiperSlide } from "swiper/react";
 import SiteHeader from "@/components/SiteHeader";
 import { Heading, Text } from "@radix-ui/themes";
 import Container from "@/components/Container";
@@ -21,7 +20,7 @@ import moment from "moment";
 
 const itemsPerPage = 10;
 
-const Owners = ({ owners, totalPages, currentPage, locations, counties}: any) => {
+const Owners = ({ owners, totalPages, currentPage, locations, counties,totalItems}: any) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const router = useRouter();
 
@@ -88,7 +87,7 @@ const Owners = ({ owners, totalPages, currentPage, locations, counties}: any) =>
       <Container className="mt-5 mb-24">
         {owners?.length ? (
           <Text size={"2"} color="gray">
-            Showing {owners?.length}
+            Showing {owners?.length} out of {totalItems}
           </Text>
         ) : (
           ""
@@ -162,13 +161,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const res = await baseApi.get(
       `${endpoints.queryOwners}?name=${name}&ml=${ml}&state=${state}&county=${county}&page=${page}&limit=${itemsPerPage}`
     );
-    const { owners, totalPages, counties } = res.data;
+    const { owners, totalPages, counties, totalItems } = res.data;
     const locsQuery = await baseApi.get(endpoints.getLocations);
 
     return {
       props: {
         owners,
         totalPages,
+        totalItems,
         currentPage: parseInt(page as string, 10),
         locations: locsQuery?.data?.locations ?? [],
         counties: counties ?? []

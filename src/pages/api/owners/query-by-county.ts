@@ -15,10 +15,9 @@ async function handler(req: any, res: NextApiResponse) {
         // Build query condition
         const query: any = {};
         if (name && name.trim().length > 0) {
-            query.counties = { $elemMatch: { $regex: new RegExp(`^${name}$`, 'i') } };
+            query.counties = { $elemMatch: { $regex: new RegExp(`^${name?.replace(/\s*county\s*$/i, "").trim()}(\\s*county)?$`, 'i') } };
         }
 
-        // Get total count for pagination metadata
         const total = await MineralOwner.countDocuments(query);
 
         // Get paginated data
