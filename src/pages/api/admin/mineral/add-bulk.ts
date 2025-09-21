@@ -20,12 +20,19 @@ function normalizeKeys(row: Record<string, any>): Record<string, any> {
   return normalized;
 }
 
-
-function mapToMineralOwnerSchema(row: any) {
+function mapToMineralOwnerSchema(row: any, fallback: { state?: any; counties?: string[] }) {
   const cleanRow = normalizeKeys(row);
 
   const stateCode = safeTrim(cleanRow["State"]).toUpperCase();
   const stateName = US_STATES[stateCode] || "";
+
+  const rowState = stateCode
+    ? { name: stateName, code: stateCode }
+    : null;
+
+  const rowCounties = [
+    safeTrim(cleanRow["County"])
+  ].filter(Boolean);
 
   return {
     names: [
@@ -52,47 +59,50 @@ function mapToMineralOwnerSchema(row: any) {
       safeTrim(cleanRow["addr_line3"]),
     ].filter(Boolean),
 
-    counties: [
-      safeTrim(cleanRow["County"])
-    ].filter(Boolean),
+    counties: rowCounties.length > 0 ? rowCounties : (fallback.counties ?? []),
 
     zipcode: safeTrim(cleanRow["addr_zip"]),
     description: safeTrim(cleanRow["legal_description"]),
     city: safeTrim(cleanRow["addr_city"]),
 
-    state: {
-      name: stateName,
-      code: stateCode
-    }
+    state: rowState || fallback.state || { name: "", code: "" }
   };
 }
 
 
 
+
 const handler = async (req: any, res: any) => {
-    try {
+  try {
 
-        if (!Array.isArray(req.body?.list) || req.body?.list.length === 0) {
-            return res.status(400).json({
-                message: "No data provided",
-                success: false
-            });
-        }
-
-        const transformedData = req.body?.list.map(mapToMineralOwnerSchema);
-        const savedRecords = await MineralOwner.insertMany(transformedData, { ordered: false });
-
-        return res.status(200).json({
-            data: savedRecords,
-            success: true
-        });
-    } catch (error: any) {
-        return res.status(error?.statusCode ?? 500).json({
-            message: error?.message,
-            success: false,
-            status: error?.statusCode ?? 500
-        })
+    if (!Array.isArray(req.body?.list) || req.body?.list.length === 0) {
+      return res.status(400).json({
+        message: "No data provided",
+        success: false
+      });
     }
+
+    const fallback = {
+      state: req.body.state,
+      counties: req.body.counties,
+    };
+
+    const transformedData = req.body.list.map((row: any) =>
+      mapToMineralOwnerSchema(row, fallback)
+    );
+    const savedRecords = await MineralOwner.insertMany(transformedData, { ordered: false });
+
+    return res.status(200).json({
+      data: savedRecords,
+      success: true
+    });
+  } catch (error: any) {
+    return res.status(error?.statusCode ?? 500).json({
+      message: error?.message,
+      success: false,
+      status: error?.statusCode ?? 500
+    })
+  }
 };
 
 
