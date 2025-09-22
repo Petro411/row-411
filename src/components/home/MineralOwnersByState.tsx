@@ -33,7 +33,7 @@ const MineralOwnersByState = ({ locations }: Props) => {
         <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-5 mt-8">
           {locations?.slice(0, 44)?.map((item, index) => (
             <li key={index} className="text-center 2xl:text-start">
-              <Link href={`/owners?cityState=${item?.code}`}>
+              <Link href={`/owners?state=${item?.code}`}>
                 <Text size={"3"} className="text-gray-500 hover:!underline">
                   {item?.name}
                 </Text>
