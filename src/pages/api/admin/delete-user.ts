@@ -1,10 +1,12 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod";
 import { withRoleAuth } from "@/lib/middlewares/withRoleAuth";
-import User from "@/lib/mongodb/models/User";
+import Subscription from "@/lib/mongodb/models/Subscription";
+import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import User from "@/lib/mongodb/models/User";
+import Label from "@/config/Label";
+
 
 const handler = async (req: any, res: any) => {
     try {
@@ -12,6 +14,7 @@ const handler = async (req: any, res: any) => {
         const {id} = req.query;
         if(!id?.trim()?.length) throw new HttpException(Label.ParamIdIsReq,400);
 
+        await Subscription.findOneAndDelete({userId:id});
         await User.findByIdAndDelete(id)
 
         return res.status(200).json({ success: true })

@@ -95,17 +95,11 @@ const Subscription = () => {
               <Flex direction="column" gap="2">
                 <Flex justify="between" align="center">
                   <Text size="2" color="gray">Monthly Downloads:</Text>
-                  <Text size="2" weight="medium">{userSubscription?.monthlyDownloadLimit || 0} GB</Text>
+                  <Text size="2" weight="medium">{userSubscription?.monthlyDownloadLimit || 0} items</Text>
                 </Flex>
                 <Flex justify="between" align="center">
                   <Text size="2" color="gray">Used This Month:</Text>
-                  <Text size="2" weight="medium">{userSubscription?.downloadsThisMonth || 0} GB</Text>
-                </Flex>
-                <Flex justify="between" align="center">
-                  <Text size="2" color="gray">Remaining:</Text>
-                  <Text size="2" weight="medium" className="text-green-600">
-                    {Math.max(0, (userSubscription?.monthlyDownloadLimit || 0) - (userSubscription?.downloadsThisMonth || 0))} GB
-                  </Text>
+                  <Text size="2" weight="medium">{ userSubscription?.totalDownloads >= userSubscription?.monthlyDownloadLimit ? userSubscription?.monthlyDownloadLimit: userSubscription?.totalDownloads || 0} items</Text>
                 </Flex>
               </Flex>
             </div>
@@ -238,7 +232,7 @@ const CheckoutButton = memo(({ item }: any) => {
                 loading={isLoading}
                 className="!bg-primary !text-white !rounded py-5 w-full"
               >
-                Pay with Card (Stripe)
+                Sripe
               </Button>
 
               {/* PayPal option */}

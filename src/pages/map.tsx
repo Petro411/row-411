@@ -1,5 +1,5 @@
-import { DownloadIcon, EyeOpenIcon, LockClosedIcon, PersonIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { Flex, Heading, Table, Text, TextField, Tooltip, } from "@radix-ui/themes";
+import { DownloadIcon, EyeOpenIcon, LockClosedIcon, PersonIcon, ReloadIcon, } from "@radix-ui/react-icons";
+import { Flex, Heading, Select, Table, Text, TextField, Tooltip, } from "@radix-ui/themes";
 import { ComposableMap, Geographies, Geography, Marker, } from "react-simple-maps";
 import React, { memo, ReactNode, useCallback, useEffect, useState, } from "react";
 import { downloadMineralList } from "@/utils/downloadMineralList";
@@ -9,13 +9,13 @@ import baseApi, { endpoints } from "@/services/api";
 import SiteHeader from "@/components/SiteHeader";
 import { getUser } from "@/context/AuthContext";
 import Container from "@/components/Container";
+import { getItem } from "@/utils/Localstorage";
 import { useQuery } from "@/hooks/useQuery";
 import ReactPaginate from "react-paginate";
 import { feature } from "topojson-client";
 import Footer from "@/components/Footer";
 import toast from "react-simple-toasts";
 import { useRouter } from "next/router";
-import Select from "react-select";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -89,7 +89,7 @@ function Map() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (error) { }
+    } catch (error) {}
   }, [getMineralsApi.data?.minerals]);
 
   useEffect(() => {
@@ -288,23 +288,34 @@ type MineralsTableProps = {
 
 const MineralsTable = memo(({ state }: MineralsTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit] = useState(10); // You can make this selectable if needed
+  const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const user = getUser()?.user;
-
 
   const { request, data, loading } = useQuery(
     `${endpoints.getOwnersByCounty}?name=${state}&page=${currentPage}&limit=${limit}`
   );
 
+  const updateDownloadLimitApi = useQuery();
+
   const [selectedMineral, setSelectedMineral] = useState<string | null>(null);
 
-  const handleDownload = useCallback(() => {
+  const handleDownload = useCallback(async () => {
     if (data?.minerals?.length) {
+      try {
+        
+      
+      const token = getItem("token");
+      await updateDownloadLimitApi.request(
+        `${endpoints.updateDownloadLimit}?token=${token}&limit=${limit}`
+      );
       downloadMineralList(data?.minerals);
       toast("Mineral list has been downloaded.");
+      } catch (error) {
+      toast(GetApiErrorMessage(error))
+      }
     }
-  }, [data?.minerals]);
+  }, [data?.minerals, limit]);
 
   useEffect(() => {
     if (state?.trim()?.length) {
@@ -314,40 +325,73 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
         }
       });
     }
-  }, [state, currentPage]);
+  }, [state, currentPage, limit]);
 
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected + 1);
   };
 
+  const handleLimitChange = (value: any) => {
+    setLimit(Number(value));
+    setCurrentPage(1);
+  };
+
   return (
     <>
       <Flex direction={"column"} gap={"2"} mt={"8"}>
-        <Flex className="border-b" direction={"row"} align={"center"} justify={"between"}>
+        <Flex
+          className="border-b"
+          direction={"row"}
+          align={"center"}
+          justify={"between"}
+        >
           <h2 className="text-lg font-semibold mb-2">Mineral Owners</h2>
-          <Flex direction={"row"} align={"center"} justify={"end"} gap={"4"}>
-            <ReloadIcon height={18} width={18} color="gray" onClick={() => request()} />
+          <Flex
+            direction={"row"}
+            align={"center"}
+            justify={"end"}
+            gap={"4"}
+            mb={"4"}
+          >
+            <ReloadIcon
+              height={18}
+              width={18}
+              color="gray"
+              className="cursor-pointer"
+              onClick={() => request()}
+            />
             {data?.minerals?.length ? (
               !user || !user?.subscription ? (
-                <div className="relative">
-                  <div className="backdrop-blur-sm absolute top-0 left-0 w-full h-full flex flex-row items-center justify-center z-10">
-                    <Link
-                      href={"/auth/login"}
-                      className="bg-primary rounded-lg w-fit flex flex-row items-center justify-center gap-2 px-3 py-1.5 text-white"
-                    >
-                      {!user ? <PersonIcon /> : !user?.subscription ? <LockClosedIcon /> : ""}
-                      <Text>
-                        {!user ? "Login" : !user?.subscription ? "Upgrade plan" : ""}
-                      </Text>
-                    </Link>
-                  </div>
-                  <DownloadIcon
-                    className="cursor-not-allowed opacity-50"
-                    height={20}
-                    width={20}
-                    color="gray"
-                  />
-                </div>
+                // <div className="relative">
+                //   <div className="backdrop-blur-sm absolute top-0 left-0 w-full h-full flex flex-row items-center justify-center z-10">
+                //     <Link
+                //       href={"/auth/login"}
+                //       className="bg-primary min-w-[10rem] rounded-lg w-fit flex flex-row items-center justify-center gap-2 px-3 py-1.5 text-white"
+                //     >
+                //       {!user ? (
+                //         <PersonIcon />
+                //       ) : !user?.subscription ? (
+                //         <LockClosedIcon />
+                //       ) : (
+                //         ""
+                //       )}
+                //       {/* <Text>
+                //         {!user
+                //           ? "Login"
+                //           : !user?.subscription
+                //           ? "Upgrade plan"
+                //           : ""}
+                //       </Text> */}
+                //     </Link>
+                //   </div>
+                //   <DownloadIcon
+                //     className="cursor-not-allowed opacity-50"
+                //     height={20}
+                //     width={20}
+                //     color="gray"
+                //   />
+                // </div>
+                <></>
               ) : (
                 <DownloadIcon
                   className="cursor-pointer"
@@ -360,7 +404,7 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
             ) : null}
           </Flex>
         </Flex>
-       
+
         {loading ? (
           <ListEmpty>
             <ReloadIcon className="animate-spin" height={20} width={20} />
@@ -456,24 +500,30 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
           <ListEmpty description="No results found!" />
         )}
       </Flex>
-
       {totalPages > 1 && (
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel="Next"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
-          pageCount={totalPages}
-          forcePage={currentPage - 1}
-          previousLabel="Prev"
-          renderOnZeroPageCount={null}
-          containerClassName="flex items-center justify-center mt-8 gap-2 flex-wrap"
-          pageClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
-          activeClassName="bg-primary text-white border-primary hover:bg-primary"
-          previousClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
-          nextClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
-          breakClassName="px-4 py-2 text-gray-500"
-        />
+        <Flex direction={"row"} align={"center"} justify={"between"} mt={"4"}>
+          <NumberOfRows
+            value={limit?.toString()}
+            onChange={handleLimitChange}
+          />
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="Next"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={totalPages}
+            forcePage={currentPage - 1}
+            previousLabel="Prev"
+            renderOnZeroPageCount={null}
+            containerClassName="flex items-center justify-center gap-2 flex-wrap"
+            pageClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
+            activeClassName="bg-primary text-white border-primary hover:bg-primary"
+            previousClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
+            nextClassName="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
+            breakClassName="px-4 py-2 text-gray-500"
+            marginPagesDisplayed={2}
+          />
+        </Flex>
       )}
 
       <OwnerDetails id={selectedMineral} setSelectedId={setSelectedMineral} />
@@ -498,9 +548,35 @@ const LockedSection = memo(({ user }: LockedSectionProps) => (
       </Link>
     </div>
     <span>example@gmail.com</span>
-    
   </div>
 ));
 
+type NumberOfRowsProps = {
+  value: string;
+  onChange: (val: any) => void;
+};
+const NumberOfRows = memo(({ value, onChange }: NumberOfRowsProps) => {
+  return (
+    <Select.Root value={value} onValueChange={onChange}>
+      <Select.Trigger className="w-[150px]" placeholder="Number of rows" />
+      <Select.Content className="w-[150px]">
+        <Select.Item value="10">10</Select.Item>
+        <Select.Item value="20">20</Select.Item>
+        <Select.Item value="30">30</Select.Item>
+        <Select.Item value="40">40</Select.Item>
+        <Select.Item value="50">50</Select.Item>
+        <Select.Item value="60">60</Select.Item>
+        <Select.Item value="70">70</Select.Item>
+        <Select.Item value="80">80</Select.Item>
+        <Select.Item value="90">90</Select.Item>
+        <Select.Item value="100">100</Select.Item>
+        <Select.Item value="200">200</Select.Item>
+        <Select.Item value="300">300</Select.Item>
+        <Select.Item value="400">400</Select.Item>
+        <Select.Item value="500">500</Select.Item>
+      </Select.Content>
+    </Select.Root>
+  );
+});
 
 export default Map;

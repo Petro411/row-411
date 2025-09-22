@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const baseApi = axios.create({
   baseURL: process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_API_URL : "http://localhost:3000/api",
   timeout: 50000,
@@ -68,6 +69,7 @@ export const endpoints = {
   getPlans:"/stripe/plans",
     createPayPalOrder: "/paypal/create-order",
   capturePayPalOrder: "/paypal/capture-order",
+  updateDownloadLimit: "/owners/download-list",
 }
 
 export default baseApi;

@@ -26,9 +26,10 @@ const Owners = ({ owners, totalPages, currentPage, locations, counties,totalItem
 
     const handleSelectCounty = useCallback(
     (county: string) => {
+      const cleanCounty = county.replace(/\s*county\s*$/i, "").trim();
       router.push({
         pathname: "/owners",
-        query: { ...router.query, county },
+        query: { ...router.query, county:cleanCounty },
       });
     },
     [router.query?.county]

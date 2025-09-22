@@ -1,12 +1,13 @@
-import Label from "@/config/Label";
-import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import { HttpException } from "@/utils/HttpException";
-import bcrypt from "bcrypt";
-import JWT from "jsonwebtoken";
 import { setCookie } from 'nookies';
+import Label from "@/config/Label";
+import JWT from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "";
 
