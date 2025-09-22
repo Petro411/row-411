@@ -1,12 +1,13 @@
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod";
 import { withRoleAuth } from "@/lib/middlewares/withRoleAuth";
+import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import Plan from "@/lib/mongodb/models/Plan";
 import Stripe from "stripe";
 
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-03-31.basil",
+  apiVersion:"2025-08-27.basil",
 });
 
 const handler = async (req: any, res: any) => {

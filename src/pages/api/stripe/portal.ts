@@ -1,17 +1,18 @@
 import { withMethod } from "@/lib/middlewares/withMethod";
+import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import { HttpException } from "@/utils/HttpException";
+import { parseCookies } from "nookies";
 import { NextApiResponse } from "next";
 import JWT from "jsonwebtoken";
 import Stripe from "stripe";
-import { parseCookies } from "nookies";
+
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "";
 const siteUrl = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_SITE_URL : 'http://localhost:3000';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: "2025-03-31.basil",
+    apiVersion: "2025-08-27.basil",
 });
 
 
