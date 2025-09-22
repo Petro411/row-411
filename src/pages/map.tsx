@@ -232,7 +232,7 @@ function Map() {
                         onClick={(e) => setSelectedCounty(item?.name)}
                         key={index}
                         value={item?.name}
-                        className="cursor-pointer hover:bg-gray-200 focus:bg-gray-200 active:bg-gray-200 px-3 py-2 rounded-lg text-sm"
+                        className={`cursor-pointer   px-3 py-2 rounded-lg text-sm ${selectedCounty === item?.name ? 'bg-primary text-white' : 'hover:bg-gray-200 focus:bg-gray-200 active:bg-gray-200'}`}
                       >
                         {item?.name}
                       </li>
@@ -362,35 +362,6 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
             />
             {data?.minerals?.length ? (
               !user || !user?.subscription ? (
-                // <div className="relative">
-                //   <div className="backdrop-blur-sm absolute top-0 left-0 w-full h-full flex flex-row items-center justify-center z-10">
-                //     <Link
-                //       href={"/auth/login"}
-                //       className="bg-primary min-w-[10rem] rounded-lg w-fit flex flex-row items-center justify-center gap-2 px-3 py-1.5 text-white"
-                //     >
-                //       {!user ? (
-                //         <PersonIcon />
-                //       ) : !user?.subscription ? (
-                //         <LockClosedIcon />
-                //       ) : (
-                //         ""
-                //       )}
-                //       {/* <Text>
-                //         {!user
-                //           ? "Login"
-                //           : !user?.subscription
-                //           ? "Upgrade plan"
-                //           : ""}
-                //       </Text> */}
-                //     </Link>
-                //   </div>
-                //   <DownloadIcon
-                //     className="cursor-not-allowed opacity-50"
-                //     height={20}
-                //     width={20}
-                //     color="gray"
-                //   />
-                // </div>
                 <></>
               ) : (
                 <DownloadIcon
