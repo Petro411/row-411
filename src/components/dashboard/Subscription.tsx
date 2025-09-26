@@ -27,14 +27,16 @@ const Subscription = () => {
       console.error("Error finding current plan:", error);
       return null;
     }
-  }, [authContext?.user, userSubscription, plans])
+  }, [userSubscription?.priceId, plans])
 
   const isCurrentPlan = useCallback(
     (priceId: string) => {
       return currentPlan?.priceId === priceId
     },
-    [currentPlan, user],
+    [currentPlan],
   )
+
+   console.log(userSubscription, plans)
 
   const handleSubscription = useCallback(async () => {
     try {
@@ -60,7 +62,7 @@ const Subscription = () => {
       }
       fetchPlans()
     }
-  }, [user])
+  }, [])
 
   return (
     <>

@@ -32,7 +32,7 @@ export const config = {
 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion:"2025-08-27.basil",
+    apiVersion: "2025-08-27.basil",
 });
 
 const webhookSecret = process.env.NODE_ENV === "development" ? process.env.STRIPE_WEBHOOK_SECRET : process.env.STRIPE_WEBHOOK_SECRET_LIVE
@@ -65,28 +65,42 @@ async function handler(
 
             case StripeWebhooks.AsyncPaymentSuccess: {
                 const session = event.data.object as Stripe.Checkout.Session;
-                const organizationId = session.client_reference_id as string;
+                const subscriptionId = session.subscription as string;
 
-                // console.log(session, "session")
-                // console.log(organizationId, "organizationId")
+                if (!subscriptionId) {
+                    console.error("No subscriptionId found in session:", session.id);
+                    break;
+                }
 
-                // await activatePendingSubscription(organizationId);
+                const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
+                await onSubscriptionUpdated(session, subscription);
                 break;
             }
 
             case StripeWebhooks.SubscriptionDeleted: {
                 const subscription = event.data.object as Stripe.Subscription;
-                console.log(subscription, "subscription");
 
-                // await deleteOrganizationSubscription(subscription.id);
+                await Subscription.findOneAndUpdate(
+                    { subscriptionId: subscription.id },
+                    {
+                        status: "canceled",
+                        canceled_at: subscription.canceled_at || Date.now(),
+                        ended_at: subscription.ended_at || Date.now(),
+                    }
+                );
 
                 break;
             }
 
             case StripeWebhooks.SubscriptionUpdated: {
-                const subscription = event.data.object as Stripe.Subscription;
-                await onSubscriptionUpdated(subscription);
+                const session = event.data.object as Stripe.Subscription;
+                const subscriptionId = session.items?.data[0]?.subscription;
+                const subscription = await stripe.subscriptions.retrieve(
+                    subscriptionId
+                );
+
+                await onSubscriptionUpdated(session, subscription);
 
                 break;
             }
@@ -132,10 +146,10 @@ async function onCheckoutCompleted(
         console.log("Error fetching plan for download limit:", error);
     }
 
-    const subscriptionData = buildOrganizationSubscription({ 
-        ...subscription, 
-        userId, 
-        monthlyDownloadLimit: downloadLimit.toString() 
+    const subscriptionData = buildOrganizationSubscription({
+        ...subscription,
+        userId,
+        monthlyDownloadLimit: downloadLimit.toString()
     }, status);
 
     const userSubscription = await Subscription.create(subscriptionData);
@@ -147,11 +161,39 @@ async function onCheckoutCompleted(
 };
 
 async function onSubscriptionUpdated(
+    session: any,
     subscription: Stripe.Subscription
 ) {
-    const user = await User.findOne({ customer_id: subscription.customer });
-    const subscriptionData = await buildOrganizationSubscription({ ...subscription, userId: user?._id, monthlyDownloadLimit: "0" });
-    await Subscription.findByIdAndUpdate(user?.subscription, subscriptionData);
+    try {
+
+
+        const customerId = session.customer as string;
+        const status = getOrderStatus(session.payment_status);
+
+        const lineItem = subscription.items.data[0];
+        const priceId = lineItem.price.id;
+
+        let downloadLimit = 0;
+
+        const plan = await Plan.findOne({ priceId });
+        downloadLimit = plan?.downloadLimit || 0;
+
+
+        const user = await User.findOne({ customer_id: customerId });
+        const currentSubscription = await Subscription.findById(user?.subscription);
+
+        const newSubscriptionData = await buildOrganizationSubscription({
+            ...subscription,
+            userId: user?._id,
+            monthlyDownloadLimit: downloadLimit?.toString(),
+            totalDownloads: currentSubscription?.totalDownloads || 0,
+            downloadsThisMonth: currentSubscription?.downloadsThisMonth || 0
+        }, status);
+
+        await Subscription.findByIdAndUpdate(user?.subscription, newSubscriptionData);
+    } catch (error) {
+        console.log(error)
+    }
 };
 
 

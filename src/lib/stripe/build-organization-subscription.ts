@@ -1,9 +1,11 @@
 import type { Stripe } from 'stripe';
-import { UserPlanStatus } from '../../../types/subscription';
 import mongoose from 'mongoose';
 
+import { UserPlanStatus } from '../../../types/subscription';
+
+
 export function buildOrganizationSubscription(
-  subscription: Stripe.Subscription & { userId: string,monthlyDownloadLimit:string },
+  subscription: Stripe.Subscription & { userId: string,monthlyDownloadLimit:string,totalDownloads?:number,downloadsThisMonth?:number },
   status: UserPlanStatus = UserPlanStatus.Paid
 ): any {
   const lineItem = subscription.items.data[0];
@@ -30,8 +32,8 @@ export function buildOrganizationSubscription(
     expires_at: expiresAt,
     amount: price.unit_amount,
     monthlyDownloadLimit: Number(subscription.monthlyDownloadLimit),
-    totalDownloads: 0,
-    downloadsThisMonth: 0
+    totalDownloads: subscription?.totalDownloads || 0,
+    downloadsThisMonth: subscription?.downloadsThisMonth || 0
   };
 }
 
