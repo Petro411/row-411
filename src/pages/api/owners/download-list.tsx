@@ -38,17 +38,17 @@ async function handler(req: any, res: NextApiResponse) {
       );
     }
 
-    // if (plan.expires_at && plan.expires_at < Date.now()) {
-    //   throw new Error(
-    //     "Your subscription has expired. Please renew to continue."
-    //   );
-    // }
+    if (plan.expires_at && plan.expires_at < Date.now()) {
+      throw new Error(
+        "Your subscription has expired. Please renew to continue."
+      );
+    }
 
-    // if (plan.totalDownloads >= plan.monthlyDownloadLimit) {
-    //   throw new Error(
-    //     "You have reached your monthly download limit. Please upgrade or wait for reset."
-    //   );
-    // }
+    if (plan.totalDownloads >= plan.monthlyDownloadLimit) {
+      throw new Error(
+        "You have reached your monthly download limit. Please upgrade or wait for reset."
+      );
+    }
 
     const [list, limit] = await Promise.all([
       MineralOwner.find({
@@ -79,14 +79,6 @@ async function handler(req: any, res: NextApiResponse) {
     // return res.status(200).send({ success: true });
 
     const csv = formateListToCSV(list);
-
-  //   return new NextResponse(csv, {
-  //   status: 200,
-  //   headers: {
-  //     "Content-Type": "text/csv",
-  //     "Content-Disposition": `attachment; filename="list.csv"`,
-  //   },
-  // });
 
   return res.status(200).json({csv})
 
