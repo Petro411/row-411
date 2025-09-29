@@ -7,7 +7,7 @@ import User from "@/lib/mongodb/models/User";
 const handler = async (req: any, res: any) => {
     try {
 
-       const users = await User.find({}).select(['-password']).populate({path:"subscription",select:['amount']});
+       const users = await User.find({role:"admin"}).select(['-password']).populate({path:"subscription",select:['amount']});
        
         return res.status(200).json({ success:true, users})
 

@@ -63,3 +63,41 @@ export const downloadMineralList = (data: Item[], filename = "data.csv") => {
   link.click();
   document.body.removeChild(link);
 };
+
+export const formateListToCSV = (data: Item[]) => {
+  // Match the format the admin originally uploaded
+  const headers = [
+    "Name",
+    "Email",       // single email per cell (or comma-separated if multiple)
+    "Number",      // single number per cell (or comma-separated)
+    "Address",     // same as uploaded
+    "County",
+    "Zip",
+    "Description",
+    "State",       // State Name
+    "State Code"
+  ];
+
+  const rows = data.map(item => [
+    Array.isArray(item.names) ? item.names.join(", ") : (item.names ?? ""),
+    Array.isArray(item.emails) ? item.emails.join(", ") : (item.emails ?? ""),
+    Array.isArray(item.numbers) ? item.numbers.join(", ") : (item.numbers ?? ""),
+    Array.isArray(item.addresses) ? item.addresses.join(", ") : (item.addresses ?? ""),
+    Array.isArray(item.counties) ? item.counties.join(", ") : (item.counties ?? ""),
+    item.zipcode ?? "",
+    item.description ?? "",
+    item.state?.name ?? "",
+    item.state?.code ?? ""
+  ]);
+
+  const csvContent =
+    [headers, ...rows]
+      .map(row =>
+        row.map(field =>
+          `"${String(field).replace(/"/g, '""')}"`
+        ).join(",")
+      )
+      .join("\n");
+
+  return csvContent
+};

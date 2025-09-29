@@ -232,7 +232,11 @@ function Map() {
                         onClick={(e) => setSelectedCounty(item?.name)}
                         key={index}
                         value={item?.name}
-                        className={`cursor-pointer   px-3 py-2 rounded-lg text-sm ${selectedCounty === item?.name ? 'bg-primary text-white' : 'hover:bg-gray-200 focus:bg-gray-200 active:bg-gray-200'}`}
+                        className={`cursor-pointer   px-3 py-2 rounded-lg text-sm ${
+                          selectedCounty === item?.name
+                            ? "bg-primary text-white"
+                            : "hover:bg-gray-200 focus:bg-gray-200 active:bg-gray-200"
+                        }`}
                       >
                         {item?.name}
                       </li>
@@ -291,6 +295,7 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const user = getUser()?.user;
+  const token = getItem("token");
 
   const { request, data, loading } = useQuery(
     `${endpoints.getOwnersByCounty}?name=${state}&page=${currentPage}&limit=${limit}`
@@ -303,19 +308,29 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
   const handleDownload = useCallback(async () => {
     if (data?.minerals?.length) {
       try {
-        
-      
-      const token = getItem("token");
-      await updateDownloadLimitApi.request(
-        `${endpoints.updateDownloadLimit}?token=${token}&limit=${limit}`
-      );
-      downloadMineralList(data?.minerals);
-      toast("Mineral list has been downloaded.");
+        const token = getItem("token");
+       await updateDownloadLimitApi.request(
+          `${endpoints.updateDownloadLimit}?token=${token}&county=${state}`
+        );
+        const blob = new Blob([updateDownloadLimitApi.data?.csv], {
+          type: "text/csv;charset=utf-8;",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.setAttribute("href", url);
+        link.setAttribute("download", 'data.csv');
+        link.style.visibility = "hidden";
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast("Mineral list has been downloaded.");
       } catch (error) {
-      toast(GetApiErrorMessage(error))
+        toast(GetApiErrorMessage(error));
       }
     }
-  }, [data?.minerals, limit]);
+  }, [updateDownloadLimitApi.data?.csv, state]);
 
   useEffect(() => {
     if (state?.trim()?.length) {
@@ -364,6 +379,9 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
               !user || !user?.subscription ? (
                 <></>
               ) : (
+                // <a
+                //   href={`/api${endpoints.updateDownloadLimit}?token=${token}&county=${state}`}
+                // >
                 <DownloadIcon
                   className="cursor-pointer"
                   onClick={handleDownload}
@@ -371,6 +389,7 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
                   width={20}
                   color="gray"
                 />
+                // </a>
               )
             ) : null}
           </Flex>
