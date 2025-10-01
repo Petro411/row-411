@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 export enum UserPlanStatus {
   AwaitingPayment = 'awaitingPayment',
   Paid = 'paid',
@@ -27,4 +28,9 @@ export interface IUserSubscription extends Document {
   monthlyDownloadLimit: number;
   totalDownloads: number;
   downloadsThisMonth: number;
+
+  downloads_list: {
+    county: string
+    items_count: number
+  }[] | []
 }

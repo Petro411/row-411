@@ -5,7 +5,6 @@ import { withMethod } from "@/lib/middlewares/withMethod";
 import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import { NextResponse } from "next/server";
 import { NextApiResponse } from "next";
 import Label from "@/config/Label";
 import JWT from "jsonwebtoken";
@@ -50,38 +49,38 @@ async function handler(req: any, res: NextApiResponse) {
       );
     }
 
-    const [list, limit] = await Promise.all([
-      MineralOwner.find({
-        counties: {
-          $elemMatch: {
-            $regex: new RegExp(
-              `^${county?.replace(/\s*county\s*$/i, "").trim()}(\\s*county)?$`,
-              "i"
-            ),
-          },
+    const list = await MineralOwner.find({
+      counties: {
+        $elemMatch: {
+          $regex: new RegExp(
+            `^${county?.replace(/\s*county\s*$/i, "").trim()}(\\s*county)?$`,
+            "i"
+          ),
         },
-      }),
-      MineralOwner.countDocuments({
-        counties: {
-          $elemMatch: {
-            $regex: new RegExp(
-              `^${county?.replace(/\s*county\s*$/i, "").trim()}(\\s*county)?$`,
-              "i"
-            ),
-          },
+      },
+    });
+
+    const listLength = await MineralOwner.countDocuments({
+      counties: {
+        $elemMatch: {
+          $regex: new RegExp(
+            `^${county?.replace(/\s*county\s*$/i, "").trim()}(\\s*county)?$`,
+            "i"
+          ),
         },
-      }),
-    ]);
+      },
+    });
 
-    plan.totalDownloads = plan.totalDownloads + Number(limit);
-    await plan.save();
-
-    // return res.status(200).send({ success: true });
+    if (!plan?.downloads_list?.find((item:any)=>item?.county?.toLowerCase()=== county?.toLowerCase())) {
+      plan.totalDownloads = plan.totalDownloads + 1;
+      let currentDownloadsList= plan?.downloads_list || []
+      plan.downloads_list=[...currentDownloadsList,{county:county?.toLowerCase(),items_count:listLength}]
+      await plan.save();
+    }
 
     const csv = formateListToCSV(list);
 
-  return res.status(200).json({csv})
-
+    return res.status(200).json({ csv });
   } catch (error: any) {
     return res.status(error?.statusCode ?? 500).json({
       success: false,

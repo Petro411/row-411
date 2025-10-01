@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
+
 import { IUserSubscription, UserPlanStatus } from '../../../../types/subscription';
+
 
 const SubscriptionSchema = new mongoose.Schema<IUserSubscription>({
     subscriptionId: { type: String, required: true },
@@ -30,6 +32,10 @@ const SubscriptionSchema = new mongoose.Schema<IUserSubscription>({
     monthlyDownloadLimit: { type: Number, required: true },
     totalDownloads: { type: Number, default: 0 },
     downloadsThisMonth: { type: Number, default: 0 },
+    downloads_list:[{
+        county:{type:String},
+        items_count:{type:Number}
+    }]
 }, { timestamps: true });
 
 export default mongoose.models.Subscription || mongoose.model<IUserSubscription>('Subscription', SubscriptionSchema);

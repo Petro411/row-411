@@ -21,6 +21,7 @@ const handler = async (req: any, res: any) => {
             User.find({role:"user"}).select(['-password']).populate({path:"subscription",select:['amount','status','start_date','expires_at','totalDownloads']})
                 .skip(skip)
                 .limit(limit)
+                .sort({createdAt:-1})
                 .lean(),
             User.countDocuments(),
         ]);

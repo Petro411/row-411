@@ -13,8 +13,8 @@ const transporter = nodemailer.createTransport({
     // service: "smtp.gmail.com",
     // port: 587,
     auth:{
-      user: 'hertha.nicolas85@ethereal.email',
-      pass: 'F9ZyewvXbJtyE9QtU6',
+      user: 'sylvia.yundt@ethereal.email',
+      pass: 'GfRxZNqXRtc1wXsbXa',
     }
 });
 

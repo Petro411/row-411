@@ -1,68 +1,64 @@
-"use client"
+"use client";
 
-import { Badge, Button, Flex, Heading, Separator, Text } from "@radix-ui/themes"
-import { memo, useCallback, useEffect, useMemo, useState } from "react"
-import GetApiErrorMessage from "@/utils/GetApiErrorMessage"
-import baseApi, { endpoints } from "@/services/api"
-import { getUser } from "@/context/AuthContext"
-import { loadStripe } from "@stripe/stripe-js"
-import { getItem } from "@/utils/Localstorage"
-import toast from "react-simple-toasts"
-import moment from "moment"
-import PayPalButton from "./PaypalButton"
+import {
+  Badge,
+  Button,
+  Flex,
+  Heading,
+  Separator,
+  Text,
+} from "@radix-ui/themes";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import baseApi, { endpoints } from "@/services/api";
+import { getUser } from "@/context/AuthContext";
+import { loadStripe } from "@stripe/stripe-js";
+import { getItem } from "@/utils/Localstorage";
+import toast from "react-simple-toasts";
+import PayPalButton from "./PaypalButton";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? "")
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? ""
+);
 
 const Subscription = () => {
-  const authContext = getUser()
-  const user = authContext?.user
-  const userSubscription = authContext?.user?.subscription
-  const [isLoading, setIsLoading] = useState(false)
-  const [plans, setPlans] = useState<any[]>([])
+  const authContext = getUser();
+  const user = authContext?.user;
+  const userSubscription = authContext?.user?.subscription;
+  const [isLoading, setIsLoading] = useState(false);
+  const [plans, setPlans] = useState<any[]>([]);
 
   const currentPlan = useMemo(() => {
-    try {
-      return plans?.find((item: any) => (item?.priceId === userSubscription?.priceId ? true : false))
-    } catch (error) {
-      console.error("Error finding current plan:", error);
-      return null;
-    }
-  }, [userSubscription?.priceId, plans])
-
-  const isCurrentPlan = useCallback(
-    (priceId: string) => {
-      return currentPlan?.priceId === priceId
-    },
-    [currentPlan],
-  )
-
-   console.log(userSubscription, plans)
+    return plans?.find(
+      (item: any) => item?.priceId === userSubscription?.priceId
+    );
+  }, [userSubscription?.priceId, plans]);
 
   const handleSubscription = useCallback(async () => {
     try {
-      setIsLoading(true)
-      const res = await baseApi.get(endpoints.portal)
-      window.location.href = res.data?.session
-      setIsLoading(false)
+      setIsLoading(true);
+      const res = await baseApi.get(endpoints.portal);
+      window.location.href = res.data?.session;
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
-      toast(GetApiErrorMessage(error))
+      setIsLoading(false);
+      toast(GetApiErrorMessage(error));
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if (!plans?.length) {
+    if (user && !plans?.length) {
       const fetchPlans = async () => {
         try {
-          const res = await baseApi.get(endpoints.getPlans)
-          setPlans(res?.data?.plans)
+          const res = await baseApi.get(endpoints.getPlans);
+          setPlans(res?.data?.plans);
         } catch (error) {
-          toast(GetApiErrorMessage(error))
+          toast(GetApiErrorMessage(error));
         }
-      }
-      fetchPlans()
+      };
+      fetchPlans();
     }
-  }, [])
+  }, [user]);
 
   return (
     <>
@@ -79,7 +75,9 @@ const Subscription = () => {
             className="!bg-btnPrimary"
           >
             <Text size={"2"}>
-              {userSubscription?.cancel_at && userSubscription?.canceled_at ? "Renew subscription" : "Manage Billing"}
+              {userSubscription?.cancel_at && userSubscription?.canceled_at
+                ? "Renew subscription"
+                : "Manage Billing"}
             </Text>
           </Button>
         )}
@@ -88,27 +86,56 @@ const Subscription = () => {
       {/* Current Subscription Details - Only show if user has subscription */}
       {user?.subscription && (
         <div className="mt-6 mb-8 bg-gray-50 rounded-xl p-6 border border-gray-200">
-          <Heading size="4" className="mb-4 text-gray-800">Current Plan Features</Heading>
-          
+          <div className="bg-white rounded-lg p-4 mb-5 border border-gray-300 flex flex-row items-center gap-5">
+            <div className="flex flex-col w-full">
+              <Heading size={"3"}>{currentPlan?.title}</Heading>
+              <Text size="2" color="gray">
+                {currentPlan?.subtitle}
+              </Text>
+            </div>
+
+            <div className="w-[30%]">
+              <Heading size={"7"} align={"right"}>
+                {currentPlan?.amount}$
+              </Heading>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Download Limit */}
             <div className="bg-white rounded-lg p-4 border border-gray-300">
-              <Heading size="3" className="mb-3 text-blue-800">Download Limit</Heading>
+              <Heading size="3" className="mb-3 text-blue-800">
+                Download Limit
+              </Heading>
               <Flex direction="column" gap="2">
                 <Flex justify="between" align="center">
-                  <Text size="2" color="gray">Monthly Downloads:</Text>
-                  <Text size="2" weight="medium">{userSubscription?.monthlyDownloadLimit || 0} items</Text>
+                  <Text size="2" color="gray">
+                    Monthly Downloads:
+                  </Text>
+                  <Text size="2" weight="medium">
+                    {userSubscription?.monthlyDownloadLimit || 0} items
+                  </Text>
                 </Flex>
                 <Flex justify="between" align="center">
-                  <Text size="2" color="gray">Used This Month:</Text>
-                  <Text size="2" weight="medium">{ userSubscription?.totalDownloads >= userSubscription?.monthlyDownloadLimit ? userSubscription?.monthlyDownloadLimit: userSubscription?.totalDownloads || 0} items</Text>
+                  <Text size="2" color="gray">
+                    Used This Month:
+                  </Text>
+                  <Text size="2" weight="medium">
+                    {userSubscription?.totalDownloads >=
+                    userSubscription?.monthlyDownloadLimit
+                      ? userSubscription?.monthlyDownloadLimit
+                      : userSubscription?.totalDownloads || 0}{" "}
+                    items
+                  </Text>
                 </Flex>
               </Flex>
             </div>
 
             {/* Current Features */}
             <div className="bg-white rounded-lg p-4 border border-gray-300">
-              <Heading size="3" className="mb-3 text-green-800">Active Features</Heading>
+              <Heading size="3" className="mb-3 text-green-800">
+                Active Features
+              </Heading>
               <Flex direction="column" gap="2">
                 {currentPlan?.features?.map((feat: string, id: number) => (
                   <Flex key={id} align="center" gap="2">
@@ -126,21 +153,14 @@ const Subscription = () => {
           </div>
         </div>
       )}
-      {plans?.length ? (
+      {!currentPlan && plans?.length ? (
         <div className="pt-2 pb-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 w-full gap-5">
           {plans?.map((item, index) => (
             <Flex
               key={index}
               direction={"column"}
-              className={`min-h-[20vh] relative border rounded-xl p-6 ${
-                isCurrentPlan(item?.priceId) ? "bg-blue-500/5 border-yellow" : ""
-              }`}
+              className={`min-h-[20vh] relative border rounded-xl p-6`}
             >
-              {isCurrentPlan(item?.priceId) && (
-                <Badge size={"3"} radius="large" className="absolute top-1 right-1" color="red">
-                  <Text size={"1"}>Expires at {moment(user?.subscription?.expires_at)?.format("YYYY-MM-DD")}</Text>
-                </Badge>
-              )}
               <Heading size={"4"} align={"left"} className="mb-5">
                 {item?.title}
               </Heading>
@@ -176,30 +196,53 @@ const Subscription = () => {
       ) : (
         ""
       )}
+      {user?.subscription && user?.subscription?.downloads_list?.length ? (
+        <div className="space-y-4">
+          <Heading size={"3"}>Downloads history</Heading>
+
+          <div className="mt-6 pb-10 flex flex-col gap-2">
+            {user?.subscription?.downloads_list?.map(
+              (item: any, index: number) => (
+                <div
+                  className="bg-gray-50 rounded-xl p-4 border border-gray-200 flex flex-row items-center justify-between"
+                  key={index}
+                >
+                  <Text>{item?.county}</Text>
+                  <div>
+                    <Text>{item?.items_count} rows</Text>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </>
-  )
-}
+  );
+};
 
 const CheckoutButton = memo(({ item }: any) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPopup, setShowPopup] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleStripeSubscription = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const res = await baseApi.post(endpoints.checkout, {
         priceId: item?.priceId,
         token: getItem("token"),
         returnUrl: getReturnUrl(),
-      })
-      const stripe = await stripePromise
-      await stripe?.redirectToCheckout({ sessionId: res?.data.session })
-      setIsLoading(false)
+      });
+      const stripe = await stripePromise;
+      await stripe?.redirectToCheckout({ sessionId: res?.data.session });
+      setIsLoading(false);
     } catch (error) {
-      toast(GetApiErrorMessage(error))
-      setIsLoading(false)
+      toast(GetApiErrorMessage(error));
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="mt-5">
@@ -224,7 +267,9 @@ const CheckoutButton = memo(({ item }: any) => {
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
           <div className="bg-white rounded-2xl shadow-xl p-6 w-96">
-            <Heading size="4" className="mb-4">Choose Payment Method</Heading>
+            <Heading size="4" className="mb-4">
+              Choose Payment Method
+            </Heading>
 
             <div className="flex flex-col gap-3">
               {/* Stripe option */}
@@ -254,11 +299,13 @@ const CheckoutButton = memo(({ item }: any) => {
         </div>
       )}
     </div>
-  )
-})
+  );
+});
 
 function getReturnUrl() {
-  return typeof window !== "undefined" ? [window.location.origin, window.location.pathname].join("") : undefined
+  return typeof window !== "undefined"
+    ? [window.location.origin, window.location.pathname].join("")
+    : undefined;
 }
 
-export default Subscription
+export default Subscription;

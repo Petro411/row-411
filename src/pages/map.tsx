@@ -1,4 +1,4 @@
-import { DownloadIcon, EyeOpenIcon, LockClosedIcon, PersonIcon, ReloadIcon, } from "@radix-ui/react-icons";
+import { CircleIcon, DownloadIcon, EyeOpenIcon, LockClosedIcon, PersonIcon, ReloadIcon, } from "@radix-ui/react-icons";
 import { Flex, Heading, Select, Table, Text, TextField, Tooltip, } from "@radix-ui/themes";
 import { ComposableMap, Geographies, Geography, Marker, } from "react-simple-maps";
 import React, { memo, ReactNode, useCallback, useEffect, useState, } from "react";
@@ -295,31 +295,30 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const user = getUser()?.user;
-  const token = getItem("token");
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const { request, data, loading } = useQuery(
     `${endpoints.getOwnersByCounty}?name=${state}&page=${currentPage}&limit=${limit}`
   );
 
-  const updateDownloadLimitApi = useQuery();
+  // const updateDownloadLimitApi = useQuery();
 
   const [selectedMineral, setSelectedMineral] = useState<string | null>(null);
 
   const handleDownload = useCallback(async () => {
     if (data?.minerals?.length) {
       try {
+        setIsDownloading(true)
         const token = getItem("token");
-       await updateDownloadLimitApi.request(
-          `${endpoints.updateDownloadLimit}?token=${token}&county=${state}`
-        );
-        const blob = new Blob([updateDownloadLimitApi.data?.csv], {
+        const res = await baseApi.get(`${endpoints.updateDownloadLimit}?token=${token}&county=${state}`)
+        const blob = new Blob([res.data?.csv], {
           type: "text/csv;charset=utf-8;",
         });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
 
         link.setAttribute("href", url);
-        link.setAttribute("download", 'data.csv');
+        link.setAttribute("download", "data.csv");
         link.style.visibility = "hidden";
 
         document.body.appendChild(link);
@@ -328,9 +327,11 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
         toast("Mineral list has been downloaded.");
       } catch (error) {
         toast(GetApiErrorMessage(error));
+      } finally {
+        setIsDownloading(false)
       }
     }
-  }, [updateDownloadLimitApi.data?.csv, state]);
+  }, [state,data?.minerals,]);
 
   useEffect(() => {
     if (state?.trim()?.length) {
@@ -379,17 +380,24 @@ const MineralsTable = memo(({ state }: MineralsTableProps) => {
               !user || !user?.subscription ? (
                 <></>
               ) : (
-                // <a
-                //   href={`/api${endpoints.updateDownloadLimit}?token=${token}&county=${state}`}
-                // >
-                <DownloadIcon
-                  className="cursor-pointer"
-                  onClick={handleDownload}
-                  height={20}
-                  width={20}
-                  color="gray"
-                />
-                // </a>
+                <>
+                  {isDownloading ? (
+                    <ReloadIcon
+                      height={18}
+                      width={18}
+                      color="gray"
+                      className="animate-spin ease-in-out duration-300"
+                    />
+                  ) : (
+                    <DownloadIcon
+                      className="cursor-pointer"
+                      onClick={handleDownload}
+                      height={20}
+                      width={20}
+                      color="gray"
+                    />
+                  )}
+                </>
               )
             ) : null}
           </Flex>
