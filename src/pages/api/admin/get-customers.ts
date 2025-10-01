@@ -18,17 +18,13 @@ const handler = async (req: any, res: any) => {
         const skip = (page - 1) * limit;
 
         const [users, total] = await Promise.all([
-            User.find({role:"user"}).select(['-password']).populate({path:"subscription",select:['amount','status','start_date','expires_at','totalDownloads']})
+            User.find({ role: "user" }).select(['-password']).populate({ path: "subscription", select: ['amount', 'status', 'start_date', 'expires_at', 'totalDownloads', 'monthlyDownloadLimit', 'downloads_list'] })
                 .skip(skip)
                 .limit(limit)
-                .sort({createdAt:-1})
+                .sort({ createdAt: -1 })
                 .lean(),
             User.countDocuments(),
         ]);
-
-        //    const users = await User.find({role:"user"}).select(['-password']).populate({path:"subscription",select:['amount','status','start_date','expires_at','totalDownloads']});
-
-        // return res.status(200).json({ success:true, users})
         return res.status(200).json({
             users,
             total,

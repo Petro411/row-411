@@ -1,9 +1,10 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
-import User from "@/lib/mongodb/models/User";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import User from "@/lib/mongodb/models/User";
+import Label from "@/config/Label";
+
 
 const handler = async (req: any, res: any) => {
     try {
@@ -11,7 +12,7 @@ const handler = async (req: any, res: any) => {
         if (!id) {
             throw new HttpException(Label.ParamIdIsReq, 400);
         }
-        const user = await User.findById(id).select(['-password']);
+        const user = await User.findById(id).select(['-password']).populate({ path: "subscription", select: ['monthlyDownloadLimit','amount', 'start_date', 'expires_at', 'ended_at', 'canceled_at', 'totalDownloads', 'downloads_list'] });
 
         if (!user) {
             throw new HttpException(Label.UserNotFound, 404);
