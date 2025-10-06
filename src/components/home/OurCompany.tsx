@@ -1,5 +1,6 @@
 import { Heading, Text } from "@radix-ui/themes";
 import React, { memo } from "react";
+import { label } from "@/branding";
 import Image from "next/image";
 
 import Container from "../Container";
@@ -12,15 +13,11 @@ const OurCompany = () => {
         
         <div className="flex flex-col gap-4 order-2 lg:order-1">
           <Heading size={"8"} className="text-heading">
-            Our Company
+            {label.OurCompany}
           </Heading>
           <div className="flex flex-col gap-4 mt-5">
             <Text size={"3"} color="gray">
-              Petro411’s team has the required oil and gas and land experience
-              to successfully execute and deliver a quality mineral owner
-              database. With a combined experience of nearly 30 years that
-              includes oil and gas, real estate titles, environmental,
-              residential, commercial, land development and government.
+            {label.TeamHasTheRequired}
             </Text>
           </div>
         </div>

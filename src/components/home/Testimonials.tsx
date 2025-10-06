@@ -4,9 +4,9 @@ import "swiper/css";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { Flex, Heading, Text } from "@radix-ui/themes";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { demoReviews } from "@/config/dummy";
 import { Pagination } from "swiper/modules";
 import React, { memo } from "react";
+import { label } from "@/branding";
 import Image from "next/image";
 
 import Container from "../Container";
@@ -43,7 +43,7 @@ const Testimonials = () => {
         }}
         className=""
       >
-        {demoReviews.map((item, index) => (
+        {label.Testimonials.map((item: any, index: number) => (
           <SwiperSlide key={index} className="px-2 sm:px-5 pb-14">
             <div className="border p-6 sm:p-10 border-gray-100 shadow-lg rounded-xl min-h-[38vh] gap-8 flex flex-col">
               <Flex direction={"column"} gap={"4"}>

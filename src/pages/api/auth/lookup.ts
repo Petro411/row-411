@@ -1,11 +1,13 @@
-import Label from "@/config/Label";
-import { withCors } from "@/lib/middlewares/withCors";
+import "@/lib/mongodb/models/Subscription";
+
 import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import "@/lib/mongodb/models/Subscription";
-import { HttpException } from "@/utils/HttpException";
+import { label } from "@/branding";
 import JWT from "jsonwebtoken";
+
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "";
 
@@ -14,7 +16,7 @@ const handler = async (req: any, res: any) => {
     const token = req.headers.authorization;
 
     if (!token) {
-      throw new HttpException(Label.TokenMissing, 401);
+      throw new HttpException(label.TokenMissing, 401);
     }
 
     const decoded = JWT.verify(token, JWT_SECRET) as { id: string };
@@ -28,7 +30,7 @@ const handler = async (req: any, res: any) => {
     }
 
     if (!user) {
-      throw new HttpException(Label.UserNotFound, 404);
+      throw new HttpException(label.UserNotFound, 404);
     }
 
     return res.status(200).json({ user });
@@ -37,7 +39,7 @@ const handler = async (req: any, res: any) => {
     return res.status(error?.statusCode ?? 500).json({
       success: false,
       status: error?.statusCode ?? 500,
-      message: error?.message || Label.InternalServerError,
+      message: error?.message || label.InternalServerError,
     });
   }
 };

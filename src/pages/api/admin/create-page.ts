@@ -1,14 +1,15 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
+import { withMethod } from "@/lib/middlewares/withMethod";
 import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod"
-import Page from "@/lib/mongodb/models/Page"
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import Page from "@/lib/mongodb/models/Page";
+import { label } from "@/branding";
+
 
 const handler = async (req: any, res: any) => {
     try {
         const { slug, title, content } = req.body;
-        if(!slug?.trim() || !title?.trim() || !content?.trim()) throw new HttpException(Label.AllFieldsReq,400);
+        if(!slug?.trim() || !title?.trim() || !content?.trim()) throw new HttpException(label.AllFieldsReq,400);
         const page = await Page.create({slug,title,content});
         return res.status(200).json({ page, success: true });
     } catch (error: any) {

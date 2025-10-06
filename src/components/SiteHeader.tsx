@@ -1,13 +1,15 @@
-import React, { memo, useState } from "react";
-import Logo from "./Logo";
-import Container from "./Container";
+import { ArrowRightIcon, TextAlignRightIcon } from "@radix-ui/react-icons";
+import { Avatar, Flex, Text } from "@radix-ui/themes";
 import { homeRoutes } from "@/config/HomeRoutes";
-import { Avatar, Flex, IconButton, Text } from "@radix-ui/themes";
-import { useRouter } from "next/router";
-import { ArrowRightIcon, MagnifyingGlassIcon, TextAlignRightIcon } from "@radix-ui/react-icons";
-import Sidebar from "./Sidebar";
-import Link from "next/link";
 import { getUser } from "@/context/AuthContext";
+import React, { memo, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+
+import Container from "./Container";
+import Sidebar from "./Sidebar";
+import Logo from "./Logo";
+
 
 type Props = {
   hideNavigation?: boolean;
@@ -40,10 +42,10 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                       key={index}
                       href={item.path}
                       className={`
-                        hover:text-yellow
+                        hover:text-primary
                         ${
                           pathname === item.path
-                            ? "text-yellow font-medium"
+                            ? "text-primary font-medium"
                             : "text-gray-500"
                         }`}
                     >
@@ -72,18 +74,13 @@ const SiteHeader = ({ hideNavigation = false, className }: Props) => {
                         title={user?.name}
                       />
                     </Flex>
-                    {/* <Link href={"/"}>
-                    <IconButton size={"2"} className="!bg-primary">
-                      <MagnifyingGlassIcon height={20} width={20} />
-                    </IconButton>
-                    </Link> */}
                     </>
 
                   ) : (
                     <>
                       <Link
                         href={"/auth/sign-up"}
-                        className="!hidden lg:!block rounded-lg !bg-yellow !cursor-pointer !border !border-btnPrimary rt-BaseButton rt-Button rt-r-size-3 py-1.5"
+                        className="!hidden lg:!block rounded-lg !bg-primary !cursor-pointer !border !border-btnPrimary rt-BaseButton rt-Button rt-r-size-3 py-1.5"
                       >
                         <Text size={"2"} className="!text-white ">
                           Get Started

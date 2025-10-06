@@ -1,15 +1,16 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
 import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
+import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import { HttpException } from "@/utils/HttpException";
+import { label } from "@/branding";
 import bcrypt from "bcrypt";
+
 
 async function handler(req: any, res: any) {
     if (req.method !== "POST") {
-        throw new HttpException(Label.MethodNotAllowed, 405);
+        throw new HttpException(label.MethodNotAllowed, 405);
     }
 
     try {
@@ -18,12 +19,12 @@ async function handler(req: any, res: any) {
         const { name, email, password, role } = req.body;
 
         if (!name?.trim()?.length || !email?.trim()?.length || !password?.trim()?.length || !role?.trim()?.length) {
-            throw new HttpException(Label.AllFieldsReq, 400);
+            throw new HttpException(label.AllFieldsReq, 400);
         }
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            throw new HttpException(Label.UserAlreadyExistsWithEmail, 409);
+            throw new HttpException(label.UserAlreadyExistsWithEmail, 409);
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -44,11 +45,11 @@ async function handler(req: any, res: any) {
                 picture: user?.picture,
                 _id: user?._id
             },
-            message: Label.SignUpSuccessfull,
+            message: label.SignUpSuccessfull,
         });
     } catch (error: any) {
         console.error("Signup error:", error);
-        res.status(500).json({ message: error?.message ?? Label.InternalServerError, success: false, status: error?.statusCode ?? 500 });
+        res.status(500).json({ message: error?.message ?? label.InternalServerError, success: false, status: error?.statusCode ?? 500 });
     }
 }
 

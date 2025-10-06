@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import baseApi from "@/services/api";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 
 
 export const useQuery = (endpoint?: string) => {
@@ -34,7 +34,7 @@ export const useQuery = (endpoint?: string) => {
         return;
       }
       setError(
-        err.response?.data?.message || err.message || Label.SomethingWentWrong
+        err.response?.data?.message || err.message || label.SomethingWentWrong
       );
       throw err;
     } finally {

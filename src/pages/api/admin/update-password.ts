@@ -1,11 +1,12 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod";
 import { withRoleAuth } from "@/lib/middlewares/withRoleAuth";
-import User from "@/lib/mongodb/models/User";
+import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import User from "@/lib/mongodb/models/User";
+import { label } from "@/branding";
 import bcrypt from "bcrypt";
+
 
 const handler = async (req: any, res: any) => {
     try {
@@ -13,17 +14,17 @@ const handler = async (req: any, res: any) => {
 
         const { currentPassword, newPassword } = req?.body;
         if (!currentPassword?.trim()?.length || !newPassword?.trim()?.length) {
-            throw new HttpException(Label.EmailPasswordReq, 400);
+            throw new HttpException(label.EmailPasswordReq, 400);
         }
 
         if (currentPassword === newPassword) {
-            throw new HttpException(Label.PasswordCantBeSame, 400);
+            throw new HttpException(label.PasswordCantBeSame, 400);
         }
 
         const matchPassword = await bcrypt.compare(currentPassword, user?.password);
 
         if (!matchPassword) {
-            throw new HttpException(Label.CurrentPasswordNotMatched, 400);
+            throw new HttpException(label.CurrentPasswordNotMatched, 400);
         }
 
         const hash = await bcrypt.hash(newPassword, 12);
@@ -31,7 +32,7 @@ const handler = async (req: any, res: any) => {
         user.password = hash;
         await user.save();
 
-        return res.status(200).json({ message: Label.PasswordUpdated })
+        return res.status(200).json({ message: label.PasswordUpdated })
 
 
     } catch (error: any) {

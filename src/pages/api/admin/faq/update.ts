@@ -1,15 +1,16 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
+import { withMethod } from "@/lib/middlewares/withMethod";
 import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod"
-import Faq from "@/lib/mongodb/models/Faq";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import Faq from "@/lib/mongodb/models/Faq";
+import { label } from "@/branding";
+
 
 const handler = async (req: any, res: any) => {
     try {
         const {id} = req.query; 
         const { title, description } = req.body;
-        if (!title?.trim() || !description?.trim() || !id?.length) throw new HttpException(Label.AllFieldsReq, 400);
+        if (!title?.trim() || !description?.trim() || !id?.length) throw new HttpException(label.AllFieldsReq, 400);
         const faq = await Faq.findByIdAndUpdate(id, { title, description }, {new:true});
         return res.status(200).json({ faq, success: true });
     } catch (error: any) {

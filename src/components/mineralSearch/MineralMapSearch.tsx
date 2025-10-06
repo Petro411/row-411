@@ -1,18 +1,17 @@
-import React from 'react'
 import Select from "react-select";
+import React from 'react';
+
 import MapLocationSelector from '../MapLocationSelector';
+
 
 const MineralMapSearch = () => {
   return (
      <div className="max-w-screen-lg mx-auto p-6 grid grid-cols-2 gap-4">
-        {/* State selector & map */}
         <div className="col-span-1 bg-white shadow rounded-lg p-4 border-2 border-gray-400 relative">
           <h2 className="text-lg font-semibold mb-2">Select a State</h2>
           <Select
             options={[]}
-            // styles={selectStyles}
             placeholder="Select state..."
-            // onChange={(opt) => setSelectedState(opt ? opt.value : null)}
           />
 
           <MapLocationSelector/>

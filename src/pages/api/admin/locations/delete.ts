@@ -4,13 +4,13 @@ import { withCors } from "@/lib/middlewares/withCors";
 import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
 import Location from "@/lib/mongodb/models/Location";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 
 
 const handler = async (req: any, res: any) => {
   try {
     const { id } = req.query;
-    if (!id?.trim()?.length) throw new HttpException(Label.ParamIdIsReq, 400);
+    if (!id?.trim()?.length) throw new HttpException(label.ParamIdIsReq, 400);
     const location = await Location.findById(id);
 
     if (location?.type === 'state') {

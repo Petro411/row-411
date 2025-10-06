@@ -1,10 +1,10 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
-import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod";
 import { withRoleAuth } from "@/lib/middlewares/withRoleAuth";
 import MineralOwner from "@/lib/mongodb/models/MineralOwner";
+import { withMethod } from "@/lib/middlewares/withMethod";
+import { withCors } from "@/lib/middlewares/withCors";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import { label } from "@/branding";
 
 
 const handler = async (req: any, res: any) => {
@@ -12,7 +12,7 @@ const handler = async (req: any, res: any) => {
 
         const { id } = req.query;
         if (!id?.trim()?.length) {
-            throw new HttpException(Label.ParamIdIsReq, 400);
+            throw new HttpException(label.ParamIdIsReq, 400);
         }
 
         await MineralOwner.findByIdAndUpdate(id, req.body);

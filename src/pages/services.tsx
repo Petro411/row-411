@@ -12,6 +12,7 @@ import Faqs from "@/components/home/Faqs";
 import Footer from "@/components/Footer";
 import { Flex } from "@radix-ui/themes";
 import { GetStaticProps } from "next";
+import { label } from "@/branding";
 import Head from "next/head";
 import React from "react";
 
@@ -30,7 +31,7 @@ const Services = ({ faqs, locations }: Props) => {
       <SiteHeader />
       <PageHeader
         title="Services"
-        description={`At Petro411, we provide reliable access to comprehensive mineral ownership data across the United States. From detailed property records to ownership information, our platform is designed to help investors, landmen, and energy professionals make informed decisions. With easy search tools, subscription-based downloads, and state-by-state insights, Petro411 delivers the data you need—when you need it.`}
+        description={label.ServicesDesc}
       />
       <Flex direction={"column"} gap={"9"}>
         <Container>

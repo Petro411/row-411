@@ -6,7 +6,7 @@ import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
 import { NextApiResponse } from "next";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 import JWT from "jsonwebtoken";
 
 
@@ -26,7 +26,7 @@ async function handler(req: any, res: NextApiResponse) {
     const user = await User.findById(decoded.id);
 
     if (!user) {
-      throw new HttpException(Label.UserNotFound, 404);
+      throw new HttpException(label.UserNotFound, 404);
     }
 
     const plan = await Subscription.findById(user?.subscription);
@@ -85,7 +85,7 @@ async function handler(req: any, res: NextApiResponse) {
     return res.status(error?.statusCode ?? 500).json({
       success: false,
       status: error?.statusCode ?? 500,
-      message: error?.message || Label.InternalServerError,
+      message: error?.message || label.InternalServerError,
     });
   }
 }

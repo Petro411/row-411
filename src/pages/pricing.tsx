@@ -12,6 +12,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import PayPalButton from "@/components/dashboard/PaypalButton";
+import { label } from "@/branding";
 
 const Pricing = ({ plans }: any) => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const Pricing = ({ plans }: any) => {
       <SiteHeader />
       <PageHeader
         title="Pricing"
-        description="Choose the plan that fits your needs. Petro411 offers flexible pricing with access to accurate mineral owner data to streamline your land acquisition process."
+        description={label.SubscriptionPageDesc}
       />
       <Container>
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 2xl:w-10/12 mx-auto gap-5">

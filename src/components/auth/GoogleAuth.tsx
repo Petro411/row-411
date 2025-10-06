@@ -1,13 +1,15 @@
-import React from "react";
-import ThirdPartyAuthButton from "../ThirdPartyAuthButton";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { useGoogleLogin } from "@react-oauth/google";
 import baseApi, { endpoints } from "@/services/api";
-import toast from "react-simple-toasts";
-import Label from "@/config/Label";
-import { useRouter } from "next/router";
-import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { setItem } from "@/utils/Localstorage";
+import toast from "react-simple-toasts";
+import { useRouter } from "next/router";
 import { setCookie } from "nookies";
+import { label } from "@/branding";
+import React from "react";
+
+import ThirdPartyAuthButton from "../ThirdPartyAuthButton";
+
 
 type Props = {
   title?: string;
@@ -29,7 +31,7 @@ const GoogleAuth = ({ title }: Props) => {
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
         });
-        toast(Label.LoginSuccessfull);
+        toast(label.LoginSuccessfull);
         setTimeout(() => {
           router.push("/profile");
         }, 500);

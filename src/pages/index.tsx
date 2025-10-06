@@ -10,7 +10,7 @@ import Faqs from "@/components/home/Faqs";
 import Footer from "@/components/Footer";
 import { Flex } from "@radix-ui/themes";
 import { GetStaticProps } from "next";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 import Head from "next/head";
 import React from "react";
 
@@ -24,14 +24,14 @@ const Home = ({ faqs, locations }: Props) => {
   return (
     <main>
       <Head>
-        <title>Petro411</title>
+        <title>{label.SiteName}</title>
       </Head>
       <SiteHeader />
       <Hero />
       <MineralOwnerFilter
         className="py-10 md:-translate-y-24"
-        title={Label.SearchMineralOwners}
-        paragraph={Label.FindMineralOwners}
+        title={label.SearchMineralOwners}
+        paragraph={label.FindMineralOwners}
         dropDownClasses={"w-full lg:w-[180px]"}
         locations={locations}
       />

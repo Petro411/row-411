@@ -1,15 +1,16 @@
-import Label from "@/config/Label";
-import { withMethod } from "@/lib/middlewares/withMethod"
-import { dbConnect } from "@/lib/mongodb/dbConnect";
-import Page from "@/lib/mongodb/models/Page"
+import { withMethod } from "@/lib/middlewares/withMethod";
 import { HttpException } from "@/utils/HttpException";
+import { dbConnect } from "@/lib/mongodb/dbConnect";
+import Page from "@/lib/mongodb/models/Page";
+import { label } from "@/branding";
+
 
 async function handler(req: any, res: any) {
  try {
     await dbConnect();
     const {slug} = req.query;
     const page = await Page.findById(slug).select(['content']);
-    if(!page) throw new HttpException(Label.PageNotFound,404);
+    if(!page) throw new HttpException(label.PageNotFound,404);
     return res.status(200).json({content:page?.content,success:true});
  } catch (error:any) {
      return res.status(error?.statusCode ?? 500).json({

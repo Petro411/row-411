@@ -1,9 +1,10 @@
-import Label from "@/config/Label";
 import { withMethod } from "@/lib/middlewares/withMethod";
+import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import { HttpException } from "@/utils/HttpException";
+import { label } from "@/branding";
 import bcrypt from "bcrypt";
+
 
 const handler = async (req: any, res: any) => {
     try {
@@ -11,7 +12,7 @@ const handler = async (req: any, res: any) => {
         const { email, password } = req.body
 
         if (!email || !password) {
-            throw new HttpException(Label.EmailPasswordReq, 400);
+            throw new HttpException(label.EmailPasswordReq, 400);
         }
 
         await dbConnect();
@@ -19,7 +20,7 @@ const handler = async (req: any, res: any) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            throw new HttpException(Label.UserNotFound, 404);
+            throw new HttpException(label.UserNotFound, 404);
         }
 
 
@@ -28,7 +29,7 @@ const handler = async (req: any, res: any) => {
         user.password = hash;
         await user.save();
 
-        return res.status(200).json({ message: Label.PasswordUpdated })
+        return res.status(200).json({ message: label.PasswordUpdated })
 
 
     } catch (error: any) {

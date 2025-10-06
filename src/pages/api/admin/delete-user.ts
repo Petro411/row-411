@@ -5,14 +5,14 @@ import { withCors } from "@/lib/middlewares/withCors";
 import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
 import User from "@/lib/mongodb/models/User";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 
 
 const handler = async (req: any, res: any) => {
     try {
 
         const {id} = req.query;
-        if(!id?.trim()?.length) throw new HttpException(Label.ParamIdIsReq,400);
+        if(!id?.trim()?.length) throw new HttpException(label.ParamIdIsReq,400);
 
         await Subscription.findOneAndDelete({userId:id});
         await User.findByIdAndDelete(id)

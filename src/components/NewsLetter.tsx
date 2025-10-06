@@ -1,11 +1,14 @@
-import { Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
-import Image from "next/image";
 import React, { ChangeEvent, FormEvent, memo, useCallback, useState } from "react";
-import Container from "./Container";
-import toast from "react-simple-toasts";
+import { Button, Flex, Heading, Text, TextField } from "@radix-ui/themes";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { useMutation } from "@/hooks/useMutation";
 import { endpoints } from "@/services/api";
+import toast from "react-simple-toasts";
+import { label } from "@/branding";
+import Image from "next/image";
+
+import Container from "./Container";
+
 
 const NewsLetter = () => {
 
@@ -39,12 +42,10 @@ const NewsLetter = () => {
     <Container>
       <div className="grid grid-cols-1 lg:grid-cols-2 gradientBg rounded-xl gap-12 2xl:gap-0 overflow-hidden border items-center">
         <div className="flex flex-col gap-8 text-white p-8 sm:p-12 2xl:p-16">
-          <Heading size={"8"}>Stay in the Loop</Heading>
+          <Heading size={"8"}>{label.StayInLoop}</Heading>
           <Flex direction={"column"} gap={"4"}>
             <Text size={"3"}>
-              Subscribe to our newsletter for the latest updates on mineral
-              ownership data, new county releases, platform features, and
-              exclusive offers — delivered straight to your inbox.
+              {label.StayInLoopDes}
             </Text>
           </Flex>
           <form className="flex flex-col gap-5 2xl:w-[70%] newsLetterFrom" onSubmit={handleOnSubmit}>
@@ -71,7 +72,7 @@ const NewsLetter = () => {
             <Button
             loading={loading}
             disabled={loading}
-              className="!self-start !mt-5 !bg-yellow !cursor-pointer !text-white hover:!bg-yellow group"
+              className="!self-start !mt-5 !bg-primary !cursor-pointer !text-white hover:!bg-primary group"
               size={"4"}
             >
               <Text size={"3"} className="group-hover:!text-white">

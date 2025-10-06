@@ -1,6 +1,8 @@
-import Label from "@/config/Label";
 import { HttpException } from "@/utils/HttpException";
+import { label } from "@/branding";
+
 import { Permission } from "../../../types/permissions";
+
 
 // Map HTTP methods to permission types
 const methodToPermissionMap: Record<string, Permission> = {
@@ -17,17 +19,17 @@ export const withRoleAuth = (handler: any, allowedRoles: string[]) => {
       const user = req.user;
 
       if (!user) {
-        throw new HttpException(Label.UserNotFound, 404);
+        throw new HttpException(label.UserNotFound, 404);
       }
 
       if (!allowedRoles.includes(user.role)) {
-        throw new HttpException(Label.DontHavePermissions, 403);
+        throw new HttpException(label.DontHavePermissions, 403);
       }
 
       const requiredPermission = methodToPermissionMap[req.method];
 
       if (requiredPermission && !user.permissions.includes(requiredPermission)) {
-        throw new HttpException(Label.DontHavePermissions, 403);
+        throw new HttpException(label.DontHavePermissions, 403);
       }
 
       return handler(req, res);
@@ -35,7 +37,7 @@ export const withRoleAuth = (handler: any, allowedRoles: string[]) => {
       return res.status(error?.statusCode ?? 500).json({
         success: false,
         status: error?.statusCode ?? 500,
-        message: error?.message || Label.InternalServerError,
+        message: error?.message || label.InternalServerError,
       });
     }
   };

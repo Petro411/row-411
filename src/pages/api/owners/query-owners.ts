@@ -3,7 +3,7 @@ import { withMethod } from "@/lib/middlewares/withMethod";
 import Location from "@/lib/mongodb/models/Location";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import { NextApiResponse } from "next";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 
 
 async function handler(req: any, res: NextApiResponse) {
@@ -52,7 +52,7 @@ async function handler(req: any, res: NextApiResponse) {
         return res.status(error?.statusCode ?? 500).json({
             success: false,
             status: error?.statusCode ?? 500,
-            message: error?.message || Label.InternalServerError,
+            message: error?.message || label.InternalServerError,
         });
     }
 }

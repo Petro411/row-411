@@ -1,14 +1,15 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
+import { withMethod } from "@/lib/middlewares/withMethod";
 import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod"
-import Contact from "@/lib/mongodb/models/Contact";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import Contact from "@/lib/mongodb/models/Contact";
+import { label } from "@/branding";
+
 
 const handler = async (req: any, res: any) => {
     try {
         const { id } = req.query;
-        if (!id?.trim()?.length) throw new HttpException(Label.ParamIdIsReq, 400);
+        if (!id?.trim()?.length) throw new HttpException(label.ParamIdIsReq, 400);
         await Contact.findByIdAndDelete(id)
         return res.status(200).json({ success: true });
     } catch (error: any) {

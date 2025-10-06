@@ -9,6 +9,7 @@ import About from "@/components/home/About";
 import Faqs from "@/components/home/Faqs";
 import Footer from "@/components/Footer";
 import { GetStaticProps } from "next";
+import { label } from "@/branding";
 import Image from "next/image";
 import Head from "next/head";
 import React from "react";
@@ -25,42 +26,23 @@ const AboutUs = ({ faqs }: Props) => {
         <title>About Us</title>
       </Head>
       <SiteHeader />
-      <PageHeader
-        title="About Us"
-        description={` Petro411.com is a technology product specializing in oil and gas
-              mineral owner information for acquisition, management, and
-              identification. The system is designed primarily for the oil and
-              gas industry’s professionals engaged in the land acquisition
-              process (i.e. land acquisition, mineral acquisition, oil and gas
-              leasing, etc. for the oil and gas industry).`}
-      />
+      <PageHeader title="About Us" description={label.AboutUsPageSecOneDes} />
       <Flex direction={"column"} gap={"9"} className="pt-20">
         <About />
         <TextImageColumn
           imageFirst={true}
           title="Our Mission"
           image="/industries/land-3.jpg"
-          text1="Unlike all the people search sources mentioned, Petro411 will be County specific and based
-on government tax listings, which will align the phone contact numbers with data sources
-currently being utilized by oil and gas land and title professionals throughout the United
-States. Therefore, the data sources within Petro411 will coincide with existing land practices
-utilized to assess the feasibility of oil and gas land-based projects."
-          text2="Petro411.com provides individual mineral owner searches and Mineral Owner Listings with
-Phone Numbers and Emails throughout the United States, appends phone numbers to
-existing lists provided by the client, prepares customized orders based on how it’s requested
-from the client, phone number verification, cell phone numbers and landline phone
-numbers."
+          text1={label.AboutUsPageSecTwoTextOne}
+          text2={label.AboutUsPageSecTwoTextTwo}
         />
-                <OurCompany />
+        <OurCompany />
         <Container className="py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gradientBg p-8 sm:p-16 2xl:p-20 rounded-xl gap-12 2xl:gap-0">
             <div className="flex flex-col gap-8 text-white">
-              <Heading size={"8"}>Our vision</Heading>
+              <Heading size={"8"}>{label.OurVision}</Heading>
               <Flex direction={"column"} gap={"4"}>
-                <Text size={"3"}>
-                 Petro411.com intends to become the primary data source for oil and gas land professionals to
-contact mineral owners.
-                </Text>
+                <Text size={"3"}>{label.OurVisionDes}</Text>
               </Flex>
             </div>
             <div className={`flex flex-row justify-center lg:justify-end`}>

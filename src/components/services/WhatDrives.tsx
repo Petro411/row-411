@@ -1,8 +1,10 @@
-import React, { memo } from "react";
-import Container from "../Container";
 import { Flex, Heading, Text } from "@radix-ui/themes";
+import React, { memo } from "react";
+import { label } from "@/branding";
+
+import Container from "../Container";
 import Card from "./Card";
-import { valuesCards } from "@/config/dummy";
+
 
 const WhatDrives = () => {
   return (
@@ -12,11 +14,11 @@ const WhatDrives = () => {
           What Drives Us
         </Heading>
         <Text size={"4"} className=" text-center lg:w-[60%]">
-          Core principles that shape our platform and your experience
+          {label.WhatDrivesUsDesc}
         </Text>
       </Flex>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-20 gap-8 items-center">
-        {valuesCards.map((item, index) => (
+        {label.WhatDrivesCards.map((item: any, index: number) => (
           <Card key={index} {...item} />
         ))}
       </div>

@@ -1,8 +1,11 @@
-import React, { memo } from "react";
-import Container from "./Container";
 import { footerRoutes } from "@/config/FooterRoutes";
 import { Text } from "@radix-ui/themes";
+import React, { memo } from "react";
+import { label } from "@/branding";
 import Link from "next/link";
+
+import Container from "./Container";
+
 
 const Footer = () => {
   return (
@@ -21,7 +24,7 @@ const Footer = () => {
         </div>
       </Container>
     <div className="py-2 flex flex-row items-center justify-center">
-      <Text className="!text-gray-200 px-6" align={"center"} >Copyright © 2025 petro411.com. All rights reserved.</Text>
+      <Text className="!text-gray-200 px-6" align={"center"} >{label.CopyRight}</Text>
     </div>
     </div>
     </>

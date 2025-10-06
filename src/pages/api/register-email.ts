@@ -1,23 +1,24 @@
-import Label from "@/config/Label";
 import { withMethod } from "@/lib/middlewares/withMethod";
-import { dbConnect } from "@/lib/mongodb/dbConnect";
 import Newsletter from "@/lib/mongodb/models/Newsletter";
 import { HttpException } from "@/utils/HttpException";
+import { dbConnect } from "@/lib/mongodb/dbConnect";
+import { label } from "@/branding";
+
 
 const handler = async (req: any, res: any) => {
     try {
 
         const { email, name } = req.body;
-        if (!email?.trim()?.length) throw new HttpException(Label.AllFieldsReq, 400);
+        if (!email?.trim()?.length) throw new HttpException(label.AllFieldsReq, 400);
 
         await dbConnect();
         const isExists = await Newsletter.findOne({ email });
 
-        if (isExists) return res.status(200).json({ message: Label.EmailAreadyRegisteredForNewsLetter, success: true });
+        if (isExists) return res.status(200).json({ message: label.EmailAreadyRegisteredForNewsLetter, success: true });
 
         await Newsletter.create({ name, email });
 
-        return res.status(200).json({ message: Label.EmailRegisteredForNewsLetter, success: true })
+        return res.status(200).json({ message: label.EmailRegisteredForNewsLetter, success: true })
 
 
     } catch (error: any) {

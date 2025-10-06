@@ -1,15 +1,16 @@
-import Label from "@/config/Label";
-import { withAuth } from "@/lib/middlewares/withAuth";
+import { withMethod } from "@/lib/middlewares/withMethod";
 import { withCors } from "@/lib/middlewares/withCors";
-import { withMethod } from "@/lib/middlewares/withMethod"
-import Contact from "@/lib/mongodb/models/Contact";
+import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
+import Contact from "@/lib/mongodb/models/Contact";
+import { label } from "@/branding";
+
 
 async function handler(req: any, res: any) {
  try {
     const {id} = req.query;
     const contact = await Contact.findById(id)
-    if(!contact) throw new HttpException(Label.NoResultFound,404);
+    if(!contact) throw new HttpException(label.NoResultFound,404);
     return res.status(200).json({contact,success:true});
  } catch (error:any) {
      return res.status(error?.statusCode ?? 500).json({

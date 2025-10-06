@@ -1,6 +1,7 @@
-import Label from "@/config/Label";
 import baseApi from "@/services/api";
+import { label } from "@/branding";
 import { useState } from "react";
+
 
 export const useMutation = (endpoint:string) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,7 +17,7 @@ export const useMutation = (endpoint:string) => {
       setData(response.data);
       return response.data;
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || Label.SomethingWentWrong);
+      setError(err.response?.data?.message || err.message || label.SomethingWentWrong);
       throw err;
     } finally {
       setLoading(false);

@@ -1,14 +1,15 @@
-import AuthLayout from "@/components/auth/AuthLayout";
-import Label from "@/config/Label";
-import { useMutation } from "@/hooks/useMutation";
-import { endpoints } from "@/services/api";
 import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
 import { Button, Text, TextField } from "@radix-ui/themes";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import OTPInput from "react-otp-input";
+import AuthLayout from "@/components/auth/AuthLayout";
+import { useMutation } from "@/hooks/useMutation";
+import { endpoints } from "@/services/api";
 import toast from "react-simple-toasts";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import OTPInput from "react-otp-input";
+import { label } from "@/branding";
+import Head from "next/head";
+
 
 type Steps = "email" | "otp" | "reset";
 
@@ -29,14 +30,14 @@ const ForgetPassword = () => {
       e.preventDefault();
       if (step === "email" && email) {
         await request({ email });
-        toast(Label.OtpSentToEmail);
+        toast(label.OtpSentToEmail);
         setStep("otp");
       }
 
       if (step === "otp" && otp) {
         await request({ email, otp }, endpoints.verifyOtp);
         setStep("reset");
-        toast(Label.OtpVerified);
+        toast(label.OtpVerified);
       }
 
       if (step === "reset" && password) {
@@ -45,7 +46,7 @@ const ForgetPassword = () => {
         setPassword("");
         setOtp("");
         setEmail("");
-        toast(Label.PasswordUpdated);
+        toast(label.PasswordUpdated);
         router.push("/auth/login")
       }
     } catch (error) {
@@ -57,7 +58,7 @@ const ForgetPassword = () => {
       <Head>
         <title>{otpSent ? "Verify OTP" : "Forget password"}</title>
       </Head>
-      <AuthLayout title={otpSent ? "Verify OTP" : Label.ForgetPassword}>
+      <AuthLayout title={otpSent ? "Verify OTP" : label.ForgetPassword}>
         <Text size={"2"} color="gray">
           {otpSent
             ? `Enter the 6-digit code sent to your email to continue.`

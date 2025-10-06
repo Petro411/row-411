@@ -12,7 +12,7 @@ import ReactPaginate from "react-paginate";
 import { GetServerSideProps } from "next";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 import Link from "next/link";
 import Head from "next/head";
 import moment from "moment";
@@ -63,8 +63,8 @@ const Owners = ({ owners, totalPages, currentPage, locations, counties,totalItem
       <div className="gradientBg py-16 lg:py-0 min-h-[60vh] items-center justify-center flex flex-col ">
         <MineralOwnerFilter
           className="py-10 p-5 sm:p-8 md:p-10"
-          title={Label.SearchMineralOwners}
-          paragraph={Label.FindMineralOwners}
+          title={label.SearchMineralOwners}
+          paragraph={label.FindMineralOwners}
           dropDownClasses={"w-full lg:w-[180px]"}
           locations={locations}
           tabView={true}

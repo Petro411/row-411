@@ -1,15 +1,17 @@
-import Container from "@/components/Container";
-import PageHeader from "@/components/PageHeader";
-import baseApi, { endpoints } from "@/services/api";
-import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
-import { getItem } from "@/utils/Localstorage";
-import withAuth from "@/utils/withAuth";
 import { Button, Flex, Heading, Separator, Text } from "@radix-ui/themes";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import baseApi, { endpoints } from "@/services/api";
 import React, { useEffect, useState } from "react";
-import toast from "react-simple-toasts";
+import PageHeader from "@/components/PageHeader";
+import Container from "@/components/Container";
 import { loadStripe } from "@stripe/stripe-js";
+import { getItem } from "@/utils/Localstorage";
+import { GetServerSideProps } from "next";
+import withAuth from "@/utils/withAuth";
+import toast from "react-simple-toasts";
+import { label } from "@/branding";
+import Head from "next/head";
+
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY ?? ""
@@ -52,7 +54,7 @@ const Subscription = ({ plans }: any) => {
       </Head>
       <PageHeader
         title="Subscription"
-        description="Choose the plan that fits your needs. Petro411 offers flexible pricing with access to accurate mineral owner data to streamline your land acquisition process."
+        description={label.SubscriptionPageDesc}
       />
       {checkOutStatus && <PlansStatusAlert status={checkOutStatus} />}
       <Container>

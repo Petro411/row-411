@@ -1,13 +1,14 @@
-import Container from "@/components/Container";
-import Footer from "@/components/Footer";
-import PageHeader from "@/components/PageHeader";
-import SiteHeader from "@/components/SiteHeader";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
+import SiteHeader from "@/components/SiteHeader";
+import PageHeader from "@/components/PageHeader";
+import Container from "@/components/Container";
 import Page from "@/lib/mongodb/models/Page";
-import baseApi, { endpoints } from "@/services/api";
+import Footer from "@/components/Footer";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import React from "react";
+
+
 type Props = {
   content: any;
 };

@@ -3,13 +3,13 @@ import { withCors } from "@/lib/middlewares/withCors";
 import { withAuth } from "@/lib/middlewares/withAuth";
 import { HttpException } from "@/utils/HttpException";
 import Location from "@/lib/mongodb/models/Location";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 
 
 const handler = async (req: any, res: any) => {
     try {
         const { name, type } = req.body;
-        if (!name?.trim() || !type?.trim()) throw new HttpException(Label.AllFieldsReq, 400);
+        if (!name?.trim() || !type?.trim()) throw new HttpException(label.AllFieldsReq, 400);
         let cleanName: string;
         if (type === 'state') {
             cleanName = name.replace(/\s*State\s*$/i, "").trim();

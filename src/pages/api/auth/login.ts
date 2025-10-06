@@ -3,8 +3,7 @@ import { withCors } from "@/lib/middlewares/withCors";
 import { HttpException } from "@/utils/HttpException";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import { setCookie } from 'nookies';
-import Label from "@/config/Label";
+import { label } from "@/branding";
 import JWT from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -16,7 +15,7 @@ const handler = async (req: any, res: any) => {
         const { email, password } = req?.body;
         
         if (!email?.trim() || !password?.trim()) {
-            throw new HttpException(Label.EmailPasswordReq, 400);
+            throw new HttpException(label.EmailPasswordReq, 400);
         }
 
         await dbConnect();
@@ -24,26 +23,18 @@ const handler = async (req: any, res: any) => {
         let user = await User.findOne({ email });
 
         if (!user) {
-            throw new HttpException(Label.UserNotRegisteredWithEmail, 404);
+            throw new HttpException(label.UserNotRegisteredWithEmail, 404);
         }
 
         const comparePassword = await bcrypt.compare(password, user.password);
 
         if (!comparePassword) {
-            throw new HttpException(Label.IncorrectCredentails, 400);
+            throw new HttpException(label.IncorrectCredentails, 400);
         };
 
         const token = JWT.sign({ id: user._id }, JWT_SECRET);
 
-        // setCookie({ res }, 'token', token, {
-        //     httpOnly: true,
-        //     secure: process.env.NODE_ENV === 'production',
-        //     maxAge: 60 * 60 * 24 * 7,
-        //     path: '/',
-        //     sameSite: 'lax',
-        // });
-
-        return res.status(200).json({ message: Label.LoginSuccessfull, token })
+        return res.status(200).json({ message: label.LoginSuccessfull, token })
 
 
     } catch (error: any) {

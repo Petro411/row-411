@@ -1,22 +1,25 @@
-import React, { memo } from "react";
-import Container from "../Container";
 import { Flex, Heading, Text } from "@radix-ui/themes";
-import MineralOwnerFilter from "../home/MineralOwnerFilter";
-type Props = {
-  locations:any[]|[]
-}
+import React, { memo } from "react";
+import { label } from "@/branding";
 
-const WithPetro = ({locations}:Props) => {
+import MineralOwnerFilter from "../home/MineralOwnerFilter";
+import Container from "../Container";
+
+
+type Props = {
+  locations: any[] | [];
+};
+
+const WithPetro = ({ locations }: Props) => {
   return (
     <div className="py-24 gradientBg flex flex-col gap-14">
       <Container>
         <Flex direction={"column"} gap={"4"} align={"center"}>
           <Heading size={"8"} className="text-white text-center">
-            With Petro411
+            {label.WithBrandName}
           </Heading>
           <Text size={"4"} className="text-white text-center lg:w-[60%]">
-            Quickly find mineral owners and property details—just enter your
-            criteria and get results instantly with Petro411.
+            {label.WithBrandDes}
           </Text>
         </Flex>
       </Container>
@@ -28,7 +31,7 @@ const WithPetro = ({locations}:Props) => {
       />
       <Container>
         <Heading size={"6"} className="text-white text-center">
-          Find the mineral data you need—faster and smarter.
+          {label.FindTheMineralData}
         </Heading>
       </Container>
     </div>

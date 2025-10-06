@@ -1,14 +1,15 @@
-import { withMethod } from "@/lib/middlewares/withMethod";
-import { NextApiResponse } from "next";
-import Label from "@/config/Label";
-import { HttpException } from "@/utils/HttpException";
 import MineralOwner from "@/lib/mongodb/models/MineralOwner";
+import { withMethod } from "@/lib/middlewares/withMethod";
+import { HttpException } from "@/utils/HttpException";
+import { NextApiResponse } from "next";
+import { label } from "@/branding";
+
 
 async function handler(req: any, res: NextApiResponse) {
     try {
         const { id } = req.query;
         if (!id) {
-            throw new HttpException(Label.SomethingWentWrong, 500);
+            throw new HttpException(label.SomethingWentWrong, 500);
         }
  
         const owner = await MineralOwner.findById(id);
@@ -19,7 +20,7 @@ async function handler(req: any, res: NextApiResponse) {
         return res.status(error?.statusCode ?? 500).json({
             success: false,
             status: error?.statusCode ?? 500,
-            message: error?.message || Label.InternalServerError,
+            message: error?.message || label.InternalServerError,
         });
     }
 }

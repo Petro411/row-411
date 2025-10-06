@@ -3,13 +3,13 @@ import { withMethod } from "@/lib/middlewares/withMethod";
 import { transporter } from "@/lib/nodemailer/transport";
 import { HttpException } from "@/utils/HttpException";
 import Contact from "@/lib/mongodb/models/Contact";
-import Label from "@/config/Label";
+import { label } from "@/branding";
 
 
 async function handler(req: any, res: any) {
     try {
         const { name, email, phone, message } = req.body
-        if (!name?.trim()?.length || !email?.trim()?.length || !phone?.trim()?.length || !message?.trim()?.length) throw new HttpException(Label.AllFieldsReq, 400);
+        if (!name?.trim()?.length || !email?.trim()?.length || !phone?.trim()?.length || !message?.trim()?.length) throw new HttpException(label.AllFieldsReq, 400);
 
         await Contact.create(req.body);
 

@@ -1,10 +1,9 @@
-import Label from "@/config/Label";
 import { withMethod } from "@/lib/middlewares/withMethod";
 import { dbConnect } from "@/lib/mongodb/dbConnect";
 import User from "@/lib/mongodb/models/User";
-import axios from "axios";
+import { label } from "@/branding";
 import JWT from "jsonwebtoken";
-import { setCookie } from "nookies";
+import axios from "axios";
 
 
 const JWT_SECRET = process.env.JWT_SECRET ?? "";
@@ -43,22 +42,14 @@ const handler = async (req: any, res: any) => {
             jwtToken = JWT.sign({ id: findUser?._id }, JWT_SECRET);
         }
 
-        // setCookie({ res }, 'token', jwtToken ?? "", {
-        //     httpOnly: true,
-        //     secure: process.env.NODE_ENV === 'production',
-        //     maxAge: 60 * 60 * 24 * 7,
-        //     path: '/',
-        //     sameSite: 'lax',
-        // });
-
-        return res.status(200).json({ message: Label.LoginSuccessfull, token: jwtToken })
+        return res.status(200).json({ message: label.LoginSuccessfull, token: jwtToken })
 
 
     } catch (error: any) {
         return res.status(error?.statusCode ?? 500).json({
             success: false,
             status: error?.statusCode ?? 500,
-            message: error?.message || Label.InternalServerError,
+            message: error?.message || label.InternalServerError,
         });
     }
 };

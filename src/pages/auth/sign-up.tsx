@@ -1,21 +1,21 @@
-import AuthLayout from "@/components/auth/AuthLayout";
-import GoogleAuth from "@/components/auth/GoogleAuth";
-import ThirdPartyAuthButton from "@/components/ThirdPartyAuthButton";
-import Label from "@/config/Label";
-import { useMutation } from "@/hooks/useMutation";
-import { endpoints } from "@/services/api";
-import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
-import { setItem } from "@/utils/Localstorage";
-import withApp from "@/utils/withApp";
-import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Separator, Text, TextField } from "@radix-ui/themes";
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { setCookie } from "nookies";
+import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import GetApiErrorMessage from "@/utils/GetApiErrorMessage";
+import GoogleAuth from "@/components/auth/GoogleAuth";
+import AuthLayout from "@/components/auth/AuthLayout";
+import { useMutation } from "@/hooks/useMutation";
+import { setItem } from "@/utils/Localstorage";
+import { endpoints } from "@/services/api";
+import { GetServerSideProps } from "next";
 import toast from "react-simple-toasts";
+import { useRouter } from "next/router";
+import withApp from "@/utils/withApp";
+import { setCookie } from "nookies";
+import { label } from "@/branding";
+import Link from "next/link";
+import Head from "next/head";
+
 
 const SignUp = () => {
   const router = useRouter();
@@ -62,10 +62,10 @@ const SignUp = () => {
       <Head>
         <title>Sign up</title>
       </Head>
-      <AuthLayout title={Label.SignUp}>
+      <AuthLayout title={label.SignUp}>
         <form className="flex flex-col gap-5 mt-5" onSubmit={handleSubmit}>
           <TextField.Root
-            placeholder={Label.Name}
+            placeholder={label.Name}
             required
             name="name"
             inputMode="text"
@@ -74,7 +74,7 @@ const SignUp = () => {
             radius="large"
           />
           <TextField.Root
-            placeholder={Label.EmailAddress}
+            placeholder={label.EmailAddress}
             required
             type="email"
             inputMode="email"
@@ -84,7 +84,7 @@ const SignUp = () => {
             radius="large"
           />
           <TextField.Root
-            placeholder={Label.Password}
+            placeholder={label.Password}
             required
             radius="large"
             minLength={6}
@@ -119,7 +119,7 @@ const SignUp = () => {
             loading={loading}
           >
             <Text className="!text-white" size={"3"}>
-              {Label.SignUp}
+              {label.SignUp}
             </Text>
           </Button>
         </form>
@@ -130,14 +130,14 @@ const SignUp = () => {
         </Flex>
 
         <Flex className="flex flex-col xl:flex-row xl:items-center" gap={"3"}>
-          <GoogleAuth title={Label.SignUpWithGoogle} />
+          <GoogleAuth title={label.SignUpWithGoogle} />
         </Flex>
 
         <Flex direction={"row"} align={"center"} justify={"center"} pt={"5"}>
           <Text size={"3"} color="gray">
-            {Label.AlreadyHaveAccount}{" "}
+            {label.AlreadyHaveAccount}{" "}
             <Link href={"/auth/login"} className="text-primary underline">
-              {Label.Login}
+              {label.Login}
             </Link>
           </Text>
         </Flex>

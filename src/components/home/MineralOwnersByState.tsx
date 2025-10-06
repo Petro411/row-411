@@ -1,5 +1,6 @@
-import { Button, Flex, Heading, Text } from "@radix-ui/themes";
+import { Flex, Heading, Text } from "@radix-ui/themes";
 import React, { memo } from "react";
+import { label } from "@/branding";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,18 +17,14 @@ const MineralOwnersByState = ({ locations }: Props) => {
       <Flex direction={"column"} gap={"5"}>
         <Flex direction={"column"} align={"center"} gap={"4"}>
           <Heading size={"8"} className="text-center text-heading">
-            Mineral Owners by State
+            {label.MineralOwnersByState}
           </Heading>
           <Text
             size={"3"}
             color="gray"
             className="!w-full lg:!w-[70%] text-center"
           >
-            Explore mineral ownership across the U.S. with Petro411. Select any
-            state to instantly access detailed mineral owner information,
-            including property data and ownership records. Whether you’re
-            researching opportunities or verifying ownership, Petro411 makes it
-            simple to navigate state-specific mineral data in just one click.
+            {label.ExploreMineralOwnership}
           </Text>
         </Flex>
         <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-5 mt-8">

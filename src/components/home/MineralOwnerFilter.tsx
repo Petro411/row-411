@@ -1,10 +1,8 @@
-import { Button, DropdownMenu, Flex, Heading, Tabs, Text, TextField, } from "@radix-ui/themes";
+import { Button, DropdownMenu, Flex, Heading, Text, TextField, } from "@radix-ui/themes";
 import React, { ChangeEvent, memo, useCallback, useMemo, useState } from "react";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { cityStatesList } from "@/config/dummy";
 import { useRouter } from "next/router";
 
-import MineralMapSearch from "../mineralSearch/MineralMapSearch";
 import Container from "../Container";
 
 
@@ -36,23 +34,6 @@ const MineralOwnerFilter = ({
     ml: "",
     state: "",
   });
-
-  const handleOnChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = e.target;
-      setForm((pre) => ({ ...pre, [name]: value }));
-    },
-    [form]
-  );
-
-  const handleSubmit = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      if (onSubmit) onSubmit();
-      else router.push({ pathname: "/owners", query: form });
-    },
-    [form]
-  );
 
   return (
     <Container>
@@ -214,7 +195,7 @@ const MineralSearchForm = memo(
             <Button
               type="submit"
               size={"4"}
-              className="!bg-yellow !cursor-pointer"
+              className="!bg-primary !cursor-pointer"
             >
               <Text size={"3"}>Search</Text>
             </Button>
