@@ -33,11 +33,11 @@ body {
 
 @layer {
   .gradientBg{
-    @apply bg-gradient-to-br from-[#0078B7] to-[#00A86B]
+    @apply bg-gradient-to-br from-[#0C3E67] to-[#5BA044]
   }
 
   .btnGradient{
-    @apply bg-gradient-to-l from-[#00A86B] to-[#C89B3C]
+    @apply bg-gradient-to-l from-[#5BA044] to-[#0C3E67]
   }
   .swiper-pagination-bullet-active {
     @apply !w-[25px] !rounded-2xl !bg-primary;
