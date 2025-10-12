@@ -2,9 +2,9 @@ import labels from "./labels";
 import colors from "./colors";
 
 
-const Digg411 =  {
+const Surface411 =  {
     labels,
     colors
 };
 
-export default Digg411
+export default Surface411

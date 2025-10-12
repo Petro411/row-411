@@ -2,9 +2,9 @@ import labels from "./labels";
 import colors from "./colors";
 
 
-const Digg411 =  {
+const PiplineLine411 =  {
     labels,
     colors
 };
 
-export default Digg411
+export default PiplineLine411
