@@ -10,7 +10,7 @@ import Container from "./Container";
 const Footer = () => {
   return (
     <>
-    <div className="bg-gradient-to-b from-[#0078B7] to-[#00A86B] py-4">
+    <div className="gradientBg py-4">
       <Container>
         <div className="py-4 flex flex-col sm:flex-row items-center justify-center gap-10">
           {footerRoutes.map((item, index) => (
