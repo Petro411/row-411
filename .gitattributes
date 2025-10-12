@@ -1,2 +1,3 @@
 public/** merge=ours
 src/styles/** merge=ours
+src/components/Logo.tsx merge=ours
