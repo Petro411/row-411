@@ -178,6 +178,44 @@ numbers.`,
 
 WhatDrivesUsDesc:'Core principles that shape our platform and your experience',
 
-SubscriptionPageDesc:"Choose the plan that fits your needs. Petro411 offers flexible pricing with access to accurate mineral owner data to streamline your land acquisition process."
-
+SubscriptionPageDesc:"Choose the plan that fits your needs. Petro411 offers flexible pricing with access to accurate mineral owner data to streamline your land acquisition process.",
+ContactUs:"Contact Us",
+ContactUsDesc:"If you have any questions or concerns, please contact us using the form below.",
+  ServiceCards: [
+    {
+      title: "Verified Mineral Ownership Data",
+      subtitle: "Accurate & Up-to-Date",
+      description:
+        "We provide reliable and regularly updated information on mineral owners, ensuring your research is always backed by trustworthy data.",
+      image: "/assets/images/list.png",
+    },
+    {
+      title: "Easy Subscription Access",
+      subtitle: "Flexible Plans",
+      description:
+        "Access all data instantly with our easy-to-use subscription plans designed for individuals, researchers, and companies alike.",
+      image: "/assets/images/price-tag.png",
+    },
+    {
+      title: "Downloadable Spreadsheets",
+      subtitle: "Export Anytime",
+      description:
+        "Need data offline? Easily download ownership reports and datasets in multiple formats for your convenience.",
+      image: "/assets/images/down-arrow.png",
+    },
+    {
+      title: "Advanced Search Filters",
+      subtitle: "Find Exactly What You Need",
+      description:
+        "Use our smart search tools to quickly locate mineral owners, locations, and specific data with ease.",
+      image: "/assets/images/search.png",
+    },
+    {
+      title: "Secure & Private",
+      subtitle: "Your Data is Safe",
+      description:
+        "We prioritize security and privacy, ensuring your account and searches are always protected.",
+      image: "/assets/images/lock.png",
+    },
+  ]
 }
