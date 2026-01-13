@@ -7,7 +7,7 @@ export default {
 
     // Home Page 
     YourMineralOwners: "Surface Owner Contact HUB",
-    SimplifiesLandAcquisition: "Pipeline 411 simplifies the land acquisition process by providing accurate, secure contact information for surface owners nationwide – built by industry experts for the land acquisition community.",
+    SimplifiesLandAcquisition: "Pipeline411 simplifies the land acquisition process by providing accurate, secure contact information for surface owners nationwide – built by industry experts for the land acquisition community.",
     SearchMineralOwners: "Search Surface Owners",
     FindMineralOwners: "Find surface owners fast with accurate contact details to support your land projects.",
 
