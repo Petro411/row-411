@@ -3,7 +3,7 @@ export default {
     SiteName: "Pipeline411",
     SiteDomain: "pipeline411.com.",
 
-    CopyRight: "Copyright © 2025 pipeline411.com. All rights reserved.",
+    CopyRight: "Copyright 2025 Petro411, LLC All rights reserved",
 
     // Home Page 
     YourMineralOwners: "Surface Owner Contact HUB",
