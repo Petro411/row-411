@@ -55,9 +55,9 @@ const Owners = ({
   return (
     <>
       <SeoHead
-        title="Search Oil & Gas Well Owners by Name, State & County | Petro411"
-        description="Find oil and gas well owners quickly with Petro411's owner search tool. Search by first name, last name, state, or county to locate ownership records across the U.S."
-        url="https://www.petro411.com/owners"
+        title="Search Oil & Gas Well Owners by Name, State & County | Row411"
+        description="Find oil and gas well owners quickly with Row411's owner search tool. Search by first name, last name, state, or county to locate ownership records across the U.S."
+        url="https://www.Row411.com/owners"
       />
       <SiteHeader />
       <div className={`gradientBg text-white`}>

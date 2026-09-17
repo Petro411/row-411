@@ -16,9 +16,9 @@ const StatesAndCounties = ({ locations }: Props) => {
   return (
     <>
       <SeoHead
-        title="Browse Mineral Owner Records by State & County | Petro411"
-        description="Explore mineral ownership data across the U.S. by state and county. Find accurate, up-to-date mineral owner contact information for land acquisition and oil & gas research on Petro411."
-        url="https://www.petro411.com/states-and-counties"
+        title="Browse Mineral Owner Records by State & County | Row411"
+        description="Explore mineral ownership data across the U.S. by state and county. Find accurate, up-to-date mineral owner contact information for land acquisition and oil & gas research on Row411."
+        url="https://www.Row411.com/states-and-counties"
       />
       <SiteHeader />
       <PageHeader
