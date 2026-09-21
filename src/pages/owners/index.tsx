@@ -55,15 +55,15 @@ const Owners = ({
   return (
     <>
       <SeoHead
-        title="Search Oil & Gas Well Owners by Name, State & County | Row411"
-        description="Find oil and gas well owners quickly with Row411's owner search tool. Search by first name, last name, state, or county to locate ownership records across the U.S."
-        url="https://www.Row411.com/owners"
+        title="Search Property Owners by Name, State & County | Row411"
+        description="Find property owners quickly with Row411's owner search tool. Search by first name, last name, state, or county to locate ownership records across the U.S."
+        url="https://www.row411.com/owners"
       />
       <SiteHeader />
       <div className={`gradientBg text-white`}>
         <Container className="min-h-[60vh] items-center justify-center flex flex-col text-center gap-4">
           <h1 className="text-4xl md:text-5xl font-bold">
-            Search Mineral Search
+            Search Property Owners
             {/* {label.YourMineralOwners} */}
           </h1>
           <Text as={"p"} size={"3"} className="w-full md:w-[80%] lg:w-[60%]">
